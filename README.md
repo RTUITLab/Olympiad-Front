@@ -20,7 +20,7 @@ export const environment = {
     recaptchaClientToken: ''
 };
 ```
-> baseUrl - url of running WebApp, when running locally it will likely be ```http://localhost:64800```
+> baseUrl - url of running WebApp, when running locally it will likely be ```http://localhost:5501```
  
 > recaptchaClientToken - **PUBLIC** token got when creating reCAPCTCHA v2
 
