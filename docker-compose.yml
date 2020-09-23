@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  front:
+    image: rtuitlab/olympiad-front
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "200k"
+          max-file: "10"

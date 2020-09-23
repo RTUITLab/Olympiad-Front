@@ -12,6 +12,10 @@ export class SolutionStatusConverter {
             pretty: 'Проверяется'
         },
         {
+            status: SolutionStatus.ErrorWhileCompile,
+            pretty: 'Ошибка при компиляции на стороне сервера'
+        },
+        {
             status: SolutionStatus.CompileError,
             pretty: 'Ошибка компиляции'
         },

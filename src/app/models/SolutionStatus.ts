@@ -1,4 +1,5 @@
 export enum SolutionStatus {
+    ErrorWhileCompile,
     CompileError,
     RunTimeError,
     WrongAnswer,
