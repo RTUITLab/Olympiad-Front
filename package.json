@@ -4,11 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ngcc"
+    "postinstall": "ngcc",
+    "fillDefaultProdEnv": "node ./fillProdEnvironment.js",
+    "buildToDeploy": "npm run build & node ./copyDistToDeploy.js"
   },
   "private": true,
   "dependencies": {
@@ -47,6 +49,7 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~4.0.2"
+    "typescript": "~4.0.2",
+    "copy-dir": "^1.3.0"
   }
 }

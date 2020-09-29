@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  front:
+    build: ${FRONT_CONTEXT:-.}/deploy
+    ports:
+      - 5502:5502
+  
