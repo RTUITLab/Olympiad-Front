@@ -21,3 +21,6 @@
     grid-template-rows: auto;
 }
 
+::ng-deep mat-drawer-content {
+    overflow-x: hidden !important;
+}

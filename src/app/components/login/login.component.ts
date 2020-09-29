@@ -1,13 +1,12 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { LoginViewModel } from '../../models/ViewModels/LoginViewModel';
-import { UserStateService } from '../../services/user-state.service';
-import { Router } from '@angular/router';
-import { LoadingComponent } from '../helpers/loading-component';
-import { ToastrService } from 'ngx-toastr';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { FormValidateService } from 'src/app/services/FormHelpers/form-validate.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { LoginViewModel } from 'src/app/models/Login/LoginViewModel';
+import { FormValidateService } from 'src/app/services/Forms/form-validate.service';
+import { UserStateService } from 'src/app/services/Users/user-state.service';
+import { LoadingComponent } from '../loading.component';
 
 @Component({
   selector: 'app-login',
@@ -15,17 +14,9 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends LoadingComponent implements OnInit {
-  constructor(
-    private userState: UserStateService,
-     private router: Router,
-     private toastr: ToastrService,
-     private titleService: Title,
-     private formValid: FormValidateService
-     ) {
-    super();
-  }
   errorMessage: string;
   model: LoginViewModel;
+
   loginForm = new FormGroup({
     Login: new FormControl('', [
       Validators.required
@@ -35,30 +26,45 @@ export class LoginComponent extends LoadingComponent implements OnInit {
       Validators.minLength(6)
     ])
   });
+
+  constructor(
+    private usersState: UserStateService,
+    private router: Router,
+    private toastr: ToastrService,
+    private titleService: Title,
+    private formValid: FormValidateService
+  ) { super() }
+
   get login() { return this.loginForm.controls['Login']; }
+  
   get password() { return this.loginForm.controls['Password']; }
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Вход');
+    if (localStorage.getItem('userToken')) {
+      this.router.navigate(['/overview']);
+    }
+  }
+
   onSubmit() {
     if (this.loginForm.valid) {
       this.model = this.loginForm.value;
       this.startLoading();
-      this.userState.Login(this.model).subscribe(
+      this.usersState.login(this.model).subscribe(
         success => {
           this.router.navigate(['overview']);
           this.stopLoading();
-
         },
         error => {
-          this.errorMessage = error;
+          if (error == 'Неверные email (ID) или пароль') {
+            this.errorMessage = 'Неверный логин или пароль';
+          }
           this.stopLoading();
-          this.toastr.error(error, `Ошибка`);
-
+          this.toastr.error(this.errorMessage, `Ошибка`);
         }
       );
     } else {
       this.formValid.validateAllFormFields(this.loginForm);
     }
-  }
-  ngOnInit() {
-    this.titleService.setTitle('Вход');
   }
 }

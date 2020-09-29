@@ -1,0 +1,42 @@
+.header {
+    display: grid;
+    margin: 15px 0;
+    font-weight: 900;
+}
+
+.info {
+    font-size: 18px;
+    font-weight: 300;
+    color: #707070;
+}
+
+::ng-deep h1 {
+    display: grid;
+    margin: 15px auto;
+    font-size: 20px;
+}
+
+::ng-deep p {
+    margin: 10px 0;
+}
+
+table, th, td {
+    border: #979797 solid 1px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+th, pre {
+    text-align: left;
+    padding: 5px 20px;
+    margin: 0;
+    font-family: GillSans;
+}
+
+td {
+    vertical-align: top;
+}

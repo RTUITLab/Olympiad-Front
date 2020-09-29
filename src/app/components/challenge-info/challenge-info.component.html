@@ -1,0 +1,22 @@
+<div class="view">
+    <div class="container">
+        <div class="header">{{challenge.Name}}</div>
+        <div class="deadline" *ngIf="challenge.EndTime">Дедлайн: {{convertDate(challenge.EndTime)}}</div>
+        <div class="header">Описание</div>
+        <p>Итоговый тест состоит из задач, которые можно решать в любом порядке.
+            Время, отводимое на решение задач, составляет 4 часа и начинает отсчитываться после нажатия на кнопку «Начать тестирование».
+            После отправки решения вы сможете увидеть результат его тестирования только на примерах из условия задачи.</p>
+        
+        <div class="header">Задачи</div>
+        <div class="head">{{challenge.Name}}</div>
+
+        <table class="table">
+            <tr *ngFor="let exercise of exercises">
+                <td class="statusCircle" [ngClass]="statusClass(exercise)"></td>
+                <td class="name">{{exercise.Name}}</td>
+                <td class="status" [ngClass]="statusClass(exercise)">{{solutionStatusPresent(exercise.Status)}}</td>
+            </tr>
+        </table>
+        <button class="start" (click)="start()">Начать тестирование</button>
+    </div>
+</div>

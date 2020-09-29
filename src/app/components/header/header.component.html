@@ -1,15 +1,21 @@
 <div class="header">
-  <div class="header_content">
-      <div class="image"><img src="assets/img/coding2.svg" class="imgprop"></div>
-        <div class="logo">
-          <a routerLink="/overview" class="header_text">Тестирование по программированию ИИТ</a>
-        </div>
-       
-        <div *ngIf="user" class="header_userInfo">
-        <app-user-info></app-user-info>
+  <div class="wave" *ngIf="url !== '/login'; else login">
+    <div class="logo"><img src="assets/img/IIT colour.png" class="logoprop"></div>
+    <div class="title">
+      <a routerLink="/overview" class="header_text">СИСТЕМА ТЕСТИРОВАНИЯ<br>ИНСТИТУТА ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ</a>
+    </div>
+
+    <div class="header_userInfo">
+      <app-user-info></app-user-info>
+    </div>
+  </div>
+  <ng-template #login>
+    <div class="wave">
+      <div class="title" path="login">
+        <div class="a"><a routerLink="/overview" class="header_text">СИСТЕМА ТЕСТИРОВАНИЯ</a></div>
+        <div class="a"><a routerLink="/overview" class="header_text">ИНСТИТУТА ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ</a></div>
       </div>
+    </div>
+  </ng-template>
 </div>
-</div>
-
-
-
+  

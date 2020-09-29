@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SelectChallengeComponent } from './select-challenge.component';
 
@@ -6,12 +6,12 @@ describe('SelectChallengeComponent', () => {
   let component: SelectChallengeComponent;
   let fixture: ComponentFixture<SelectChallengeComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [ SelectChallengeComponent ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectChallengeComponent);

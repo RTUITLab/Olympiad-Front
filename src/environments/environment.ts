@@ -1,8 +1,8 @@
 export const environment = {
-  "production": false,
-  "isAdmin": true,
-  "baseUrl": "http://localhost:5501",
-  "buildNumber": "",
-  "showResults": true,
-  "recaptchaClientToken": ""
+  production: true,
+  isAdmin: false,
+  baseUrl: 'http://35.239.4.36:5501',
+  buildNumber: '',
+  showResults: true,
+  recaptchaClientToken: ''
 };

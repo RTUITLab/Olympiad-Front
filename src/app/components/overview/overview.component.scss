@@ -1,66 +1,100 @@
+.overview {
+    display: grid;
+    grid-template-columns: 18% 64% 18%;
+}
+
 .container {
-    // font-family: "Trebuchet MS", Helvetica, sans-serif;
-    font-family: 'PT Sans',Helvetica,Arial,sans-serif;
-    height: 100%;
-    overflow: scroll;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    display: grid;
+    box-sizing: border-box;
+    grid-column: 2;
+    padding: 15px 0;
 }
 
-.h2 {
-     font-variant: normal;
+.header {
+    display: grid;
+    margin: 15px auto;
+    font-weight: 900;
 }
 
-hr {
-    border: none;
-    background-color:#66bb6a; 
-    height: 2px;
-    color: #66bb6a;
+p {
+    margin: 10px 0;
 }
 
 .indicators {
-    /* column-count: 2;
-    column-fill: balance; */
-    display: grid; 
-    grid-template-columns:repeat(auto-fill, 50%);
-    padding: 10px;
+    margin: 15px 0;
 }
 
-img {
-    width: 70%;
-    max-height: 4em;
-    align-self: left;
-}
-
-.statusDesc {
-    width: 70%;
-    display: grid;
-    grid-template-columns: 40% auto; 
-    padding: 20px;
-}
-
-.statusDesc p {
-    margin-top: auto;
-    margin-bottom: auto;
+.indicator {
+    display: inline-flex;
+    width: 50%;
+    height: 75px;
+    padding: 10px 0;
 }
 
 .red {
-    font-variant: normal;
-    color:#ff5f50
-
+    color: #ff4c4c;
 }
 
 .blue {
-    font-variant: normal;
-    color:#1565c0;
+    color: #0088ff;
 }
 
 .green {
-    font-variant: normal;
-    color: #66bb6a;
+    color: #00975d;
 }
 
+img {
+    max-height: 100%;
+    max-width: 25%;
+}
 
+object {
+    fill:  #ff4c4c;
+}
 
+span {
+    display: inline-flex;
+    height: 100%;
+    margin: 0 20px;
+    align-items: center;
+}
 
+.instruction {
+    display: grid;
+    width: 80%;
+    margin: 10px auto;
+    grid-template-columns: 33% 33% 33%;
+}
+
+*[col1] {
+    grid-column: 1;
+    margin: 0 auto;
+    text-align: center;
+}
+
+*[col2] {
+    grid-column: 2;
+    margin: 0 auto;
+    text-align: center;
+}
+
+*[col3] {
+    grid-column: 3;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#line1, #line2 {
+    background-color: #979797;
+    height: 3px;
+    position: relative;
+    width: 50%;
+    left: 75%;
+    top: -800%;
+}
+
+.example {
+    max-width: 100%;
+    margin-bottom: 50px;
+    box-shadow: 0 2px 8px 0 #4cffba;
+}

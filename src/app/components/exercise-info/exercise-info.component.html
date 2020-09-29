@@ -1,0 +1,109 @@
+<div>
+    <mat-drawer class="drawer" #drawer mode="over" position="end">
+        <div class="header" style="font-size: 25px;">{{exerciseInfo.Name}}</div>
+        <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
+    </mat-drawer>
+    <div class="name">
+        <div class="header">{{exerciseInfo.Name}}</div>
+        <div class="info">Баллы:&nbsp;{{exerciseInfo.Score}} max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Тестирование: {{challenge.Name}}</div>
+        <button *ngIf="sendMode" class="taskBtn" (click)="drawer.toggle()">Условия</button>
+    </div>
+    <div class="view">
+        <div class="progress">
+            <div class="exercise" *ngFor="let exercise of exercises">
+                <a class="statusCircle" [ngClass]="statusClass(exercise)" routerLink="/exercises/{{exercise.Id}}"></a>
+                <div class="exName">{{exercise.Name}}</div>
+            </div>
+        </div>
+        <div class="container">
+            <div *ngIf="!sendMode; else send">
+                <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
+                <button class="send" (click)="setSendMode()">Сдать задачу</button>
+            </div>
+            <ng-template #send>
+                <div id="header">
+                    <div class="wave">
+                        <div class="correctInput">
+                            <img *ngIf="solved(); else failed" src="../../../assets/icon/statusCodes/5.svg">
+                            <ng-template #failed><img src="../../../assets/icon/false.svg"></ng-template>
+                        </div>
+                    </div>
+                </div>
+                <table class="editor">
+                    <tr>
+                        <th col1></th>
+                        <th col2>
+                            <div class="buttons">
+                                <img (click)="copy()" src="../../../assets/icon/copy.svg">
+                                <a href="{{solutionUrl}}"><img class="download" src="../../../assets/icon/download.svg"></a>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td col1></td>
+                        <td col2></td>
+                    </tr>
+                    <div *ngIf="solutionPreview && model.Language">
+                        <tr *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">
+                            <td col1>{{i + 1}}</td>
+                            <td col2><markdown [data]="line | language : model.Language"></markdown></td>
+                        </tr>
+                    </div>
+                </table>
+            </ng-template>
+
+            <div *ngIf="exerciseInfo.Solutions && exerciseInfo.Solutions.length > 0 && sendMode">
+                <div class="header">Отправленные решения</div>
+                <table class="solutions">
+                    <thead>
+                        <th>Время отправки</th>
+                        <th>Язык</th>
+                        <th>Скачать решение</th>
+                        <th>Результат</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sol of exerciseInfo.Solutions">
+                            <ng-container *ngIf="sol.ExerciseId == exerciseInfo.Id">
+                                <td>{{prettyTime(sol.SendingTime)}}</td>
+                                <td>{{normalLang(sol.Language)}}</td>
+                                <td class="downSol" (click)="downloadSolution(sol)">
+                                    Скачать
+                                    <img src="../../../assets/icon/download.svg">
+                                </td>
+                                <td style="color: {{fontColor(sol.Status)}}">
+                                    <div class="solStatus">
+                                        {{solutionStatusPresent(sol.Status)}}
+                                        <div><img class="statusIcon" src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.Status)}}.svg" /></div>
+                                    </div>
+                                    </td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div *ngIf="sendMode" class="submitCol">
+            <div class="selectLanguage">
+                <span class="select" name="Language" *ngIf="model.Language; else noLanguage">{{model.Language}}</span>
+                <ng-template #noLanguage><div class="select"><span>Язык программирования</span><img src="../../../assets/icon/down-arrow.svg"></div></ng-template>
+                <ul class="submenu">
+                    <div>
+                        <li *ngFor="let lang of availableLanguages">
+                            <div (click)="selectLanguage(lang)">
+                                <span>{{lang}}</span>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+            <label for="sol" class="select">
+                <span *ngIf="!model.File; else downloadedSolution">Загрузить решение</span>
+                <ng-template #downloadedSolution><span>{{model.File.name}}</span></ng-template>
+                <img src="../../../assets/icon/down-arrow.svg">
+            </label>
+            <input id="sol" type="file" style="display: none;" [accept]="selectedLanguage" (input)="setFile($event)">
+            <button id="send" (click)="onSubmit()">Отправить решение</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'GillSans';
+    src: url('Bold/GillSansProCyrillic-Bold.eot');
+    src: local('Bold/Gill Sans Pro Cyrillic Bold'), local('Bold/GillSansProCyrillic-Bold'),
+        url('Bold/GillSansProCyrillic-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Bold/GillSansProCyrillic-Bold.woff2') format('woff2'),
+        url('Bold/GillSansProCyrillic-Bold.woff') format('woff'),
+        url('Bold/GillSansProCyrillic-Bold.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GillSans';
+    src: url('Medium/GillSansProCyrillic-Medium.eot');
+    src: local('Medium/Gill Sans Pro Cyrillic Medium'), local('Medium/GillSansProCyrillic-Medium'),
+        url('Medium/GillSansProCyrillic-Medium.eot?#iefix') format('embedded-opentype'),
+        url('Medium/GillSansProCyrillic-Medium.woff2') format('woff2'),
+        url('Medium/GillSansProCyrillic-Medium.woff') format('woff'),
+        url('Medium/GillSansProCyrillic-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GillSans';
+    src: url('Light/GillSansProCyrillic-Light.eot');
+    src: local('Light/Gill Sans Pro Cyrillic Light'), local('Light/GillSansProCyrillic-Light'),
+        url('Light/GillSansProCyrillic-Light.eot?#iefix') format('embedded-opentype'),
+        url('Light/GillSansProCyrillic-Light.woff2') format('woff2'),
+        url('Light/GillSansProCyrillic-Light.woff') format('woff'),
+        url('Light/GillSansProCyrillic-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+

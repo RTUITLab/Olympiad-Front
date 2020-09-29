@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChallengeDeadlineComponent } from './challenge-deadline.component';
 
@@ -6,12 +6,12 @@ describe('ChallengeDeadlineComponent', () => {
   let component: ChallengeDeadlineComponent;
   let fixture: ComponentFixture<ChallengeDeadlineComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [ ChallengeDeadlineComponent ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ChallengeDeadlineComponent);

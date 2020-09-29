@@ -1,26 +1,29 @@
 <div>
-    <div class="select-bar">
-        <ul class="challenge">
-            <li>
-                <a *ngIf="currentChallenge; else noChallenge">{{currentChallenge.Name}}</a>
-                <ng-template #noChallenge><a>Выберите соревнование</a></ng-template>
-                <ul class="submenu">
-                    <li *ngFor="let challenge of challenges">
-                        <a routerLink='/challenges/{{challenge.Id}}' (click)="setDefaultExercise()">{{challenge.Name}}</a>
-                    </li>
-                </ul>
-            </li>
-            <li *ngIf="currentChallenge">
-                <a *ngIf="currentExercise; else noExercise">{{currentExercise.Name}}</a>
-                <ng-template #noExercise><a>Выберите задание</a></ng-template>
-                <ul class="submenu">
-                    <li *ngFor="let ex of currentExercises">
-                        <a routerLink="/exercises/{{ex.Id}}">{{ex.Name}}</a>
-                    </li>
-                </ul>
-            </li>
-
+  <div class="select-bar">
+    <ul class="challenge" *ngIf="user; else noUser">
+      <li>
+        <a *ngIf="currentChallenge && currentChallenge.Challenge; else noChallenge">{{currentChallenge.Challenge.Name}}</a>
+        <ng-template #noChallenge><a>Выбрать тестирование</a></ng-template>
+        <ul class="submenu">
+          <li *ngFor="let challenge of challenges">
+            <a routerLink='/challenges/{{challenge.Id}}' (click)="setDefaultExercise()">{{challenge.Name}}</a>
+          </li>
         </ul>
-        <app-challenge-deadline class="challenge-deadline" [challenge]="currentChallenge"></app-challenge-deadline>
+      </li>
+      <li *ngIf="currentChallenge && currentChallenge.Challenge"> <!-- TODO Test-->
+        <a *ngIf="currentExercise; else noExercise">{{currentExercise.Name}}</a>
+        <ng-template #noExercise><a>Выбрать задание</a></ng-template>
+        <ul class="submenu">
+          <li *ngFor="let ex of exercises">
+            <a routerLink="/exercises/{{ex.Id}}">{{ex.Name}}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <app-challenge-deadline *ngIf="currentChallenge.Challenge" class="challenge-deadline" [challenge]="currentChallenge.Challenge"></app-challenge-deadline>
+    <div class="instruction" *ngIf="user">
+      <a routerLink="/overview">Инструкция</a>
     </div>
+    <ng-template #noUser><div class="noUserLine"></div></ng-template>
+  </div>
 </div>
