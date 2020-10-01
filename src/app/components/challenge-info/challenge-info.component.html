@@ -1,11 +1,9 @@
 <div class="view">
     <div class="container">
         <div class="header">{{challenge.Name}}</div>
-        <div class="deadline" *ngIf="challenge.EndTime">Дедлайн: {{convertDate(challenge.EndTime)}}</div>
+        <div class="deadline" *ngIf="challenge.EndTime">Дедлайн:&nbsp;<span>{{convertDate(challenge.EndTime)}}</span></div>
         <div class="header">Описание</div>
-        <p>Итоговый тест состоит из задач, которые можно решать в любом порядке.
-            Время, отводимое на решение задач, составляет 4 часа и начинает отсчитываться после нажатия на кнопку «Начать тестирование».
-            После отправки решения вы сможете увидеть результат его тестирования только на примерах из условия задачи.</p>
+        <markdown>{{challenge.Description}}</markdown>
         
         <div class="header">Задачи</div>
         <div class="head">{{challenge.Name}}</div>
