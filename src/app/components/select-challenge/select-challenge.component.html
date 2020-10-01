@@ -10,7 +10,7 @@
           </li>
         </ul>
       </li>
-      <li *ngIf="currentChallenge && currentChallenge.Challenge"> <!-- TODO Test-->
+      <li *ngIf="currentChallenge && currentChallenge.Challenge">
         <a *ngIf="currentExercise; else noExercise">{{currentExercise.Name}}</a>
         <ng-template #noExercise><a>Выбрать задание</a></ng-template>
         <ul class="submenu">
@@ -20,7 +20,7 @@
         </ul>
       </li>
     </ul>
-    <app-challenge-deadline *ngIf="currentChallenge.Challenge" class="challenge-deadline" [challenge]="currentChallenge.Challenge"></app-challenge-deadline>
+    <app-challenge-deadline *ngIf="currentChallenge.Challenge && user" class="challenge-deadline" [challenge]="currentChallenge.Challenge"></app-challenge-deadline>
     <div class="instruction" *ngIf="user">
       <a routerLink="/overview">Инструкция</a>
     </div>

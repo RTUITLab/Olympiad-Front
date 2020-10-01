@@ -22,11 +22,12 @@ ul {
 ul.challenge > li {
     float: left;
     position: relative;
+    cursor: pointer;
 }
 
 ul.challenge > li > a {
     display: block;
-    padding: 10px;
+    padding: 10px 25px;
 }
 
 ul.challenge > li > a:hover {
@@ -54,7 +55,7 @@ ul.submenu > li > a {
     min-width: max-content;
     text-decoration: none;
     color: #454545;
-    padding: 10px;
+    padding: 10px 25px;
 }
 
 ul.challenge > li:hover > ul.submenu {

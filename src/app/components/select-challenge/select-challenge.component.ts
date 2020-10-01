@@ -36,8 +36,15 @@ export class SelectChallengeComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.usersState.currentUserStream.subscribe(U => this.user = U);
+    this.usersState.currentUserStream.subscribe(U => {
+      this.user = U;
+      if (this.user) {
+        this.loadChallenges();
+      }
+    });
+  }
 
+  public async loadChallenges() {
     this.challenges = await this.challengeService.getChallengeList(); // TODO observable
 
     if (this.initChallengeId) {

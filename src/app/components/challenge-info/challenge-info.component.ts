@@ -33,7 +33,6 @@ export class ChallengeInfoComponent implements OnInit {
     private titleService: Title,
     private currentExerciseState: ExerciseStateService,
     private challengesService: ChallengesService,
-    //public dialog: MatDialog,
     private toastr: ToastrService,
     private exerciseService: ExerciseService
   ) { }
