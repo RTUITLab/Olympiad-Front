@@ -23,6 +23,7 @@
 
 ::ng-deep mat-drawer-content {
     overflow-x: hidden !important;
+    min-height: 100vh;
 }
 
 ::ng-deep .mat-drawer-container {

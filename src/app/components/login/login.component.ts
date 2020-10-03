@@ -6,14 +6,13 @@ import { ToastrService } from 'ngx-toastr';
 import { LoginViewModel } from 'src/app/models/Login/LoginViewModel';
 import { FormValidateService } from 'src/app/services/Forms/form-validate.service';
 import { UserStateService } from 'src/app/services/Users/user-state.service';
-import { LoadingComponent } from '../loading.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent extends LoadingComponent implements OnInit {
+export class LoginComponent implements OnInit {
   errorMessage: string;
   model: LoginViewModel;
 
@@ -33,7 +32,7 @@ export class LoginComponent extends LoadingComponent implements OnInit {
     private toastr: ToastrService,
     private titleService: Title,
     private formValid: FormValidateService
-  ) { super() }
+  ) { }
 
   get login() { return this.loginForm.controls['Login']; }
   
@@ -49,17 +48,14 @@ export class LoginComponent extends LoadingComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       this.model = this.loginForm.value;
-      this.startLoading();
       this.usersState.login(this.model).subscribe(
         success => {
           this.router.navigate(['overview']);
-          this.stopLoading();
         },
         error => {
           if (error == 'Неверные email (ID) или пароль') {
             this.errorMessage = 'Неверный логин или пароль';
           }
-          this.stopLoading();
           this.toastr.error(this.errorMessage, `Ошибка`);
         }
       );

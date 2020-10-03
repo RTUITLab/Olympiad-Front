@@ -11,8 +11,6 @@ import { SolutionViewModel } from 'src/app/models/Solutions/SolutionViewModel';
 import { ChallengesService } from 'src/app/services/Challenges/challenges.service';
 import { ExerciseStateService } from 'src/app/services/Exercises/exercise-state.service';
 import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
-import { UserStateService } from 'src/app/services/Users/user-state.service';
-import { LoadingComponent } from '../loading.component';
 import { InOutData } from 'src/app/models/Exercises/InOutData';
 import { Solution } from 'src/app/models/Solutions/Solution';
 import { SolutionStatus } from 'src/app/models/Solutions/SolutionStatus';
@@ -20,6 +18,7 @@ import { DateHelpers } from 'src/app/services/DateHelpers';
 import { SolutionUtils } from 'src/app/services/SolutionUtils';
 import { SolutionStatusConverter } from 'src/app/services/SolutionStatusConverter';
 import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
+import { LoadingComponent } from 'src/app/models/LoadingComponent';
 
 @Component({
   selector: 'app-exercise-info',
@@ -40,44 +39,43 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   exercises: Array<ExerciseCompact>;
 
   constructor(
-    private usersService: UserStateService,
     private challengesService: ChallengesService,
     private exercisesService: ExerciseService,
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
     private titleService: Title,
-    private currentExerciseState: ExerciseStateService,
-    //private shownResultsService: ShownResults
-  ) { super() }
+    private currentExerciseState: ExerciseStateService
+  ) { super(); }
 
   ngOnInit(): void {
+    this.startLoading();
+
+    this.challenge = new Challenge();
     this.sendMode = false;
     this.model = new SolutionViewModel();
     this.exerciseInfo = new ExerciseInfo();
     this.solutionPreview = null;
     this.model.Language = null;
     this.model.ExerciseId = this.route.snapshot.paramMap.get('ExerciseID');
-    this.startLoading();
 
     this.exercisesService.getExercise(this.model.ExerciseId)
       .then((exInfo: ExerciseInfo) => {
         this.exerciseInfo = exInfo;
 
+        if (exInfo.Solutions.length) {
+          this.setSendMode();
+        }
+
         this.challengesService.getChallenge(this.exerciseInfo.ChallengeId).then(c => {
-            this.challenge = c
+            this.challenge = c;
             this.loadExercises();
           });
         this.exercisesService.getExerciseInOutData(this.exerciseInfo.Id).then(io => this.inOutData = io);
 
         this.titleService.setTitle(`${this.exerciseInfo.Name}`);
 
-        if (document.getElementById('Source') && (document.getElementById('Source') as any).files[0] != null) {
-          (document.getElementById('Source') as any).value = '';
-        }
-
         this.exerciseInfo.Solutions.sort((a, b) => new Date(a.SendingTime) < new Date(b.SendingTime) ? 1 : -1);
-        this.stopLoading();
 
         this.currentExerciseState.setChallengeId(exInfo.ChallengeId);
         this.currentExerciseState.setExerciseId(exInfo.Id);
@@ -95,11 +93,14 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       .then((_exercises) => {
         this.exercises = _exercises;
         this.exercises.forEach(exercise => { // TODO Change back?
+          this.startLoading();
           this.exercisesService.getExercise(exercise.Id).then(ex => {
             if (!ex.Solutions.length)
               exercise.Status = -1;
+            this.finishLoading();
           })
-        })
+        });
+        this.finishLoading();
       });
   }
 
@@ -119,7 +120,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   async ngDoCheck() {
-    if (this.model.ExerciseId !== this.route.snapshot.paramMap.get('ExerciseID')) {
+    if (this.isReady() && this.model.ExerciseId !== this.route.snapshot.paramMap.get('ExerciseID')) {
       this.ngOnInit();
     }
   }
@@ -268,5 +269,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       return '#0088FF';
     }
     return '#00975d'
+  }
+
+  public isReady() {
+    return !this.isLoading();
   }
 }

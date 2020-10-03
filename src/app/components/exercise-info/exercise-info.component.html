@@ -1,13 +1,9 @@
-<div>
+<div *ngIf="isReady()">
     <mat-drawer class="drawer" #drawer mode="over" position="end">
         <div class="header" style="font-size: 25px;">{{exerciseInfo.Name}}</div>
         <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
     </mat-drawer>
-    <div class="name">
-        <div class="header">{{exerciseInfo.Name}}</div>
-        <div class="info">Баллы:&nbsp;{{exerciseInfo.Score}} max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Тестирование: {{challenge.Name}}</div>
-        <button *ngIf="sendMode" class="taskBtn" (click)="drawer.toggle()">Условия</button>
-    </div>
+    
     <div class="view">
         <div class="progress">
             <div class="exercise" *ngFor="let exercise of exercises">
@@ -15,6 +11,12 @@
                 <div class="exName">{{exercise.Name}}</div>
             </div>
         </div>
+        <div class="name">
+            <div class="header">{{exerciseInfo.Name}}</div>
+            <div class="info">Баллы:&nbsp;{{exerciseInfo.Score}} max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Тестирование: {{challenge.Name}}</div>
+            <button *ngIf="sendMode" class="taskBtn" (click)="drawer.toggle()">Условия</button>
+        </div>
+            
         <div class="container">
             <div *ngIf="!sendMode; else send">
                 <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
@@ -39,16 +41,16 @@
                             </div>
                         </th>
                     </tr>
-                    <tr>
-                        <td col1></td>
-                        <td col2></td>
-                    </tr>
                     <div *ngIf="solutionPreview && model.Language">
                         <tr *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">
                             <td col1>{{i + 1}}</td>
                             <td col2><markdown [data]="line | language : model.Language"></markdown></td>
                         </tr>
                     </div>
+                    <tr>
+                        <td col1></td>
+                        <td col2></td>
+                    </tr>
                 </table>
             </ng-template>
 
@@ -68,7 +70,7 @@
                                 <td>{{normalLang(sol.Language)}}</td>
                                 <td class="downSol" (click)="downloadSolution(sol)">
                                     Скачать
-                                    <img src="../../../assets/icon/download.svg">
+                                    <img class="download" src="../../../assets/icon/download.svg">
                                 </td>
                                 <td style="color: {{fontColor(sol.Status)}}">
                                     <div class="solStatus">
@@ -85,8 +87,10 @@
 
         <div *ngIf="sendMode" class="submitCol">
             <div class="selectLanguage">
-                <span class="select" name="Language" *ngIf="model.Language; else noLanguage">{{model.Language}}</span>
-                <ng-template #noLanguage><div class="select"><span>Язык программирования</span><img src="../../../assets/icon/down-arrow.svg"></div></ng-template>
+                <div class="select">
+                    <span name="Language" *ngIf="model.Language; else noLanguage">{{model.Language}}</span>
+                    <ng-template #noLanguage><span>Язык программирования</span><img src="../../../assets/icon/down-arrow.svg"></ng-template>
+                </div>
                 <ul class="submenu">
                     <div>
                         <li *ngFor="let lang of availableLanguages">
@@ -103,7 +107,7 @@
                 <img src="../../../assets/icon/down-arrow.svg">
             </label>
             <input id="sol" type="file" style="display: none;" [accept]="selectedLanguage" (input)="setFile($event)">
-            <button id="send" (click)="onSubmit()">Отправить решение</button>
+            <div class="sendCont"><button id="send" (click)="onSubmit()">Отправить решение</button></div>
         </div>
     </div>
 </div>

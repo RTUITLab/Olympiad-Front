@@ -1,5 +1,6 @@
 <div class="view">
-    <div class="container">
+    <div class="col"></div>
+    <div class="container" *ngIf="isReady()">
         <div class="header">{{challenge.Name}}</div>
         <div class="deadline" *ngIf="challenge.EndTime">Дедлайн:&nbsp;<span>{{convertDate(challenge.EndTime)}}</span></div>
         <div class="header">Описание</div>
@@ -17,4 +18,5 @@
         </table>
         <button class="start" (click)="start()">Начать тестирование</button>
     </div>
+    <div class="col"></div>
 </div>

@@ -3,6 +3,10 @@
     grid-template-columns: 1fr 750px 1fr;
 }
 
+.col {
+    min-width: 250px;
+}
+
 .container {
     display: grid;
     box-sizing: border-box;
@@ -62,18 +66,18 @@ td {
     width: 20px;
     background-color: #d8d8d8;
     border-radius: 50%;
-}
 
-.statusCircle.error {
-    background-color: #FF4C4C;
-}
+    &.error {
+        background-color: #FF4C4C;
+    }
 
-.statusCircle.processing {
-    background-color: #0088FF;
-}
+    &.processing {
+        background-color: #0088FF;
+    }
 
-.statusCircle.ok {
-    background-color: #4CFFBA;
+    &.ok {
+        background-color: #4CFFBA;
+    }
 }
 
 .name {
@@ -85,18 +89,18 @@ td {
     padding: 0 10px;
     white-space: nowrap;
     text-align: center;
-}
 
-.status.error {
-    color: #FF4C4C;
-}
+    &.processing {
+        color: #0088FF;
+    }
 
-.status.processing {
-    color: #0088FF;
-}
+    &.ok {
+        color: #00975D;
+    }
 
-.status.ok {
-    color: #00975D;
+    &.error {
+        color: #FF4C4C;
+    }
 }
 
 .start {

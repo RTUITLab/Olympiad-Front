@@ -1,38 +1,38 @@
-.name {
-    margin: 0 18%;
-}
-
 .view {
     display: grid;
-    grid-template-columns: 18% 62% 20%;
+    grid-template-columns: 1fr 750px 1fr;
 }
 
 .progress {
+    min-width: 250px;
     grid-column: 1;
+    grid-row-start: 1;
+    grid-row-end: 10;
     display: flex;
     flex-direction: column;
 }
 
 .exercise {
     display: flex;
+    vertical-align: middle;
+
+    a {
+        margin: 5px;
+
+        &:hover ~ .exName {
+            display: block;
+        }
+    }
 }
 
 .exName {
     display: none;
     position: absolute;
-    left: 40px;
-    padding: 5px;
+    left: 50px;
+    padding: 4px;
     background-color: #D8D8D8;
-    font-size: 18px;
+    font-size: 16px;
     color: #8E8E8E;
-}
-
-.exercise > a {
-    margin-bottom: 10px;
-}
-
-.exercise > a:hover ~ .exName {
-    display: block;
 }
 
 .statusCircle {
@@ -42,18 +42,18 @@
     width: 20px;
     background-color: #d8d8d8;
     border-radius: 50%;
-}
 
-.statusCircle.error {
-    background-color: #FF4C4C;
-}
-
-.statusCircle.processing {
-    background-color: #0088FF;
-}
-
-.statusCircle.ok {
-    background-color: #4CFFBA;
+    &.error {
+        background-color: #FF4C4C;
+    }
+    
+    &.processing {
+        background-color: #0088FF;
+    }
+    
+    &.ok {
+        background-color: #4CFFBA;
+    }
 }
 
 .container {
@@ -63,10 +63,20 @@
     margin-bottom: 30px;
 }
 
+.name {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
 .header {
     display: grid;
-    margin: 15px 0;
+    margin: 5px 0;
     font-weight: 900;
+}
+
+.info {
+    margin-top: 10px;
+    font-weight: 100;
 }
 
 .send {
@@ -119,22 +129,27 @@
     height: 405px;
     display: block;
     overflow: auto;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     background-color: #EFEFEF;
     border-collapse: collapse;
-}
 
-.editor>tr:last-child {
-    height: inherit;
-}
+    
+    tr {
+        display: flex;
 
-.editor>tr {
-    display: flex;
-}
+        &:last-child {
+            height: inherit;
+        }
 
-.editor>tr>th {
-    border-bottom: #979797 solid 1px;
-    height: 30px;
+        th {
+            border-bottom: #979797 solid 1px;
+            height: 30px;
+        }
+
+        td, th {
+            display: inline-block;
+        }
+    }
 }
 
 *[col1] {
@@ -146,10 +161,6 @@
 
 *[col2] {
     width: 100%;
-}
-
-.editor>tr>td, .editor>tr>th {
-    display: inline-block;
 }
 
 .buttons {
@@ -169,12 +180,14 @@
 
 .submitCol {
     grid-column: 3;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    padding: 0 30px;
     height: 475px;
     position: relative;
 }
 
 .selectLanguage {
-    margin: 0 10px;
     color: #FFF;
 }
 
@@ -210,6 +223,7 @@
 }
 
 .selectLanguage > ul > div > li {
+    display: block;
     padding: 10px 0;
     text-align: center;
     cursor: pointer;
@@ -225,7 +239,6 @@
 }
 
 .select:nth-child(2) {
-    margin: 0 10px;
     margin-top: 30px;
     color: #FFF;
 }
@@ -234,11 +247,15 @@
     transform: rotate(180deg);
 }
 
+.sendCont {
+    display: flex;
+    height: 100%;
+}
+
 #send {
     display: block;
     cursor: pointer;
-    width: -webkit-fill-available;
-    margin: 0 10px;
+    width: 100%;
     padding: 10px 20px;
     box-sizing: border-box;
     border: none;
@@ -246,9 +263,8 @@
     font-family: GillSans;
     font-size: 20px;
     font-weight: 900;
-    position: absolute;
-    bottom: 0;
     color: #FFF;
+    align-self: flex-end;
 }
 
 ::ng-deep pre {
@@ -257,16 +273,23 @@
 
 .solutions, thead>th, tbody>tr>td {
     border: #979797 solid 1px;
+    padding: 15px 5px;
 }
 
 .solutions {
     display: table;
+    margin-top: 20px;
     width: 100%;
     border-collapse: collapse;
 }
 
 thead {
     background-color: #D8D8D8;
+    
+    th {
+        font-weight: 500;
+        padding: 10px 0;
+    }
 }
 
 thead>th:first-child {
@@ -284,7 +307,6 @@ thead>th:nth-child(3) {
 tbody>tr>td {
     text-align: center;
     vertical-align: middle;
-    padding: 5px;
 }
 
 .downSol {

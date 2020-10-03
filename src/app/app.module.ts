@@ -11,7 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-
 import { AppComponent } from './components/app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { UserInfoComponent } from './components/user-info/user-info.component';
