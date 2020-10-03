@@ -14,7 +14,7 @@
         <a *ngIf="currentExercise; else noExercise">{{currentExercise.Name}}</a>
         <ng-template #noExercise><a>Выбрать задание</a></ng-template>
         <ul class="submenu">
-          <li *ngFor="let ex of exercises">
+          <li solid *ngFor="let ex of exercises">
             <a routerLink="/exercises/{{ex.Id}}">{{ex.Name}}</a>
           </li>
         </ul>

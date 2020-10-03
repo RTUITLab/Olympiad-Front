@@ -44,10 +44,18 @@ ul.submenu {
 ul.submenu > li {
     min-width: max-content;
     background-color: #EFEFEFB3;
+
+    &[solid] {
+        background-color: #EFEFEF;
+    }
 }
 
 ul.submenu > li:hover {
     background-color: #E0E0E0B3;
+    
+    &[solid] {
+        background-color: #E0E0E0;
+    }
 }
 
 ul.submenu > li > a {
