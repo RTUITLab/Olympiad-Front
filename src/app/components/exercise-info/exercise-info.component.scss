@@ -338,6 +338,13 @@ tbody>tr>td {
     border: #4CFFBA solid 2px;
     border-right: none;
     z-index: 3;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 .cover {
