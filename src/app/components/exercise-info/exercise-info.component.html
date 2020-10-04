@@ -27,8 +27,10 @@
                 <div id="header">
                     <div class="wave">
                         <div class="correctInput">
-                            <img *ngIf="solved(); else failed" src="../../../assets/icon/statusCodes/5.svg">
-                            <ng-template #failed><img src="../../../assets/icon/false.svg"></ng-template>
+                            <img *ngIf="exerciseInfo.Solutions[0]; else noSol" src="../../../assets/icon/statusCodes/{{solutionStatusIcon(exerciseInfo.Solutions[0].Status)}}.svg" />
+                            <ng-template #noSol>
+                                <img src="../../../assets/icon/statusCodes/-1.svg" />
+                            </ng-template>
                         </div>
                     </div>
                 </div>

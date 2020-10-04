@@ -248,7 +248,6 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       SolutionUtils.downloadSolution(solution, s);
       this.toastr.success(`Загрузка начата`);
     }, fail => {
-      // console.log(fail)
       this.toastr.error(`Невозможно скачать решение`);
     });
   }

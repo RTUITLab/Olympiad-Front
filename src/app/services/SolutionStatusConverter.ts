@@ -5,6 +5,7 @@ export class SolutionStatusConverter {
         {
             status: -1,
             pretty: 'Нет решений',
+            icon: '-1'
         },
         {
             status: SolutionStatus.InQueue,
