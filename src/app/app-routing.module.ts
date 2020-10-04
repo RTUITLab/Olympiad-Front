@@ -4,6 +4,7 @@ import { AboutComponent } from './components/about/about.component';
 import { ChallengeInfoComponent } from './components/challenge-info/challenge-info.component';
 import { ExerciseInfoComponent } from './components/exercise-info/exercise-info.component';
 import { LoginComponent } from './components/login/login.component';
+import { MeComponent } from './components/me/me.component';
 import { OverviewComponent } from './components/overview/overview.component';
 
 import { AuthGuardService } from './services/AuthGuard/auth-guard.service';
@@ -21,6 +22,11 @@ const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'me',
+    component: MeComponent,
     canActivate: [AuthGuardService]
   },
   {

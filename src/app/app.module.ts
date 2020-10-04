@@ -32,6 +32,7 @@ import { AuthGuardService } from './services/AuthGuard/auth-guard.service';
 import { ChallengesService } from './services/Challenges/challenges.service';
 import { ExerciseService } from './services/Exercises/exercise.service';
 import { CurrentChallenge } from './models/Challenges/CurrentChallenge';
+import { MeComponent } from './components/me/me.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { CurrentChallenge } from './models/Challenges/CurrentChallenge';
     ExerciseInfoComponent,
     TaskComponent,
     ChallengeDeadlineComponent,
-    AboutComponent
+    AboutComponent,
+    MeComponent
   ],
   imports: [
     BrowserAnimationsModule,

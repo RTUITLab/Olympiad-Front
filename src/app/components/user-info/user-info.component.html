@@ -3,7 +3,7 @@
     <mat-icon svgIcon="profile" aria-hidden="false" aria-label="Profile"></mat-icon>
   </button>
   <mat-menu #menu="matMenu" class="menu">
-    <button class="btn" (click)="myPage()" disableRipple="true" mat-menu-item>
+    <button class="btn" routerLink="/me" disableRipple="true" mat-menu-item>
       Моя страница
     </button>
     <mat-divider></mat-divider>
