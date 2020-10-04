@@ -69,14 +69,16 @@
                             <ng-container *ngIf="sol.ExerciseId == exerciseInfo.Id">
                                 <td>{{prettyTime(sol.SendingTime)}}</td>
                                 <td>{{normalLang(sol.Language)}}</td>
-                                <td class="downSol" (click)="downloadSolution(sol)">
-                                    Скачать
-                                    <img class="download" src="../../../assets/icon/download.svg">
+                                <td (click)="downloadSolution(sol)">
+                                    <div class="downSol">
+                                        <span>Скачать</span>
+                                        <img class="download" src="../../../assets/icon/download.svg">
+                                    </div>
                                 </td>
                                 <td style="color: {{fontColor(sol.Status)}}">
-                                    <div class="solStatus">
-                                        {{solutionStatusPresent(sol.Status)}}
-                                        <div><img class="statusIcon" src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.Status)}}.svg" /></div>
+                                    <div class="downSol">
+                                        <span>{{solutionStatusPresent(sol.Status)}}</span>
+                                        <img class="statusIcon" src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.Status)}}.svg" />
                                     </div>
                                     </td>
                             </ng-container>
