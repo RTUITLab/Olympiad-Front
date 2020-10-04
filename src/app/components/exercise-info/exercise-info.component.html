@@ -40,7 +40,7 @@
                         <th col2>
                             <div class="buttons">
                                 <img (click)="copy()" src="../../../assets/icon/copy.svg">
-                                <a href="{{solutionUrl}}"><img class="download" src="../../../assets/icon/download.svg"></a>
+                                <a id="a" [href]="sanitize(solutionUrl)"><img class="download" src="../../../assets/icon/download.svg"></a>
                             </div>
                         </th>
                     </tr>

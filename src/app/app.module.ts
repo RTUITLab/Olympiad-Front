@@ -18,6 +18,10 @@ import { SelectChallengeComponent } from './components/select-challenge/select-c
 import { LoginComponent } from './components/login/login.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { ChallengeInfoComponent } from './components/challenge-info/challenge-info.component';
+import { ExerciseInfoComponent } from './components/exercise-info/exercise-info.component';
+import { TaskComponent } from './components/exercise-info/task/task.component';
+import { ChallengeDeadlineComponent } from './components/select-challenge/challenge-deadline/challenge-deadline.component';
+import { AboutComponent } from './components/about/about.component';
 
 import { UserStateService } from './services/Users/user-state.service';
 import { ToastrModule } from 'ngx-toastr';
@@ -28,10 +32,6 @@ import { AuthGuardService } from './services/AuthGuard/auth-guard.service';
 import { ChallengesService } from './services/Challenges/challenges.service';
 import { ExerciseService } from './services/Exercises/exercise.service';
 import { CurrentChallenge } from './models/Challenges/CurrentChallenge';
-import { ExerciseInfoComponent } from './components/exercise-info/exercise-info.component';
-import { TaskComponent } from './components/exercise-info/task/task.component';
-import { ChallengeDeadlineComponent } from './components/select-challenge/challenge-deadline/challenge-deadline.component';
-import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
   declarations: [

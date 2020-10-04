@@ -19,6 +19,7 @@ import { SolutionUtils } from 'src/app/services/SolutionUtils';
 import { SolutionStatusConverter } from 'src/app/services/SolutionStatusConverter';
 import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { LoadingComponent } from 'src/app/models/LoadingComponent';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-exercise-info',
@@ -28,7 +29,7 @@ import { LoadingComponent } from 'src/app/models/LoadingComponent';
 export class ExerciseInfoComponent extends LoadingComponent implements OnInit, DoCheck {
   private challengeState: ChallengeState;
   private solutionCheckTimers: Array<any> = [];
-  solutionUrl = '#';
+  solutionUrl = 'blob:https://';
   challenge: Challenge;
   inOutData: InOutData[];
   exerciseInfo: ExerciseInfo;
@@ -45,7 +46,8 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     private router: Router,
     private toastr: ToastrService,
     private titleService: Title,
-    private currentExerciseState: ExerciseStateService
+    private currentExerciseState: ExerciseStateService,
+    private domSanitizer: DomSanitizer
   ) { super(); }
 
   ngOnInit(): void {
@@ -155,7 +157,12 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       };
       fileReader.readAsText(this.model.File);
       this.solutionUrl = URL.createObjectURL(this.model.File);
+      document.getElementById('a').setAttribute('download', this.model.File.name);
     }
+  }
+
+  public sanitize (url: string) {
+    return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
 
   public getCode(): Array<string> {
