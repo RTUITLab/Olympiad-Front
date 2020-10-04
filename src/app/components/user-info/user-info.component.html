@@ -1,4 +1,4 @@
-<div class="UserInfo"> <!-- TODO ask about menu design, *ngIf="user" -->
+<div class="UserInfo">
   <button class="menu-btn" mat-icon-button disableRipple="true" [matMenuTriggerFor]="menu">
     <mat-icon svgIcon="profile" aria-hidden="false" aria-label="Profile"></mat-icon>
   </button>
@@ -7,11 +7,7 @@
       Моя страница
     </button>
     <mat-divider></mat-divider>
-    <button class="btn" (click)="adminFunctions()" disableRipple="true" mat-menu-item> <!-- TODO *ngIf="isAdmin()" -->
-      Функции администратора
-    </button>
-    <mat-divider></mat-divider> <!-- TODO *ngIf="isAdmin()" -->
-    <button class="btn" (click)="about()" disableRipple="true" mat-menu-item> <!-- TODO ask about 'about' page -->
+    <button class="btn" routerLink="/about" disableRipple="true" mat-menu-item>
       О сайте
     </button>
     <mat-divider></mat-divider>

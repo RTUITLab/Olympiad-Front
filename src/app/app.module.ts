@@ -31,6 +31,7 @@ import { CurrentChallenge } from './models/Challenges/CurrentChallenge';
 import { ExerciseInfoComponent } from './components/exercise-info/exercise-info.component';
 import { TaskComponent } from './components/exercise-info/task/task.component';
 import { ChallengeDeadlineComponent } from './components/select-challenge/challenge-deadline/challenge-deadline.component';
+import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ChallengeDeadlineComponent } from './components/select-challenge/challe
     ChallengeInfoComponent,
     ExerciseInfoComponent,
     TaskComponent,
-    ChallengeDeadlineComponent
+    ChallengeDeadlineComponent,
+    AboutComponent
   ],
   imports: [
     BrowserAnimationsModule,

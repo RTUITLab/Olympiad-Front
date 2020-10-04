@@ -34,10 +34,6 @@ export class UserInfoComponent implements OnInit {
   adminFunctions() {
     this.router.navigate(['admin-functions']);
   }
-  
-  about() {
-    this.router.navigate(['about']);
-  }
 
   logout() {
     this.usersService.logOut();
