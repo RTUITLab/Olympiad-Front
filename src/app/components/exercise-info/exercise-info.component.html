@@ -3,6 +3,7 @@
         <div class="header" style="font-size: 25px;">{{exerciseInfo.Name}}</div>
         <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
     </mat-drawer>
+    <div class="cover" (click)="drawer.toggle()" *ngIf="drawer.opened"></div>
     
     <div class="view">
         <div class="progress">
