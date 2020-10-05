@@ -7,13 +7,16 @@ stages:
   - job: buildFront
     steps:
     - task: Npm@1
+      displayName: npm ci
       inputs:
         command: 'ci'
     - task: Npm@1
+      displayName: fill prod environments
       inputs:
         command: 'custom'
         customCommand: 'run fillDefaultProdEnv -- -buildNumber $(Build.BuildId)'
     - task: Npm@1
+      displayName: build to deploy folder
       inputs:
         command: 'custom'
-        customCommand: 'buildToDeploy'
+        customCommand: 'run buildToDeploy'
