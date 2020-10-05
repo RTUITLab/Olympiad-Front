@@ -1,6 +1,8 @@
 pool:
   vmImage: 'ubuntu-latest'
 
+name: $(BuildID)-$(Build.SourceBranchName)
+
 stages:
 - stage: build
   jobs:
