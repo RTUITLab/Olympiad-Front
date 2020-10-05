@@ -1,0 +1,19 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: build
+  jobs:
+  - job: buildFront
+    steps:
+    - task: Npm@1
+      inputs:
+        command: 'ci'
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        customCommand: 'run fillDefaultProdEnv -- -buildNumber $(Build.BuildId)'
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        customCommand: 'buildToDeploy'
