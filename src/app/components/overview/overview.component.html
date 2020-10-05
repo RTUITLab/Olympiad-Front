@@ -1,91 +1,52 @@
-<div class="container">
-  <h2 style="color:#28d">Общие положения о проведении тестирования</h2>
-  <p> Решение каждого задания - это файл с исходным кодом программы, объемом не более 5 МБ.
-    Исходный код будет скомпилирован и выполнен с различными наборами входных данных.
-    Если отправленное решение отработает некорректно, то система выдаст соответствующее сообщение.</p>
-  <p>Время на выполнение программы - 1 секунда. Превышение временного лимита автоматически приводит к состоянию "Решение выполнялось слишком долго"</p>
-  <p>Во всех задачах используется стандартный поток ввода и вывода (консоль).</p>
+<div class="overview">
+    <div class="container">
+        <div class="header">Общие положения</div>
+        <p>Решение каждого задания - это файл с исходным кодом программы, объемом не более 5 МБ. Исходный код будет скомпилирован и выполнен с различными наборами входных данных. Если отправленное решение отработает некорректно, то система выдаст соответствующее сообщение.</p>
+        <p>Время на выполнение программы - 1 секунда. Превышение временного лимита автоматически приводит к состоянию "Решение выполнялось слишком долго"</p>
+        <p>Во всех задачах используется стандартный поток ввода и вывода (консоль).</p>
 
-  <h2 style="color:#28d">Индикаторы отправленного решения</h2>
-  <div class="indicators">
-    <div class="statusDesc red">
-      <img src="assets/StatusCode/0.svg" />
-      <p>Ошибка при компиляции</p>
+        <div class="header">Индикаторы отправленного решения</div>
+        <div class="indicators">
+            <div class="indicator red">
+                <img src="assets/icon/statusCodes/0.svg" />
+                <span>Ошибка при компиляции</span>
+            </div>
+            <div class="indicator red">
+                <img src="assets/icon/statusCodes/1.svg" />
+                <span>Ошибка во время выполнения</span>
+            </div>
+            <div class="indicator red">
+                <img src="assets/icon/statusCodes/2.svg" />
+                <span>Решение выполнялось слишком долго</span>
+            </div>
+            <div class="indicator blue">
+                <img src="assets/icon/statusCodes/3.svg" />
+                <span>Решение в очереди на проверку</span>
+            </div>
+            <div class="indicator blue">
+                <img src="assets/icon/statusCodes/4.svg" />
+                <span>Решение проверяется</span>
+            </div>
+            <div class="indicator green">
+                <img src="assets/icon/statusCodes/5.svg" />
+                <span>Решение проверено</span>
+            </div>
+        </div>
+        
+        <div class="header">Как отправлять задания</div>
+        <p>Для отправки задания текст кода должен находиться в файле, например "Program.pas". После отправки программа отобразится в таблице отправленных решений и с течением времени изменит свой статус в следующем порядке:</p>
+        <div class="instruction">
+            <img col1 src="assets/icon/statusCodes/3.svg">
+            <img col2 src="assets/icon/statusCodes/4.svg">
+            <img col3 src="assets/icon/statusCodes/5.svg">
+            <div col1 id="line1"></div>
+            <div col2 id="line2"></div>
+            <div col1 class="blue">Решение в очереди на проверку</div>
+            <div col2 class="blue">Решение проверяется</div>
+            <div col3 class="green">Решение проверено</div>
+        </div>
+
+        <div class="header">Пример правильно решённого задания</div>
+        <div><img class="example" style="width: 100%;" src="../../../assets/img/Screenshot.png"></div>
     </div>
-    <div class="statusDesc red">
-      <img src="assets/StatusCode/1.svg" />
-      <p>Ошибка во время выполнения</p>
-    </div>
-    <div class="statusDesc red" *ngIf="shownResults">
-      <img src="assets/StatusCode/2.svg" />
-      <p>Неверный результат работы</p>
-    </div>
-    <div class="statusDesc red">
-      <img src="assets/StatusCode/3.svg" />
-      <p>Решение выполнялось слишком долго</p>
-    </div>
-    <div class="statusDesc blue">
-      <img src="assets/StatusCode/4.svg" />
-      <p>Решение в очереди на проверку</p>
-    </div>
-    <div class="statusDesc blue">
-      <img src="assets/StatusCode/5.svg" />
-      <p>Решение проверяется</p>
-    </div>
-    <div class="statusDesc green" *ngIf="shownResults; else ResultsLocked">
-        <img src="assets/StatusCode/6.svg" />
-        <p>Решение верно</p>
-    </div>
-  </div>
-
-  <h2 style="color:#28d">Пример правильно решенного задания</h2>
-  <div class="task">
-    <hr>
-    <markdown ngPreserveWhitespaces>
-      ### Задача инкремент
-
-      > На вход программе подается одно целое число A. Необходимо вывести число, равное A + 1;
-
-      #### Ограничения входных параметров
-
-
-      >2<sup>31</sup> &ge; A &le; 2<sup>31</sup>-2
-
-
-      #### Правильное решение на языке Pascal (используется Pascal ABC)
-      ```
-      var
-        val: Integer;
-
-      begin
-        Readln(val);
-        WriteLn(val + 1);
-      end.
-
-      ```
- </markdown>
-    <hr>
-  </div>
-  <p style='font-weight: 600; font-size:1.5rem'> Внимание! </p>
-  <p> Для отправки задания текст кода должен находиться в файле, например "Program.pas". 
-   После отправки программа отобразится в таблице отправленных решений и с течением времени изменит свой статус в
-    следующем порядке:</p>
-  <div class="statusDesc blue">
-    <img src="assets/StatusCode/4.svg" />
-    <p>Решение в очереди на проверку</p>
-  </div>
-  <div class="statusDesc blue">
-    <img src="assets/StatusCode/5.svg" />
-    <p>Решение проверяется</p>
-  </div>
-  <div class="statusDesc green" *ngIf="shownResults; else ResultsLocked">
-    <img src="assets/StatusCode/6.svg" />
-    <p>Решение верно</p>
-  </div>
-  <ng-template #ResultsLocked>
-    <div class="statusDesc blue">
-      <img src="assets/StatusCode/Checked.svg" />
-      <p>Решение проверено</p>
-    </div>
-  </ng-template>
 </div>

@@ -1,0 +1,117 @@
+.view {
+    display: grid;
+    grid-template-columns: 1fr 750px 1fr;
+}
+
+.col {
+    min-width: 250px;
+}
+
+.container {
+    display: grid;
+    box-sizing: border-box;
+    grid-column: 2;
+}
+
+.header, .deadline {
+    display: grid;
+    margin: 5px 0;
+    font-weight: 900;
+}
+
+.deadline {
+    display: block;
+    font-size: 18px;
+    color: #707070;
+    
+    span {
+        display: inline;
+        font-weight: 100;
+    }
+}
+
+::ng-deep p {
+    margin: 5px 0;}
+
+.head {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #efefef;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.table {
+    width: 100%;
+    font-size: 18px;
+    border-collapse: collapse;
+}
+
+tr {
+    border: #efefef solid 1px;
+    border-top: none;
+}
+
+td {
+    margin: 5px 10px;
+}
+
+.statusCircle {
+    display: block;
+    box-sizing: border-box;
+    height: 20px;
+    width: 20px;
+    background-color: #d8d8d8;
+    border-radius: 50%;
+
+    &.error {
+        background-color: #FF4C4C;
+    }
+
+    &.processing {
+        background-color: #0088FF;
+    }
+
+    &.ok {
+        background-color: #4CFFBA;
+    }
+}
+
+.name {
+    width: 100%;
+    padding: 0 10px;
+}
+
+.status {
+    padding: 0 10px;
+    white-space: nowrap;
+    text-align: center;
+
+    &.processing {
+        color: #0088FF;
+    }
+
+    &.ok {
+        color: #00975D;
+    }
+
+    &.error {
+        color: #FF4C4C;
+    }
+}
+
+.start {
+    max-width: 320px;
+    margin-top: 30px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    border: none;
+    background-color: #0088FF;
+    font-family: GillSans;
+    font-size: 18px;
+    font-weight: 900;
+    color: #FFF;
+}

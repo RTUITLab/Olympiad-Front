@@ -1,17 +1,13 @@
-<div class="UserInfo" *ngIf="user">
-  <button class="menu-btn" mat-button disableRipple="true" [matMenuTriggerFor]="menu">
-      <img src="../../../assets/icons/user_icon.png">
-      <span>{{user.FirstName}}</span>
+<div class="UserInfo">
+  <button class="menu-btn" mat-icon-button disableRipple="true" [matMenuTriggerFor]="menu">
+    <mat-icon svgIcon="profile" aria-hidden="false" aria-label="Profile"></mat-icon>
   </button>
-  <mat-menu #menu="matMenu">
-    <button class="btn" (click)="myPage()" disableRipple="true" mat-menu-item>
+  <mat-menu #menu="matMenu" class="menu">
+    <button class="btn" routerLink="/me" disableRipple="true" mat-menu-item>
       Моя страница
     </button>
     <mat-divider></mat-divider>
-    <button class="btn" *ngIf="isAdmin()" (click)="adminFunctions()" disableRipple="true" mat-menu-item>
-      Функции администратора
-    </button>
-    <button class="btn" (click)="about()" disableRipple="true" mat-menu-item>
+    <button class="btn" routerLink="/about" disableRipple="true" mat-menu-item>
       О сайте
     </button>
     <mat-divider></mat-divider>

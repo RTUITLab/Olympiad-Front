@@ -1,0 +1,6 @@
+0 - cancel (Compile error)
+1 - runtime
+2 - tooLong
+3 - InQueue
+4 - inProgress
+5 - checked

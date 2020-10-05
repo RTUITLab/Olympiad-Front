@@ -21,3 +21,16 @@
     grid-template-rows: auto;
 }
 
+::ng-deep mat-drawer-content {
+    overflow-x: hidden !important;
+    min-height: 100vh;
+}
+
+::ng-deep .mat-drawer-container {
+    color: #454545;
+    background-color: #FFF;
+}
+
+.router {
+    padding: 20px 0 40px 20px;
+}

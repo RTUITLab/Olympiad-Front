@@ -1,0 +1,15 @@
+<div>
+    <markdown [data]="exerciseInfo.ExerciseTask"></markdown>
+    
+    <div class="header">Пример ввода/вывода</div>
+    <table>
+        <tr>
+            <th>Ввод</th>
+            <th>Вывод</th>
+        </tr>
+        <tr *ngFor="let inOut of inOutData">
+            <td *ngIf="!inOut.IsPublic"><pre>{{inOut.InData}}</pre></td>
+            <td *ngIf="!inOut.IsPublic"><pre>{{inOut.OutData}}</pre></td>
+        </tr>
+    </table>
+</div>

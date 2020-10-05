@@ -1,34 +1,21 @@
-<div class="login-page">
-  <div class="login">
-    <h2 class="login-header">Войти в систему</h2>
-    
-    <form class="login-container" novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <p>
-        <input [ngClass]="{
-          'input-error': login.errors && (login.dirty || login.touched),
-          'input-success': !login.errors && (login.dirty || login.touched)
-        }" type="text" required placeholder="Email или ID" formControlName="Login">
-      </p>
-      <p class="error" *ngIf='login.errors && (login.dirty || login.touched)'>
-        Введите корректный Email или ID
-      </p>
-      <p>
-        <input [ngClass]="{
-          'input-error': password.errors && (password.dirty || password.touched),
-          'input-success': !password.errors && (password.dirty || password.touched)
-        }" type="password" required autocomplete="current-password" placeholder="Password" formControlName="Password">
-      </p>
-      <p class="error" *ngIf='password.errors && (password.dirty || password.touched)'>
-        Пароль должен содержать минимум 6 символов
-      </p>
-      <p>
-        <input [ngClass]="{'submit-unvaliable': loginForm.invalid}" type="submit" value="Войти">
-      </p> 
-      <p>
-        <a routerLink="/register">
-          Еще не зарегистрированы? Зарегистрироваться.
-        </a>
-      </p>
-    </form>
-  </div>
+<div>
+    <mat-card class="card">
+        <div class="wave">
+            <form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="header">Войти в систему</div>
+                <input type="text" required placeholder="Логин" formControlName="Login">
+                <div class="error" *ngIf='login.invalid && login.touched'>
+                    Введите корректный логин
+                </div>
+                <input type="password" autocomplete="current-password" required placeholder="Пароль" formControlName="Password">
+                <div class="error" *ngIf='password.invalid && password.touched'>
+                    Пароль должен содержать минимум 6 символов
+                </div>
+                <input [ngClass]="{'submit-unvaliable': loginForm.invalid}" type="submit" value="Вход">
+                <a routerLink=""> <!-- TODO /register -->
+                    Нет аккаунта? Зарегистрироваться.
+                </a>
+            </form>
+        </div>
+    </mat-card>
 </div>

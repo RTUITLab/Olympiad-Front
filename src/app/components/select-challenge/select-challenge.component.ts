@@ -1,14 +1,14 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ChallengesService } from 'src/app/services/challenges.service';
-import { Challenge } from 'src/app/models/Responses/Challenges/Challenge';
-import { Router } from '@angular/router';
-import { ExerciseStateService } from 'src/app/services/exercise-state.service';
-import { Exercise } from 'src/app/models/Exercise';
-import { ChallengeState } from 'src/app/models/General/ChallengeState';
-import { ExerciseService } from 'src/app/services/exercise.service';
-import { ChallengeHelpers } from 'src/app/Helpers/ChallengeHelpers';
-import { ChallengeAccessType } from 'src/app/models/General/ChallengeAccessType';
-import { ExerciseCompact } from 'src/app/models/Responses/ExerciseCompact';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Challenge } from 'src/app/models/Challenges/Challenge';
+import { ChallengeState } from 'src/app/models/Challenges/ChallengeState';
+import { CurrentChallenge } from 'src/app/models/Challenges/CurrentChallenge';
+import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
+import { User } from 'src/app/models/Users/User';
+import { ChallengesService } from 'src/app/services/Challenges/challenges.service';
+import { ChallengeUtils } from 'src/app/services/Challenges/ChallengeUtils';
+import { ExerciseStateService } from 'src/app/services/Exercises/exercise-state.service';
+import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
+import { UserStateService } from 'src/app/services/Users/user-state.service';
 
 @Component({
   selector: 'app-select-challenge',
@@ -16,88 +16,109 @@ import { ExerciseCompact } from 'src/app/models/Responses/ExerciseCompact';
   styleUrls: ['./select-challenge.component.scss']
 })
 export class SelectChallengeComponent implements OnInit {
-  constructor(
-    private challengesService: ChallengesService,
-    private exerciseService: ExerciseService,
-    private currentExerciseState: ExerciseStateService,
-    private cdRef: ChangeDetectorRef
-  ) { }
+  public user: User;
+
   public challenges: Array<Challenge> = [];
-  public currentChallenge: Challenge;
 
-  public currentExercises: Array<ExerciseCompact> = [];
   public currentExercise: ExerciseCompact;
-
-  public currentChallengeState?: ChallengeState;
-  public currentChallengeTimeLeft: string;
+  public exercises: Array<ExerciseCompact> = [];
 
   private initChallengeId: string;
   private initExerciseId: string;
 
+  constructor(
+    private challengeService: ChallengesService,
+    private exerciseService: ExerciseService,
+    private currentExerciseState: ExerciseStateService,
+    private cdRef: ChangeDetectorRef,
+    private usersState: UserStateService,
+    public currentChallenge: CurrentChallenge
+  ) { }
+
   async ngOnInit() {
-    const allchallenges = await this.challengesService.getChallengesList();
-    this.challenges = allchallenges;
+    this.usersState.currentUserStream.subscribe(U => {
+      this.user = U;
+      if (this.user) {
+        this.loadChallenges();
+      }
+    });
+  }
+
+  public async loadChallenges() {
+    this.challenges = await this.challengeService.getChallengeList(); // TODO observable
 
     if (this.initChallengeId) {
-      this.currentChallenge = this.challenges.find(c => c.Id === this.initChallengeId);
+      this.currentChallenge.Challenge = this.challenges.find(challenge => challenge.Id === this.initChallengeId);
       this.loadExercises();
     }
+
     this.currentExerciseState.currentChallengeId.subscribe(challengeId => {
       if (!challengeId) {
         return;
       }
+
       this.initChallengeId = challengeId;
       if (this.challenges) {
-        this.currentChallenge = this.challenges.find(c => c.Id === this.initChallengeId);
+        this.currentChallenge.Challenge = this.challenges.find(challenge => challenge.Id === this.initChallengeId);
         this.cdRef.detectChanges();
         this.loadExercises();
       }
     });
+
     this.currentExerciseState.currentExerciseId.subscribe(exerciseId => {
       if (!exerciseId) {
         return;
       }
+
       this.initExerciseId = exerciseId;
-      if (this.currentExercises) {
-        this.currentExercise = this.currentExercises.find(ex => ex.Id === exerciseId);
+      if (this.exercises) {
+        this.currentExercise = this.exercises.find(ex => ex.Id === exerciseId);
       }
     });
-    this.currentExerciseState.currentChallengeState.subscribe(s => this.updateState(s));
+
+    this.currentExerciseState.currentChallengeState.subscribe(state => this.updateState(state));
     const timer = setInterval(() => this.timeToEnd(), 1000);
   }
 
   private async loadExercises() {
-    const exercises = await this.exerciseService.getExercises(this.currentChallenge.Id);
-    this.currentExercises = exercises.sort((a, b) => a.Name < b.Name ? -1 : 1);
-    if (this.initExerciseId) {
-      this.currentExercise = this.currentExercises.find(ex => ex.Id === this.initExerciseId);
-    }
-  }
-  setDefaultExercise () {
-    this.currentExercise = null;
-    this.initExerciseId = null;
-  }
-  public challengeTime(challenge: Challenge): string {
-    return ChallengeHelpers.ChallengeTime(challenge);
+    this.exerciseService.getExercises(this.currentChallenge.Challenge.Id)
+      .then((_exercises) => {
+        this.exercises = _exercises;
+        if (this.initExerciseId) {
+          this.currentExercise = this.exercises.find(exercise => exercise.Id === this.initExerciseId);
+        }
+      });
   }
 
   private timeToEnd(): void {
     if (!this.currentChallenge) {
       return;
     }
-    const state = ChallengeHelpers.CalcChallengeState(this.currentChallenge);
+
+    const state = ChallengeUtils.CalcChallengeState(this.currentChallenge.Challenge);
     this.currentExerciseState.setChallengeState(state);
   }
+
+  public challengeTime(challenge: Challenge): string {
+    return ChallengeUtils.ChallengeTime(challenge);
+  }
+
   private async updateState(state: ChallengeState) {
     if (state === null) {
       return;
     }
-    this.currentChallengeState = state;
-    this.currentChallengeTimeLeft = this.challengeTime(this.currentChallenge);
+
+    this.currentChallenge.State = state;
+    this.currentChallenge.TimeLeft = this.challengeTime(this.currentChallenge.Challenge);
     if ((state === ChallengeState.InProgress ||
       state === ChallengeState.Ended) &&
-      !this.currentExercises && this.initChallengeId) {
+      !this.exercises && this.initChallengeId) {
       this.loadExercises();
     }
+  }
+
+  setDefaultExercise () {
+    this.currentExercise = null;
+    this.initExerciseId = null;
   }
 }

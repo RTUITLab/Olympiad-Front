@@ -1,0 +1,20 @@
+.overview {
+    display: grid;
+    grid-template-columns: 1fr 750px 1fr;
+}
+
+.container {
+    display: grid;
+    box-sizing: border-box;
+    grid-column: 2;
+}
+
+.header {
+    display: grid;
+    margin: 10px 0;
+    font-weight: 900;
+}
+
+p {
+    margin: 10px 0;
+}

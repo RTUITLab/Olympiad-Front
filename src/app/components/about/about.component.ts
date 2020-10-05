@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { Title } from '@angular/platform-browser';
-
-
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-about',
@@ -10,12 +8,13 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
+  constructor(private titleService: Title) { }
 
-  constructor(
-    private titleService: Title,
-  ) { }
-  public get buildNumber(): string { return environment.buildNumber; }
-  ngOnInit() {
+  get buildNumber(): string {
+    return environment.buildNumber;
+  }
+
+  ngOnInit(): void {
     this.titleService.setTitle('О сайте');
   }
 
