@@ -98,8 +98,8 @@
                 </div>
                 <ul class="submenu">
                     <div>
-                        <li *ngFor="let lang of availableLanguages">
-                            <div (click)="selectLanguage(lang)">
+                        <li *ngFor="let lang of availableLanguages" (click)="selectLanguage(lang)">
+                            <div>
                                 <span>{{lang}}</span>
                             </div>
                         </li>
