@@ -64,7 +64,13 @@ export class UserStateService {
           this.initUser(event);
           observer.next(event);
         },
-        error => observer.error('Неверные email (ID) или пароль')
+        error => {
+          if (error.status === 400) {
+            observer.error('Неверные email (ID) или пароль');
+          } else {
+            observer.error('Сервер недоступен\nПроверьте соединение');
+          }
+        }
       );
     return observable;
   }

@@ -53,9 +53,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['overview']);
         },
         error => {
-          if (error == 'Неверные email (ID) или пароль') {
-            this.errorMessage = 'Неверный логин или пароль';
-          }
+          this.errorMessage = error;
           this.toastr.error(this.errorMessage, `Ошибка`);
         }
       );
