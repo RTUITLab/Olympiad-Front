@@ -137,6 +137,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   
   public selectLanguage(Language: string) {
     this.model.Language = Language;
+
+    document.getElementById('sub').hidden = true;
+    setTimeout(() => document.getElementById('sub').hidden = false, 10);
   }
 
   get selectedLanguage() {

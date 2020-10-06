@@ -96,7 +96,7 @@
                     <span name="Language" *ngIf="model.Language; else noLanguage">{{model.Language}}</span>
                     <ng-template #noLanguage><span>Язык программирования</span><img src="../../../assets/icon/down-arrow.svg"></ng-template>
                 </div>
-                <ul class="submenu">
+                <ul class="submenu" id="sub">
                     <div>
                         <li *ngFor="let lang of availableLanguages" (click)="selectLanguage(lang)">
                             <div>
