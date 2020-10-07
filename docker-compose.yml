@@ -3,6 +3,14 @@ version: "3.8"
 services:
   front:
     image: rtuitlab/olympiad-front
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 50M
+        reservations:
+          cpus: '0.05'
+          memory: 20M
     logging:
       driver: "json-file"
       options:

@@ -1,5 +1,6 @@
 # OlympiadApp
 
+[![Build Status](https://dev.azure.com/rtuitlab/RTU%20IT%20Lab/_apis/build/status/Olympiad/Olympiad-Front?branchName=master)](https://dev.azure.com/rtuitlab/RTU%20IT%20Lab/_build/latest?definitionId=122&branchName=master)
 
 ## Requirement
 Node.js + NPM
