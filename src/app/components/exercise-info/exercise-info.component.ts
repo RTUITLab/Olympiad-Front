@@ -29,7 +29,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ExerciseInfoComponent extends LoadingComponent implements OnInit, DoCheck {
   private challengeState: ChallengeState;
   private solutionCheckTimers: Array<any> = [];
-  solutionUrl = 'blob:https://';
+  solutionUrl = this.router.url + '/#';
   challenge: Challenge;
   inOutData: InOutData[];
   exerciseInfo: ExerciseInfo;
@@ -137,6 +137,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   
   public selectLanguage(Language: string) {
     this.model.Language = Language;
+
+    document.getElementById('sub').hidden = true;
+    setTimeout(() => document.getElementById('sub').hidden = false, 10);
   }
 
   get selectedLanguage() {
@@ -236,7 +239,11 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   public copy(): void {
-    navigator.clipboard.writeText(this.solutionPreview.toString());
+    if (this.solutionPreview) {
+      navigator.clipboard.writeText(this.solutionPreview.toString());
+    } else {
+      navigator.clipboard.writeText('Кода не было');
+    }
   }
 
   prettyTime(time: string): string {
