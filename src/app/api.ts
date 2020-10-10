@@ -87,6 +87,10 @@ export class Api {
     return `${this.baseUrl}/api/check/recheckUserSolution/${userId}`;
   }
 
+  public static getSignalRHubUrl(): string {
+    return `${this.baseUrl}/api/hubs/solutionStatus`;
+  }
+
   //  Auth  //
   ////////////
 

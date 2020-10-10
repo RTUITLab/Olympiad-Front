@@ -1,4 +1,4 @@
-<div *ngIf="isReady()">
+<div *ngIf="isReady(); else notReady">
     <mat-drawer class="drawer" #drawer mode="over" position="end">
         <div class="header" style="font-size: 25px;">{{exerciseInfo.Name}}</div>
         <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
@@ -116,3 +116,7 @@
         </div>
     </div>
 </div>
+
+<ng-template #notReady>
+    <div class="spinner"></div>
+</ng-template>

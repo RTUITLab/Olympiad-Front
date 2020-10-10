@@ -131,7 +131,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     this.sendMode = true;
   }
 
-  public solved(): boolean {  // TODO ask if solved is the last solution or not
+  public solved(): boolean {
     return this.exerciseInfo.Solutions.find(s => s.Status === 7) !== undefined ? true : false;
   }
   
