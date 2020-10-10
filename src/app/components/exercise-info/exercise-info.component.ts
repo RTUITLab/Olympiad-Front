@@ -21,6 +21,7 @@ import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { LoadingComponent } from 'src/app/models/LoadingComponent';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UpdateService } from 'src/app/services/Updates/update.service';
+import { SolutionResponse } from 'src/app/models/Solutions/SolutionResponse';
 
 @Component({
   selector: 'app-exercise-info',
@@ -52,7 +53,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     private domSanitizer: DomSanitizer
   ) { super(); }
 
-  private convertSolution(S: Solution): Solution {
+  private convertSolution(S: SolutionResponse): Solution {
     let s = new Solution();
 
     s.Id = S.id;
