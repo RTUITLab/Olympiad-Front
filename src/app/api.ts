@@ -101,4 +101,8 @@ export class Api {
   public static login(): string {
     return `${this.baseUrl}/api/auth/login`;
   }
+
+  public static changePassword(): string {
+    return `${this.baseUrl}/api/account/changePassword`;
+  }
 }

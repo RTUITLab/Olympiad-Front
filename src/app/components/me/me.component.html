@@ -4,5 +4,14 @@
         <p>ID:&nbsp;{{user.StudentID}}</p>
         <p>Имя:&nbsp;{{user.FirstName}}</p>
         <p>Email:&nbsp;{{user.Email}}</p>
+        <div *ngIf="!isChangingPassword; else changePass"><button class="start" (click)="isChangingPassword = true">Сменить пароль</button></div>
+        <ng-template #changePass>
+            <form novalidate [formGroup]="newPassForm" (ngSubmit)="onSubmit()">
+                <div class="header">Сменить пароль</div>
+                <input type="password" autocomplete="current-password" required placeholder="Старый пароль" formControlName="CurrentPassword">
+                <input type="password" autocomplete="new-password" required placeholder="Новый пароль" formControlName="NewPassword">
+                <input type="submit" class="start" value="Сменить пароль">
+            </form>
+        </ng-template>
     </div>
 </div>

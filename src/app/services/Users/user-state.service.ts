@@ -75,6 +75,10 @@ export class UserStateService {
     return observable;
   }
 
+  public changePass(model: LoginViewModel): Promise<Object> {
+     return this.http.post(Api.changePassword(), model, { responseType: 'json', headers: this.bearer }).toPromise();
+  }
+
   public isAdmin(): boolean {
     if (!this.currentUser) {
       return false;
