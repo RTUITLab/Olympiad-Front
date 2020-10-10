@@ -21,8 +21,8 @@
       </li>
     </ul>
     <app-challenge-deadline *ngIf="currentChallenge.Challenge && user" class="challenge-deadline" [challenge]="currentChallenge.Challenge"></app-challenge-deadline>
-    <div class="instruction" *ngIf="user">
-      <a routerLink="/overview">Инструкция</a>
+    <div routerLink="/overview" class="instruction" *ngIf="user">
+      <a>Инструкция</a>
     </div>
     <ng-template #noUser><div class="noUserLine"></div></ng-template>
   </div>

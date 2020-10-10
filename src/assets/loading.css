@@ -5,12 +5,13 @@
 
 .spinner {
 	animation: rotate 1s linear infinite;
-	background: #FFF;
+	background: #00000000;
 	border-radius: 50%;
 	height: 200px;
     width: 200px;
     margin: 0 auto;
-	position: relative;
+    position: relative;
+    z-index: -1;
 }
 
 .spinner:before,
