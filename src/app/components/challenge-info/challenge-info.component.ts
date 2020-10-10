@@ -10,6 +10,7 @@ import { DateHelpers } from 'src/app/services/DateHelpers';
 import { ExerciseStateService } from 'src/app/services/Exercises/exercise-state.service';
 import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
 import { SolutionStatusConverter } from 'src/app/services/SolutionStatusConverter';
+import { UpdateService } from 'src/app/services/Updates/update.service';
 
 @Component({
   selector: 'app-challenge-info',
@@ -29,7 +30,8 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
     private titleService: Title,
     private currentExerciseState: ExerciseStateService,
     private challengesService: ChallengesService,
-    private exerciseService: ExerciseService
+    private exerciseService: ExerciseService,
+    private updateService: UpdateService
   ) { super() }
 
   async ngDoCheck() {
@@ -40,6 +42,15 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
 
   ngOnInit(): void {
     this.startLoading();
+
+    this.updateService.exerciseStream.subscribe(S => {
+      if (this.exercises && S) {
+        const ex = this.exercises.find(E => E.Id === S.exerciseId);
+        if (ex) {
+          ex.Status = S.exerciseStatus;
+        }
+      }
+    })
 
     const id = this.route.snapshot.paramMap.get('ChallengeId');
     this.currentExerciseState.setChallengeId(id);

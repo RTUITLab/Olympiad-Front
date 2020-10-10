@@ -20,6 +20,7 @@ import { SolutionStatusConverter } from 'src/app/services/SolutionStatusConverte
 import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { LoadingComponent } from 'src/app/models/LoadingComponent';
 import { DomSanitizer } from '@angular/platform-browser';
+import { UpdateService } from 'src/app/services/Updates/update.service';
 
 @Component({
   selector: 'app-exercise-info',
@@ -47,11 +48,53 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     private toastr: ToastrService,
     private titleService: Title,
     private currentExerciseState: ExerciseStateService,
+    private updateService: UpdateService,
     private domSanitizer: DomSanitizer
   ) { super(); }
 
+  private convertSolution(S: Solution): Solution {
+    let s = new Solution();
+
+    s.Id = S.id;
+    s.CheckedTime = S.checkedTime + 'Z';
+    s.ExerciseId = S.exerciseId;
+    s.Language = S.language;
+    s.Raw = S.raw;
+    s.SendingTime = S.sendingTime + 'Z';
+    s.StartCheckingTime = S.startCheckingTime + 'Z';
+    s.Status = S.status;
+
+    return s;
+  }
+
   ngOnInit(): void {
     this.startLoading();
+
+    this.updateService.solutionStream.subscribe(S => {
+      if (this.exerciseInfo && S && S.exerciseId === this.exerciseInfo.Id) {
+        if (this.exerciseInfo.Solutions) {
+          const solution = this.exerciseInfo.Solutions.find(s => s.Id === S.id);
+          if (solution) {
+            solution.StartCheckingTime = S.startCheckingTime;
+            solution.CheckedTime = S.checkedTime;
+            solution.Status = S.status;
+          } else {
+            this.exerciseInfo.Solutions.unshift(this.convertSolution(S));
+          }
+        } else {
+          this.exerciseInfo.Solutions.unshift(this.convertSolution(S));
+        }
+      }
+    })
+
+    this.updateService.exerciseStream.subscribe(S => {
+      if (this.exercises && S) {
+        const ex = this.exercises.find(E => E.Id === S.exerciseId);
+        if (ex) {
+          ex.Status = S.exerciseStatus;
+        }
+      }
+    })
 
     this.challenge = new Challenge();
     this.sendMode = false;
@@ -220,7 +263,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   solutionCheckLoop(checkSolution: Solution) {
-    this.exercisesService.checkSolution(checkSolution.Id).subscribe(solution => {
+    /*this.exercisesService.checkSolution(checkSolution.Id).subscribe(solution => {
       const target = this.exerciseInfo.Solutions.find(s => s.Id === solution.Id);
       if (!target) {
         this.exerciseInfo.Solutions.unshift(solution);
@@ -235,7 +278,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
           setTimeout(() => this.solutionCheckLoop(checkSolution), 800)
         );
       }
-    });
+    });*/
   }
 
   public copy(): void {
