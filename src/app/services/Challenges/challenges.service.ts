@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Api } from 'src/app/api';
 import { Challenge } from 'src/app/models/Challenges/Challenge';
 import { UserStateService } from '../Users/user-state.service';
@@ -7,7 +7,7 @@ import { UserStateService } from '../Users/user-state.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ChallengesService { // TODO delete get baseUrl everywhere
+export class ChallengesService {
   constructor(private http: HttpClient, private usersState: UserStateService) { }
 
   public getChallengeList(): Promise<Array<Challenge>> {

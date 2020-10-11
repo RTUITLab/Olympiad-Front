@@ -22,6 +22,7 @@ import { ExerciseInfoComponent } from './components/exercise-info/exercise-info.
 import { TaskComponent } from './components/exercise-info/task/task.component';
 import { ChallengeDeadlineComponent } from './components/select-challenge/challenge-deadline/challenge-deadline.component';
 import { AboutComponent } from './components/about/about.component';
+import { MeComponent } from './components/me/me.component';
 
 import { UserStateService } from './services/Users/user-state.service';
 import { ToastrModule } from 'ngx-toastr';
@@ -32,7 +33,6 @@ import { AuthGuardService } from './services/AuthGuard/auth-guard.service';
 import { ChallengesService } from './services/Challenges/challenges.service';
 import { ExerciseService } from './services/Exercises/exercise.service';
 import { CurrentChallenge } from './models/Challenges/CurrentChallenge';
-import { MeComponent } from './components/me/me.component';
 import { UpdateService } from './services/Updates/update.service';
 
 @NgModule({

@@ -1,8 +1,8 @@
 export class Exercise {
     constructor (
-        public ExerciseName?: string,
-        public ExerciseID?: string,
-        public ExerciseTask?: string,
-        public Score?: number
+        public exerciseName?: string,
+        public exerciseID?: string,
+        public exerciseTask?: string,
+        public score?: number
     ) {}
 }

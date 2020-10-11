@@ -35,7 +35,7 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
   ) { super() }
 
   async ngDoCheck() {
-    if (this.isReady() && this.challenge && this.challenge.Id !== this.route.snapshot.paramMap.get('ChallengeId')) {
+    if (this.isReady() && this.challenge && this.challenge.id !== this.route.snapshot.paramMap.get('ChallengeId')) {
       this.ngOnInit();
     }
   }
@@ -45,9 +45,9 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
 
     this.updateService.exerciseStream.subscribe(S => {
       if (this.exercises && S) {
-        const ex = this.exercises.find(E => E.Id === S.exerciseId);
+        const ex = this.exercises.find(E => E.id === S.exerciseId);
         if (ex) {
-          ex.Status = S.exerciseStatus;
+          ex.status = S.exerciseStatus;
         }
       }
     })
@@ -59,7 +59,7 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
       .then(challenge => {
         this.challenge = challenge;
         this.currentExerciseState.setChallenge(this.challenge);
-        this.titleService.setTitle(`${this.challenge.Name}`);
+        this.titleService.setTitle(`${this.challenge.name}`);
         
         this.loadExercises();
         this.finishLoading();
@@ -68,15 +68,15 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
 
   private async loadExercises() {
     this.startLoading();
-    this.exerciseService.getExercises(this.challenge.Id)
+    this.exerciseService.getExercises(this.challenge.id)
       .then((_exercises) => {
         this.exercises = _exercises;
         this.exercises.forEach((exercise) => {
           this.startLoading();
-          this.exerciseService.getExercise(exercise.Id)
+          this.exerciseService.getExercise(exercise.id)
             .then(ex => {
-              if (!ex.Solutions.length)
-                exercise.Status = -1;
+              if (!ex.solutions.length)
+                exercise.status = -1;
               this.finishLoading();
             })
         })
@@ -93,22 +93,22 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
   }
 
   public statusClass(exercise: ExerciseCompact) {
-    if (exercise.Status === -1) {
+    if (exercise.status === -1) {
       return '';
     }
-    if (exercise.Status < 5) {
+    if (exercise.status < 5) {
       return 'error';
     }
-    if (exercise.Status < 7) {
+    if (exercise.status < 7) {
       return 'processing';
     }
-    if (exercise.Status === 7) {
+    if (exercise.status === 7) {
       return 'ok';
     }
   }
 
   public start() {
-    this.router.navigate([`exercises/${this.exercises[0].Id}`])
+    this.router.navigate([`exercises/${this.exercises[0].id}`])
   }
 
   public isReady(): boolean {

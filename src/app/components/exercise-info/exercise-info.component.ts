@@ -21,7 +21,6 @@ import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { LoadingComponent } from 'src/app/models/LoadingComponent';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UpdateService } from 'src/app/services/Updates/update.service';
-import { SolutionResponse } from 'src/app/models/Solutions/SolutionResponse';
 
 @Component({
   selector: 'app-exercise-info',
@@ -53,46 +52,31 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     private domSanitizer: DomSanitizer
   ) { super(); }
 
-  private convertSolution(S: SolutionResponse): Solution {
-    let s = new Solution();
-
-    s.Id = S.id;
-    s.CheckedTime = S.checkedTime + 'Z';
-    s.ExerciseId = S.exerciseId;
-    s.Language = S.language;
-    s.Raw = S.raw;
-    s.SendingTime = S.sendingTime + 'Z';
-    s.StartCheckingTime = S.startCheckingTime + 'Z';
-    s.Status = S.status;
-
-    return s;
-  }
-
   ngOnInit(): void {
     this.startLoading();
 
     this.updateService.solutionStream.subscribe(S => {
-      if (this.exerciseInfo && S && S.exerciseId === this.exerciseInfo.Id) {
-        if (this.exerciseInfo.Solutions) {
-          const solution = this.exerciseInfo.Solutions.find(s => s.Id === S.id);
+      if (this.exerciseInfo && S && S.exerciseId === this.exerciseInfo.id) {
+        if (this.exerciseInfo.solutions) {
+          const solution = this.exerciseInfo.solutions.find(s => s.id === S.id);
           if (solution) {
-            solution.StartCheckingTime = S.startCheckingTime;
-            solution.CheckedTime = S.checkedTime;
-            solution.Status = S.status;
+            solution.startCheckingTime = S.startCheckingTime;
+            solution.checkedTime = S.checkedTime;
+            solution.status = S.status;
           } else {
-            this.exerciseInfo.Solutions.unshift(this.convertSolution(S));
+            this.exerciseInfo.solutions.unshift(S);
           }
         } else {
-          this.exerciseInfo.Solutions.unshift(this.convertSolution(S));
+          this.exerciseInfo.solutions.unshift(S);
         }
       }
     })
 
     this.updateService.exerciseStream.subscribe(S => {
       if (this.exercises && S) {
-        const ex = this.exercises.find(E => E.Id === S.exerciseId);
+        const ex = this.exercises.find(E => E.id === S.exerciseId);
         if (ex) {
-          ex.Status = S.exerciseStatus;
+          ex.status = S.exerciseStatus;
         }
       }
     })
@@ -102,29 +86,29 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     this.model = new SolutionViewModel();
     this.exerciseInfo = new ExerciseInfo();
     this.solutionPreview = null;
-    this.model.Language = null;
-    this.model.ExerciseId = this.route.snapshot.paramMap.get('ExerciseID');
+    this.model.language = null;
+    this.model.exerciseId = this.route.snapshot.paramMap.get('ExerciseID');
 
-    this.exercisesService.getExercise(this.model.ExerciseId)
+    this.exercisesService.getExercise(this.model.exerciseId)
       .then((exInfo: ExerciseInfo) => {
         this.exerciseInfo = exInfo;
 
-        if (exInfo.Solutions.length) {
+        if (exInfo.solutions.length) {
           this.setSendMode();
         }
 
-        this.challengesService.getChallenge(this.exerciseInfo.ChallengeId).then(c => {
+        this.challengesService.getChallenge(this.exerciseInfo.challengeId).then(c => {
             this.challenge = c;
             this.loadExercises();
           });
-        this.exercisesService.getExerciseInOutData(this.exerciseInfo.Id).then(io => this.inOutData = io);
+        this.exercisesService.getExerciseInOutData(this.exerciseInfo.id).then(io => this.inOutData = io);
 
-        this.titleService.setTitle(`${this.exerciseInfo.Name}`);
+        this.titleService.setTitle(`${this.exerciseInfo.name}`);
 
-        this.exerciseInfo.Solutions.sort((a, b) => new Date(a.SendingTime) < new Date(b.SendingTime) ? 1 : -1);
+        this.exerciseInfo.solutions.sort((a, b) => new Date(a.sendingTime) < new Date(b.sendingTime) ? 1 : -1);
 
-        this.currentExerciseState.setChallengeId(exInfo.ChallengeId);
-        this.currentExerciseState.setExerciseId(exInfo.Id);
+        this.currentExerciseState.setChallengeId(exInfo.challengeId);
+        this.currentExerciseState.setExerciseId(exInfo.id);
       })
       .catch(() => {
         this.router.navigate(['overview']);
@@ -135,14 +119,14 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   private async loadExercises() {
-    this.exercisesService.getExercises(this.challenge.Id)
+    this.exercisesService.getExercises(this.challenge.id)
       .then((_exercises) => {
         this.exercises = _exercises;
-        this.exercises.forEach(exercise => { // TODO Change back?
+        this.exercises.forEach(exercise => {
           this.startLoading();
-          this.exercisesService.getExercise(exercise.Id).then(ex => {
-            if (!ex.Solutions.length)
-              exercise.Status = -1;
+          this.exercisesService.getExercise(exercise.id).then(ex => {
+            if (!ex.solutions.length)
+              exercise.status = -1;
             this.finishLoading();
           })
         });
@@ -151,22 +135,22 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   public statusClass(exercise: ExerciseCompact) {
-    if (exercise.Status === -1) {
+    if (exercise.status === -1) {
       return '';
     }
-    if (exercise.Status < 5) {
+    if (exercise.status < 5) {
       return 'error';
     }
-    if (exercise.Status < 7) {
+    if (exercise.status < 7) {
       return 'processing';
     }
-    if (exercise.Status === 7) {
+    if (exercise.status === 7) {
       return 'ok';
     }
   }
 
   async ngDoCheck() {
-    if (this.isReady() && this.model.ExerciseId !== this.route.snapshot.paramMap.get('ExerciseID')) {
+    if (this.isReady() && this.model.exerciseId !== this.route.snapshot.paramMap.get('ExerciseID')) {
       this.ngOnInit();
     }
   }
@@ -176,35 +160,35 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   public solved(): boolean {
-    return this.exerciseInfo.Solutions.find(s => s.Status === 7) !== undefined ? true : false;
+    return this.exerciseInfo.solutions.find(s => s.status === 7) !== undefined ? true : false;
   }
   
   public selectLanguage(Language: string) {
-    this.model.Language = Language;
+    this.model.language = Language;
 
     document.getElementById('sub').hidden = true;
     setTimeout(() => document.getElementById('sub').hidden = false, 10);
   }
 
   get selectedLanguage() {
-    if (this.model.Language) {
-      return LanguageConverter.fileExtensionByPrettyName(this.model.Language);
+    if (this.model.language) {
+      return LanguageConverter.fileExtensionByPrettyName(this.model.language);
     }
   }
 
   setFile(event) {
     if (event.srcElement.files[0]) {
-      if (this.model.Language === null) {
+      if (this.model.language === null) {
         this.toastr.warning('Выберите язык программирования');
       }
-      this.model.File = event.srcElement.files[0];
+      this.model.file = event.srcElement.files[0];
       const fileReader = new FileReader();
       fileReader.onload = _ => {
         this.solutionPreview = fileReader.result;
       };
-      fileReader.readAsText(this.model.File);
-      this.solutionUrl = URL.createObjectURL(this.model.File);
-      document.getElementById('a').setAttribute('download', this.model.File.name);
+      fileReader.readAsText(this.model.file);
+      this.solutionUrl = URL.createObjectURL(this.model.file);
+      document.getElementById('a').setAttribute('download', this.model.file.name);
     }
   }
 
@@ -217,15 +201,15 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   get submitDisabled() {
-    if (!this.model.File) {
+    if (!this.model.file) {
       this.toastr.warning('Загрузите файл');
       return true;
     } else {
-      if (this.model.Language === null) {
+      if (this.model.language === null) {
         this.toastr.warning('Выберите язык программирования');
         return true;
       } else {
-        if (!this.model.File.name.endsWith(LanguageConverter.fileExtensionByPrettyName(this.model.Language))) {
+        if (!this.model.file.name.endsWith(LanguageConverter.fileExtensionByPrettyName(this.model.language))) {
           this.toastr.warning(`Расширение загружаемого вами файла не соответсвует выбранному языку программирования`);
           return true;
         } else {
@@ -244,7 +228,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
               this.toastr.warning(`Решение не загружено`);
               return;
             }
-            if (this.exerciseInfo.Solutions.some(s => s.Id === createdSolution.Id)) {
+            if (this.exerciseInfo.solutions.some(s => s.id === createdSolution.id)) {
               this.toastr.warning(`Вы уже отправляли такое решение`);
               return;
             }
@@ -302,7 +286,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   downloadSolution(solution: Solution): void {
-    this.exercisesService.downloadSolution(solution.Id).subscribe(s => {
+    this.exercisesService.downloadSolution(solution.id).subscribe(s => {
       SolutionUtils.downloadSolution(solution, s);
       this.toastr.success(`Загрузка начата`);
     }, fail => {

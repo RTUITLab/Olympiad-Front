@@ -45,10 +45,10 @@ export class SelectChallengeComponent implements OnInit {
   }
 
   public async loadChallenges() {
-    this.challenges = await this.challengeService.getChallengeList(); // TODO observable
+    this.challenges = await this.challengeService.getChallengeList();
 
     if (this.initChallengeId) {
-      this.currentChallenge.Challenge = this.challenges.find(challenge => challenge.Id === this.initChallengeId);
+      this.currentChallenge.challenge = this.challenges.find(challenge => challenge.id === this.initChallengeId);
       this.loadExercises();
     }
 
@@ -59,7 +59,7 @@ export class SelectChallengeComponent implements OnInit {
 
       this.initChallengeId = challengeId;
       if (this.challenges) {
-        this.currentChallenge.Challenge = this.challenges.find(challenge => challenge.Id === this.initChallengeId);
+        this.currentChallenge.challenge = this.challenges.find(challenge => challenge.id === this.initChallengeId);
         this.cdRef.detectChanges();
         this.loadExercises();
       }
@@ -72,7 +72,7 @@ export class SelectChallengeComponent implements OnInit {
 
       this.initExerciseId = exerciseId;
       if (this.exercises) {
-        this.currentExercise = this.exercises.find(ex => ex.Id === exerciseId);
+        this.currentExercise = this.exercises.find(ex => ex.id === exerciseId);
       }
     });
 
@@ -81,11 +81,11 @@ export class SelectChallengeComponent implements OnInit {
   }
 
   private async loadExercises() {
-    this.exerciseService.getExercises(this.currentChallenge.Challenge.Id)
+    this.exerciseService.getExercises(this.currentChallenge.challenge.id)
       .then((_exercises) => {
         this.exercises = _exercises;
         if (this.initExerciseId) {
-          this.currentExercise = this.exercises.find(exercise => exercise.Id === this.initExerciseId);
+          this.currentExercise = this.exercises.find(exercise => exercise.id === this.initExerciseId);
         }
       });
   }
@@ -95,7 +95,7 @@ export class SelectChallengeComponent implements OnInit {
       return;
     }
 
-    const state = ChallengeUtils.CalcChallengeState(this.currentChallenge.Challenge);
+    const state = ChallengeUtils.CalcChallengeState(this.currentChallenge.challenge);
     this.currentExerciseState.setChallengeState(state);
   }
 
@@ -108,8 +108,8 @@ export class SelectChallengeComponent implements OnInit {
       return;
     }
 
-    this.currentChallenge.State = state;
-    this.currentChallenge.TimeLeft = this.challengeTime(this.currentChallenge.Challenge);
+    this.currentChallenge.state = state;
+    this.currentChallenge.timeLeft = this.challengeTime(this.currentChallenge.challenge);
     if ((state === ChallengeState.InProgress ||
       state === ChallengeState.Ended) &&
       !this.exercises && this.initChallengeId) {

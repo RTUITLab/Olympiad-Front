@@ -1,6 +1,6 @@
 <div *ngIf="isReady(); else notReady">
     <mat-drawer class="drawer" #drawer mode="over" position="end">
-        <div class="header" style="font-size: 25px;">{{exerciseInfo.Name}}</div>
+        <div class="header" style="font-size: 25px;">{{exerciseInfo.name}}</div>
         <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
     </mat-drawer>
     <div class="cover" (click)="drawer.toggle()" *ngIf="drawer.opened"></div>
@@ -8,13 +8,13 @@
     <div class="view">
         <div class="progress">
             <div class="exercise" *ngFor="let exercise of exercises">
-                <a class="statusCircle" [ngClass]="statusClass(exercise)" routerLink="/exercises/{{exercise.Id}}"></a>
-                <div class="exName">{{exercise.Name}}</div>
+                <a class="statusCircle" [ngClass]="statusClass(exercise)" routerLink="/exercises/{{exercise.id}}"></a>
+                <div class="exName">{{exercise.name}}</div>
             </div>
         </div>
         <div class="name">
-            <div class="header">{{exerciseInfo.Name}}</div>
-            <div class="info">Баллы:&nbsp;{{exerciseInfo.Score}} max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Тестирование: {{challenge.Name}}</div>
+            <div class="header">{{exerciseInfo.name}}</div>
+            <div class="info">Баллы:&nbsp;{{exerciseInfo.score}} max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Тестирование: {{challenge.name}}</div>
             <button *ngIf="sendMode" class="taskBtn" (click)="drawer.toggle()">Условия</button>
         </div>
             
@@ -27,7 +27,7 @@
                 <div id="header">
                     <div class="wave">
                         <div class="correctInput">
-                            <img *ngIf="exerciseInfo.Solutions[0]; else noSol" src="../../../assets/icon/statusCodes/{{solutionStatusIcon(exerciseInfo.Solutions[0].Status)}}.svg" />
+                            <img *ngIf="exerciseInfo.solutions[0]; else noSol" src="../../../assets/icon/statusCodes/{{solutionStatusIcon(exerciseInfo.solutions[0].status)}}.svg" />
                             <ng-template #noSol>
                                 <img src="../../../assets/icon/statusCodes/-1.svg" />
                             </ng-template>
@@ -44,10 +44,10 @@
                             </div>
                         </th>
                     </tr>
-                    <div *ngIf="solutionPreview && model.Language">
+                    <div *ngIf="solutionPreview && model.language">
                         <tr *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">
                             <td col1>{{i + 1}}</td>
-                            <td col2><markdown [data]="line | language : model.Language"></markdown></td>
+                            <td col2><markdown [data]="line | language : model.language"></markdown></td>
                         </tr>
                     </div>
                     <tr>
@@ -57,7 +57,7 @@
                 </table>
             </ng-template>
 
-            <div *ngIf="exerciseInfo.Solutions && exerciseInfo.Solutions.length > 0 && sendMode">
+            <div *ngIf="exerciseInfo.solutions && exerciseInfo.solutions.length > 0 && sendMode">
                 <div class="header">Отправленные решения</div>
                 <table class="solutions">
                     <thead>
@@ -67,20 +67,20 @@
                         <th>Результат</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let sol of exerciseInfo.Solutions">
-                            <ng-container *ngIf="sol.ExerciseId == exerciseInfo.Id">
-                                <td>{{prettyTime(sol.SendingTime)}}</td>
-                                <td>{{normalLang(sol.Language)}}</td>
+                        <tr *ngFor="let sol of exerciseInfo.solutions">
+                            <ng-container *ngIf="sol.exerciseId == exerciseInfo.id">
+                                <td>{{prettyTime(sol.sendingTime)}}</td>
+                                <td>{{normalLang(sol.language)}}</td>
                                 <td (click)="downloadSolution(sol)">
                                     <div class="downSol">
                                         <span>Скачать</span>
                                         <img class="download" src="../../../assets/icon/download.svg">
                                     </div>
                                 </td>
-                                <td style="color: {{fontColor(sol.Status)}}">
+                                <td style="color: {{fontColor(sol.status)}}">
                                     <div class="downSol" style="cursor: auto">
-                                        <span>{{solutionStatusPresent(sol.Status)}}</span>
-                                        <img class="statusIcon" src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.Status)}}.svg" />
+                                        <span>{{solutionStatusPresent(sol.status)}}</span>
+                                        <img class="statusIcon" src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg" />
                                     </div>
                                     </td>
                             </ng-container>
@@ -93,7 +93,7 @@
         <div *ngIf="sendMode" class="submitCol">
             <div class="selectLanguage">
                 <div class="select">
-                    <span name="Language" *ngIf="model.Language; else noLanguage">{{model.Language}}</span>
+                    <span name="Language" *ngIf="model.language; else noLanguage">{{model.language}}</span>
                     <ng-template #noLanguage><span>Язык программирования</span><img src="../../../assets/icon/down-arrow.svg"></ng-template>
                 </div>
                 <ul class="submenu" id="sub">
@@ -107,8 +107,8 @@
                 </ul>
             </div>
             <label for="sol" class="select">
-                <span *ngIf="!model.File; else downloadedSolution">Загрузить решение</span>
-                <ng-template #downloadedSolution><span>{{model.File.name}}</span></ng-template>
+                <span *ngIf="!model.file; else downloadedSolution">Загрузить решение</span>
+                <ng-template #downloadedSolution><span>{{model.file.name}}</span></ng-template>
                 <img src="../../../assets/icon/down-arrow.svg">
             </label>
             <input id="sol" type="file" style="display: none;" [accept]="selectedLanguage" (input)="setFile($event)">

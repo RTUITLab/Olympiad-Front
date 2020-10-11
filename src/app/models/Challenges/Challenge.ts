@@ -1,11 +1,11 @@
 import { ChallengeAccessType } from './CallengeAccessType';
 
 export class Challenge {
-  public Id: string;
-  public Name: string;
-  public Description?: string;
-  public CreationTime: string;
-  public StartTime?: string;
-  public EndTime?: string;
-  public ChallengeAccessType: ChallengeAccessType;
+  public id: string;
+  public name: string;
+  public description?: string;
+  public creationTime: string;
+  public startTime?: string;
+  public endTime?: string;
+  public challengeAccessType: ChallengeAccessType;
 }

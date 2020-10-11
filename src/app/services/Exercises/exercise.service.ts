@@ -33,7 +33,7 @@ export class ExerciseService {
 
   sendSolution(data: SolutionViewModel): Observable<any> {
     const formData: FormData = new FormData();
-    formData.append('file', data.File, data.File.name);
+    formData.append('file', data.file, data.file.name);
     return this.http.post<Solution>(
       Api.sendSolution(data), formData, this.usersService.authOptions);
   }

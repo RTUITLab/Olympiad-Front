@@ -1,9 +1,9 @@
 <div class="overview">
     <div class="container">
         <div class="header">Моя страница</div>
-        <p>ID:&nbsp;{{user.StudentID}}</p>
-        <p>Имя:&nbsp;{{user.FirstName}}</p>
-        <p>Email:&nbsp;{{user.Email}}</p>
+        <p>ID:&nbsp;{{user.studentID}}</p>
+        <p>Имя:&nbsp;{{user.firstName}}</p>
+        <p>Email:&nbsp;{{user.email}}</p>
         <div *ngIf="!isChangingPassword; else changePass"><button class="start" (click)="isChangingPassword = true">Сменить пароль</button></div>
         <ng-template #changePass>
             <form novalidate [formGroup]="newPassForm" (ngSubmit)="onSubmit()">

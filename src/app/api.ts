@@ -60,7 +60,7 @@ export class Api {
   }
 
   public static sendSolution(solutionView: SolutionViewModel): string {
-    return `${this.baseUrl}/api/check/${LanguageConverter.webName(solutionView.Language)}/${solutionView.ExerciseId}`;
+    return `${this.baseUrl}/api/check/${LanguageConverter.webName(solutionView.language)}/${solutionView.exerciseId}`;
   }
 
   public static downloadSolution(solutionId: string): string {
