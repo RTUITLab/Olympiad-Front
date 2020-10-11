@@ -1,5 +1,5 @@
 <div>
-    <markdown [data]="exerciseInfo.ExerciseTask"></markdown>
+    <markdown [data]="exerciseInfo.exerciseTask"></markdown>
     
     <div class="header">Пример ввода/вывода</div>
     <table>
@@ -8,8 +8,8 @@
             <th>Вывод</th>
         </tr>
         <tr *ngFor="let inOut of inOutData">
-            <td *ngIf="!inOut.IsPublic"><pre>{{inOut.InData}}</pre></td>
-            <td *ngIf="!inOut.IsPublic"><pre>{{inOut.OutData}}</pre></td>
+            <td *ngIf="!inOut.IsPublic"><pre>{{inOut.inData}}</pre></td>
+            <td *ngIf="!inOut.IsPublic"><pre>{{inOut.outData}}</pre></td>
         </tr>
     </table>
 </div>

@@ -1,6 +1,6 @@
 export class Language {
-  Language: string;
-  FileExtension: string;
-  WebName: string;
-  FileName: string;
+  language: string;
+  fileExtension: string;
+  webName: string;
+  fileName: string;
 }

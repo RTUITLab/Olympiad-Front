@@ -1,5 +1,5 @@
 export class SolutionViewModel {
-  Language: string;
-  ExerciseId: string;
-  File: File;
+  language: string;
+  exerciseId: string;
+  file: File;
 }

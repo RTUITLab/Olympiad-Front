@@ -6,7 +6,6 @@ import { ExerciseInfoComponent } from './components/exercise-info/exercise-info.
 import { LoginComponent } from './components/login/login.component';
 import { MeComponent } from './components/me/me.component';
 import { OverviewComponent } from './components/overview/overview.component';
-
 import { AuthGuardService } from './services/AuthGuard/auth-guard.service';
 
 const routes: Routes = [

@@ -2,27 +2,27 @@
   <div class="select-bar">
     <ul class="challenge" *ngIf="user; else noUser">
       <li>
-        <a *ngIf="currentChallenge && currentChallenge.Challenge; else noChallenge">{{currentChallenge.Challenge.Name}}</a>
+        <a *ngIf="currentChallenge && currentChallenge.challenge; else noChallenge">{{currentChallenge.challenge.name}}</a>
         <ng-template #noChallenge><a>Выбрать тестирование</a></ng-template>
         <ul class="submenu">
           <li *ngFor="let challenge of challenges">
-            <a routerLink='/challenges/{{challenge.Id}}' (click)="setDefaultExercise()">{{challenge.Name}}</a>
+            <a routerLink='/challenges/{{challenge.id}}' (click)="setDefaultExercise()">{{challenge.name}}</a>
           </li>
         </ul>
       </li>
-      <li *ngIf="currentChallenge && currentChallenge.Challenge">
-        <a *ngIf="currentExercise; else noExercise">{{currentExercise.Name}}</a>
+      <li *ngIf="currentChallenge && currentChallenge.challenge">
+        <a *ngIf="currentExercise; else noExercise">{{currentExercise.name}}</a>
         <ng-template #noExercise><a>Выбрать задание</a></ng-template>
         <ul class="submenu">
           <li solid *ngFor="let ex of exercises">
-            <a routerLink="/exercises/{{ex.Id}}">{{ex.Name}}</a>
+            <a routerLink="/exercises/{{ex.id}}">{{ex.name}}</a>
           </li>
         </ul>
       </li>
     </ul>
-    <app-challenge-deadline *ngIf="currentChallenge.Challenge && user" class="challenge-deadline" [challenge]="currentChallenge.Challenge"></app-challenge-deadline>
-    <div class="instruction" *ngIf="user">
-      <a routerLink="/overview">Инструкция</a>
+    <app-challenge-deadline *ngIf="currentChallenge.challenge && user" class="challenge-deadline" [challenge]="currentChallenge.challenge"></app-challenge-deadline>
+    <div routerLink="/overview" class="instruction" *ngIf="user">
+      <a>Инструкция</a>
     </div>
     <ng-template #noUser><div class="noUserLine"></div></ng-template>
   </div>

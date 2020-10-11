@@ -19,14 +19,14 @@ export class UserStateService {
 
   private initUser(response: LoginResponse) {
     const user: User = {
-      FirstName: response.FirstName,
-      StudentID: response.StudentId,
-      id: response.Id,
-      Token: response.Token,
-      Email: response.Email,
-      Roles: this.parseJwt(response.Token)
+      firstName: response.firstName,
+      studentID: response.studentId,
+      id: response.id,
+      token: response.token,
+      email: response.email,
+      roles: this.parseJwt(response.token)
     };
-    localStorage.setItem('userToken', response.Token);
+    localStorage.setItem('userToken', response.token);
     this.usersBehavior.next(user);
     this.currentUser = user;
   }
@@ -37,8 +37,10 @@ export class UserStateService {
       observer = obs;
     });
     
-    this.http.get<LoginResponse>(Api.getMe(),
-      { headers: { 'Authorization': `Bearer ${token}` } })
+    this.http.get<LoginResponse>(
+      Api.getMe(),
+      { headers: { 'Authorization': `Bearer ${token}` } }
+    )
       .subscribe(
         response => {
           this.initUser(response);
@@ -75,6 +77,10 @@ export class UserStateService {
     return observable;
   }
 
+  public changePass(model: LoginViewModel): Promise<Object> {
+     return this.http.post(Api.changePassword(), model, { responseType: 'json', headers: this.bearer }).toPromise();
+  }
+
   public isAdmin(): boolean {
     if (!this.currentUser) {
       return false;
@@ -82,10 +88,10 @@ export class UserStateService {
     if (!environment.production) {
       return environment.isAdmin;
     }
-    if (!this.currentUser.Roles) {
+    if (!this.currentUser.roles) {
       return false;
     }
-    return this.currentUser.Roles.indexOf('Admin') !== -1;
+    return this.currentUser.roles.indexOf('Admin') !== -1;
   }
 
   public get authOptions(): object {

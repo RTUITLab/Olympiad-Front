@@ -42,7 +42,7 @@ export class ExerciseStateService {
   }
   public setChallenge(challenge: Challenge): void {
     this.currentChallengeObserver.next(challenge);
-    this.currentChallengeIdObserver.next(challenge.Id);
+    this.currentChallengeIdObserver.next(challenge.id);
     this.challenge = challenge;
   }
   public setChallengeState(challengeState: ChallengeState): void {

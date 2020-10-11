@@ -1,19 +1,19 @@
 <div class="view">
     <div class="col"></div>
     <div class="container" *ngIf="isReady()">
-        <div class="header">{{challenge.Name}}</div>
-        <div class="deadline" *ngIf="challenge.EndTime">Дедлайн:&nbsp;<span>{{convertDate(challenge.EndTime)}}</span></div>
+        <div class="header">{{challenge.name}}</div>
+        <div class="deadline" *ngIf="challenge.EndTime">Дедлайн:&nbsp;<span>{{convertDate(challenge.endTime)}}</span></div>
         <div class="header">Описание</div>
-        <markdown>{{challenge.Description}}</markdown>
+        <markdown>{{challenge.description}}</markdown>
         
         <div class="header">Задачи</div>
-        <div class="head">{{challenge.Name}}</div>
+        <div class="head">{{challenge.name}}</div>
 
         <table class="table">
             <tr *ngFor="let exercise of exercises">
                 <td class="statusCircle" [ngClass]="statusClass(exercise)"></td>
-                <td class="name">{{exercise.Name}}</td>
-                <td class="status" [ngClass]="statusClass(exercise)">{{solutionStatusPresent(exercise.Status)}}</td>
+                <td class="name">{{exercise.name}}</td>
+                <td class="status" [ngClass]="statusClass(exercise)">{{solutionStatusPresent(exercise.status)}}</td>
             </tr>
         </table>
         <button class="start" (click)="start()">Начать тестирование</button>

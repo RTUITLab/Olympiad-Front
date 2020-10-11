@@ -3,64 +3,64 @@ import { Language } from './Language';
 export class LanguageConverter {
   private static readonly info: Language[] = [
     {
-      Language: 'Java',
-      FileExtension: '.java',
-      WebName: 'java',
-      FileName: 'Main.java'
+      language: 'Java',
+      fileExtension: '.java',
+      webName: 'java',
+      fileName: 'Main.java'
     },
     {
-      Language: 'C#',
-      FileExtension: '.cs',
-      WebName: 'csharp',
-      FileName: 'Program.cs'
+      language: 'C#',
+      fileExtension: '.cs',
+      webName: 'csharp',
+      fileName: 'Program.cs'
     },
     {
-      Language: 'Pascal ABC',
-      FileExtension: '.pas',
-      WebName: 'pasabc',
-      FileName: 'Program.pas'
+      language: 'Pascal ABC',
+      fileExtension: '.pas',
+      webName: 'pasabc',
+      fileName: 'Program.pas'
     },
     {
-      Language: 'C',
-      FileExtension: '.c',
-      WebName: 'c',
-      FileName: 'Program.c'
+      language: 'C',
+      fileExtension: '.c',
+      webName: 'c',
+      fileName: 'Program.c'
     },
     {
-      Language: 'C++',
-      FileExtension: '.cpp',
-      WebName: 'cpp',
-      FileName: 'Progran.cpp'
+      language: 'C++',
+      fileExtension: '.cpp',
+      webName: 'cpp',
+      fileName: 'Progran.cpp'
     },
     {
-      Language: 'Python 3.6.4',  // TODO Python version
-      FileExtension: '.py',
-      WebName: 'python',
-      FileName: 'Program.py'
+      language: 'Python 3.6.4',  // TODO Python version
+      fileExtension: '.py',
+      webName: 'python',
+      fileName: 'Program.py'
     }
   ]
 
   public static webName(language: string) {
-    return this.info.find(lang => lang.Language === language).WebName;
+    return this.info.find(lang => lang.language === language).webName;
   }
 
   public static languages(): string[] {
-    return LanguageConverter.info.map(LI => LI.Language);
+    return LanguageConverter.info.map(LI => LI.language);
   }
   
   public static fileExtensionByPrettyName(language: string) {
-    return LanguageConverter.info.find(LI => LI.Language === language).FileExtension;
+    return LanguageConverter.info.find(LI => LI.language === language).fileExtension;
   }
 
   public static normalFromWeb(language: string) {
-    if(LanguageConverter.info.find(LI => LI.WebName === language)){
-      return LanguageConverter.info.find(LI => LI.WebName === language).Language;
+    if(LanguageConverter.info.find(LI => LI.webName === language)){
+      return LanguageConverter.info.find(LI => LI.webName === language).language;
     } else {
       return undefined;
     }
   }
 
   public static fileName(language: string): string {
-    return LanguageConverter.info.find(LI => LI.WebName === language).FileName;
+    return LanguageConverter.info.find(LI => LI.webName === language).fileName;
   }
 } 
