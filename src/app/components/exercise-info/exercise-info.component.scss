@@ -111,8 +111,9 @@
 
 .wave {
     display: flow-root;
-    background-image: url('../../../assets/img/waves.png');
-    background-size: cover;
+    background-image: url('../../../assets/img/wave.svg');
+    background-size: inherit;
+    background-position: bottom;
 }
 
 .correctInput {

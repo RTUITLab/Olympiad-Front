@@ -9,7 +9,11 @@
     padding-top: 30px;
     padding-bottom: 15px;
     background-image: url('../../../assets/img/wave.svg');
-    background-size: cover;
+    background-size: inherit;
+
+    @media (min-device-width: 1600px){
+        background-size: cover;
+    }
 }
 
 .logo {
