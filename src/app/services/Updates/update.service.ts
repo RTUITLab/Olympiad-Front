@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HubConnectionBuilder } from '@aspnet/signalr';
+import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { BehaviorSubject } from 'rxjs';
 import { Api } from 'src/app/api';
 import { ExerciseStatus } from 'src/app/models/Exercises/ExerciseStatus';
@@ -10,7 +10,8 @@ import { UserStateService } from '../Users/user-state.service';
   providedIn: 'root'
 })
 export class UpdateService {
-  public connection: HubConnectionBuilder;
+  public userId?: string;
+  public connection: HubConnection;
 
   private solutionsBehavior = new BehaviorSubject<Solution>(undefined);
   public solutionStream = this.solutionsBehavior.asObservable();
@@ -23,12 +24,20 @@ export class UpdateService {
 
   constructor(private usersService: UserStateService) {
     this.usersService.currentUserStream.subscribe(U => {
-      if (U) this.connect(localStorage.getItem('userToken'))
+      if (U && (U.id !== this.userId || !this.userId)) {
+        this.userId = U.id;
+        this.connect(localStorage.getItem('userToken'));
+      }
+      if (!U) {
+        this.userId = undefined;
+        if (this.connection) this.connection.stop();
+      }
     });
   }
 
-  public connect (token: string) {
-    const connection = new HubConnectionBuilder()
+  public connect(token: string): void {
+
+    this.connection = new HubConnectionBuilder()
       .withUrl(Api.getSignalRHubUrl(), {
         accessTokenFactory: () => {
           return token;
@@ -36,11 +45,11 @@ export class UpdateService {
       })
       .build();
     
-    connection.on('UpdateSolutionStatus', (solution: Solution) => {this.solutionsBehavior.next(solution); console.log('sada')});
-    connection.on('UpdateExerciseStatus', (exerciseStatus: ExerciseStatus) => this.exerciseBehavior.next(exerciseStatus));
-    connection.on('InformationMessage', (message: string) => this.messageBehavior.next(message));
+    this.connection.on('UpdateSolutionStatus', (solution: Solution) => {this.solutionsBehavior.next(solution); console.log('sada')});
+    this.connection.on('UpdateExerciseStatus', (exerciseStatus: ExerciseStatus) => this.exerciseBehavior.next(exerciseStatus));
+    this.connection.on('InformationMessage', (message: string) => this.messageBehavior.next(message));
       
-    connection.start()
+    this.connection.start()
       .then(() => console.log('Connected'))
       .catch(() => console.log('Can not connect'));
   }

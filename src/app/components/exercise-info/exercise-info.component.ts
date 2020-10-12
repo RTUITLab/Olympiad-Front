@@ -30,7 +30,7 @@ import { UpdateService } from 'src/app/services/Updates/update.service';
 export class ExerciseInfoComponent extends LoadingComponent implements OnInit, DoCheck {
   private challengeState: ChallengeState;
   private solutionCheckTimers: Array<any> = [];
-  solutionUrl = this.router.url + '/#';
+  solutionUrl: string;
   challenge: Challenge;
   inOutData: InOutData[];
   exerciseInfo: ExerciseInfo;
@@ -54,6 +54,8 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
   ngOnInit(): void {
     this.startLoading();
+
+    this.solutionUrl = 'javascript:void(0);';
 
     this.updateService.solutionStream.subscribe(S => {
       if (this.exerciseInfo && S && S.exerciseId === this.exerciseInfo.id) {
