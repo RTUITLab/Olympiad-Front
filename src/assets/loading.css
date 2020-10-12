@@ -3,6 +3,12 @@
 	to   { transform: rotate(0deg); }
 }
 
+.spinnerContainer {
+    position: absolute;
+    width: 100vw;
+    top: 50%;
+}
+
 .spinner {
 	animation: rotate 1s linear infinite;
 	background: #00000000;
