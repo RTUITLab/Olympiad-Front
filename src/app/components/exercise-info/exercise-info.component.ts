@@ -21,6 +21,7 @@ import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { LoadingComponent } from 'src/app/models/LoadingComponent';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UpdateService } from 'src/app/services/Updates/update.service';
+import { SolutionService } from 'src/app/services/Solutions/solution.service';
 
 @Component({
   selector: 'app-exercise-info',
@@ -49,7 +50,8 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     private titleService: Title,
     private currentExerciseState: ExerciseStateService,
     private updateService: UpdateService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private solutionService: SolutionService
   ) { super(); }
 
   ngOnInit(): void {
@@ -64,7 +66,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
           if (solution) {
             solution.startCheckingTime = S.startCheckingTime;
             solution.checkedTime = S.checkedTime;
-            solution.status = S.status;
+            solution.status = S.status || S.hiddenStatus;
           } else {
             this.exerciseInfo.solutions.unshift(S);
           }
@@ -76,9 +78,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
     this.updateService.exerciseStream.subscribe(S => {
       if (this.exercises && S) {
-        const ex = this.exercises.find(E => E.id === S.exerciseId);
+        const ex = this.exercises.find(E => E.id === S.id);
         if (ex) {
-          ex.status = S.exerciseStatus;
+          ex.status = S.status || S.hiddenStatus;
         }
       }
     })
@@ -95,15 +97,24 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       .then((exInfo: ExerciseInfo) => {
         this.exerciseInfo = exInfo;
 
-        if (exInfo.solutions.length) {
-          this.setSendMode();
-        }
-
         this.challengesService.getChallenge(this.exerciseInfo.challengeId).then(c => {
-            this.challenge = c;
-            this.loadExercises();
-          });
-        this.exercisesService.getExerciseInOutData(this.exerciseInfo.id).then(io => this.inOutData = io);
+          this.startLoading();
+          this.challenge = c;
+          this.loadExercises();
+        });
+
+        this.exercisesService.getExerciseInOutData(this.exerciseInfo.id).then(io => {
+          this.inOutData = io;
+        });
+
+        this.solutionService.getSolutions(this.exerciseInfo.id)
+          .then(solutions => {
+            this.exerciseInfo.solutions = solutions;
+            if (solutions.length) {
+              this.sendMode = true;
+            }
+            this.finishLoading();
+          })
 
         this.titleService.setTitle(`${this.exerciseInfo.name}`);
 
@@ -125,12 +136,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       .then((_exercises) => {
         this.exercises = _exercises;
         this.exercises.forEach(exercise => {
-          this.startLoading();
-          this.exercisesService.getExercise(exercise.id).then(ex => {
-            if (!ex.solutions.length)
-              exercise.status = -1;
-            this.finishLoading();
-          })
+          exercise.status = exercise.status || exercise.hiddenStatus || -1;
         });
         this.finishLoading();
       });

@@ -21,6 +21,12 @@ export class LanguageConverter {
       fileName: 'Program.pas'
     },
     {
+      language: 'Free Pascal',
+      fileExtension: '.pas',
+      webName: 'fpas',
+      fileName: 'Program.pas'
+    },
+    {
       language: 'C',
       fileExtension: '.c',
       webName: 'c',

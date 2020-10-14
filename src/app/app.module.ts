@@ -34,6 +34,7 @@ import { ChallengesService } from './services/Challenges/challenges.service';
 import { ExerciseService } from './services/Exercises/exercise.service';
 import { CurrentChallenge } from './models/Challenges/CurrentChallenge';
 import { UpdateService } from './services/Updates/update.service';
+import { SolutionService } from './services/Solutions/solution.service';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { UpdateService } from './services/Updates/update.service';
     FormValidateService,
     Title,
     CurrentChallenge,
-    UpdateService
+    UpdateService,
+    SolutionService
   ],
   bootstrap: [AppComponent]
 })

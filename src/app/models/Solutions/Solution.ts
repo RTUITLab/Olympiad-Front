@@ -6,7 +6,8 @@ export class Solution {
   raw: string;
   exerciseId: string;
   status: SolutionStatus;
-  sendingTime: string;
+  hiddenStatus?: any;
+  sendingTime?: string;
   startCheckingTime: string;
   checkedTime: string;
 }

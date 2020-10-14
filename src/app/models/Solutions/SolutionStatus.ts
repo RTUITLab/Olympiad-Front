@@ -6,5 +6,6 @@ export enum SolutionStatus {
     TooLongWork,
     InQueue,
     InProcessing,
-    Sucessful
+    Sucessful,
+    Accepted
 }

@@ -91,6 +91,10 @@ export class Api {
     return `${this.baseUrl}/api/hubs/solutionStatus`;
   }
 
+  public static getSolutionsForExercise(exerciseId: string): string {
+    return `${this.baseUrl}/api/check/forExercise?exerciseId=${exerciseId}`;
+  }
+
   //  Auth  //
   ////////////
 
