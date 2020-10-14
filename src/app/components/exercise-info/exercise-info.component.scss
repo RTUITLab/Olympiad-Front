@@ -124,6 +124,10 @@
     background-color: #FFF;
     border-radius: 100px;
     float: right;
+
+    &.empty {
+        background-color: #00000000;
+    }
 }
 
 .editor {
