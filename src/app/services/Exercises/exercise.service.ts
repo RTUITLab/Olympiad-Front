@@ -13,8 +13,6 @@ import { UserStateService } from '../Users/user-state.service';
   providedIn: 'root'
 })
 export class ExerciseService {
-  private solutionsBehavior = new BehaviorSubject<Solution>(undefined);
-  public solutionStream = this.solutionsBehavior.asObservable();
 
   constructor(private http: HttpClient, private usersService: UserStateService) { }
 
@@ -48,7 +46,6 @@ export class ExerciseService {
         success => {
           if (success) {
             observer.next(success);
-            this.solutionsBehavior.next(success);
           }
         },
         failure => {

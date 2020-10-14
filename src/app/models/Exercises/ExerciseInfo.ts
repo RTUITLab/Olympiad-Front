@@ -6,5 +6,5 @@ export class ExerciseInfo {
     name: string;
     score: number;
     exerciseTask: string;
-    solutions: Solution[];
+    solutions?: Solution[];
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { BehaviorSubject } from 'rxjs';
 import { Api } from 'src/app/api';
-import { ExerciseStatus } from 'src/app/models/Exercises/ExerciseStatus';
+import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { Solution } from 'src/app/models/Solutions/Solution';
 import { UserStateService } from '../Users/user-state.service';
 
@@ -16,7 +16,7 @@ export class UpdateService {
   private solutionsBehavior = new BehaviorSubject<Solution>(undefined);
   public solutionStream = this.solutionsBehavior.asObservable();
 
-  private exerciseBehavior = new BehaviorSubject<ExerciseStatus>(undefined);
+  private exerciseBehavior = new BehaviorSubject<ExerciseCompact>(undefined);
   public exerciseStream = this.exerciseBehavior.asObservable();
 
   private messageBehavior = new BehaviorSubject<string>(undefined);
@@ -46,11 +46,10 @@ export class UpdateService {
       .build();
     
     this.connection.on('UpdateSolutionStatus', (solution: Solution) => {this.solutionsBehavior.next(solution); console.log('sada')});
-    this.connection.on('UpdateExerciseStatus', (exerciseStatus: ExerciseStatus) => this.exerciseBehavior.next(exerciseStatus));
+    this.connection.on('UpdateExerciseStatus', (exerciseStatus: ExerciseCompact) => this.exerciseBehavior.next(exerciseStatus));
     this.connection.on('InformationMessage', (message: string) => this.messageBehavior.next(message));
       
     this.connection.start()
-      .then(() => console.log('Connected'))
       .catch(() => console.log('Can not connect'));
   }
 }

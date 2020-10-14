@@ -9,6 +9,7 @@ import { ChallengesService } from 'src/app/services/Challenges/challenges.servic
 import { DateHelpers } from 'src/app/services/DateHelpers';
 import { ExerciseStateService } from 'src/app/services/Exercises/exercise-state.service';
 import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
+import { SolutionService } from 'src/app/services/Solutions/solution.service';
 import { SolutionStatusConverter } from 'src/app/services/SolutionStatusConverter';
 import { UpdateService } from 'src/app/services/Updates/update.service';
 
@@ -31,7 +32,8 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
     private currentExerciseState: ExerciseStateService,
     private challengesService: ChallengesService,
     private exerciseService: ExerciseService,
-    private updateService: UpdateService
+    private updateService: UpdateService,
+    private solutionService: SolutionService
   ) { super() }
 
   async ngDoCheck() {
@@ -45,9 +47,9 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
 
     this.updateService.exerciseStream.subscribe(S => {
       if (this.exercises && S) {
-        const ex = this.exercises.find(E => E.id === S.exerciseId);
+        const ex = this.exercises.find(E => E.id === S.id);
         if (ex) {
-          ex.status = S.exerciseStatus;
+          ex.status = S.status;
         }
       }
     })
@@ -72,14 +74,9 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
       .then((_exercises) => {
         this.exercises = _exercises;
         this.exercises.forEach((exercise) => {
-          this.startLoading();
-          this.exerciseService.getExercise(exercise.id)
-            .then(ex => {
-              if (!ex.solutions.length)
-                exercise.status = -1;
-              this.finishLoading();
-            })
-        })
+          exercise.status = exercise.status || exercise.hiddenStatus || -1;
+          console.log(exercise.status);
+        });
         this.finishLoading();
       });
   }

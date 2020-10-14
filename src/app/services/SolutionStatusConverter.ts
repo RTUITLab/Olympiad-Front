@@ -8,6 +8,11 @@ export class SolutionStatusConverter {
       icon: '-1'
     },
     {
+      status: SolutionStatus.Accepted,
+      pretty: 'Решение принято',
+      icon: '5'
+    },
+    {
       status: SolutionStatus.InQueue,
       pretty: 'В очереди на проверку',
       icon: '3'

@@ -5,4 +5,5 @@ export class ExerciseCompact {
     name?: string;
     score?: number;
     status?: SolutionStatus;
+    hiddenStatus?: SolutionStatus;
 }
