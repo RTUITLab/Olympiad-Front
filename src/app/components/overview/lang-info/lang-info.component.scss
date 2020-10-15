@@ -1,0 +1,55 @@
+.header {
+    display: grid;
+    margin: 10px auto;
+    font-weight: 900;
+    justify-content: center;
+}
+
+.langContainer {
+    width: 100%;
+    display: table;
+    border: #EFEFEF solid 2px;
+    margin: 20px 0;
+}
+
+.buttons {
+    display: grid;
+    grid-row: 1;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    background-color: #EFEFEF;
+    margin: 0;
+}
+
+.btn {
+    display: grid;
+    grid-row: 1;
+    padding: 10px 0;
+    justify-content: center;
+    font-weight: 900;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #E0E0E0;
+    }
+
+    &.active {
+        background-color: #FFF;
+    }
+}
+
+.info {
+    grid-row: 2;
+    padding: 0 15px;
+}
+
+::ng-deep h1 {
+    font-family: GillSans;
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+::ng-deep p {
+    font-family: GillSans;
+    font-weight: 300;
+    margin: 10px 0;
+}

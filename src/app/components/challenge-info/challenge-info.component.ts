@@ -96,7 +96,7 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
     if (exercise.status < 5) {
       return 'error';
     }
-    if (exercise.status < 7) {
+    if (exercise.status < 7 || exercise.status === 8) {
       return 'processing';
     }
     if (exercise.status === 7) {

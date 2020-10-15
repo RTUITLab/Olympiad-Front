@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppComponent } from './components/app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -35,6 +36,7 @@ import { ExerciseService } from './services/Exercises/exercise.service';
 import { CurrentChallenge } from './models/Challenges/CurrentChallenge';
 import { UpdateService } from './services/Updates/update.service';
 import { SolutionService } from './services/Solutions/solution.service';
+import { LangInfoComponent } from './components/overview/lang-info/lang-info.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { SolutionService } from './services/Solutions/solution.service';
     TaskComponent,
     ChallengeDeadlineComponent,
     AboutComponent,
-    MeComponent
+    MeComponent,
+    LangInfoComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -67,7 +70,8 @@ import { SolutionService } from './services/Solutions/solution.service';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     MarkdownModule.forRoot({ loader: HttpClient }),
-    MatSidenavModule
+    MatSidenavModule,
+    MatTooltipModule
   ],
   providers: [
     UserStateService,

@@ -26,11 +26,13 @@
             <ng-template #send>
                 <div id="header">
                     <div class="wave">
-                        <div class="correctInput">
-                            <img *ngIf="exerciseInfo.solutions[0]; else noSol" src="../../../assets/icon/statusCodes/{{solutionStatusIcon(exerciseInfo.solutions[0].status)}}.svg" />
-                            <ng-template #noSol>
-                                <img src="../../../assets/icon/statusCodes/-1.svg" />
-                            </ng-template>
+                        <div class="correctInput" [ngClass]="{empty: !exerciseInfo.solutions[0]}">
+                            <img
+                                *ngIf="exerciseInfo.solutions[0]"
+                                src="../../../assets/icon/statusCodes/{{solutionStatusIcon(exerciseInfo.solutions[0].status)}}.svg"
+                                [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
+                                matTooltipPosition="above"
+                            >
                         </div>
                     </div>
                 </div>
