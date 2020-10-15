@@ -149,7 +149,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     if (exercise.status < 5) {
       return 'error';
     }
-    if (exercise.status < 7) {
+    if (exercise.status < 7 || exercise.status === 8) {
       return 'processing';
     }
     if (exercise.status === 7) {
@@ -310,11 +310,15 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     return SolutionStatusConverter.getIcon(status);
   }
 
+  solutionStatusTooltip(status: SolutionStatus): string {
+    return SolutionStatusConverter.getTooltip(status);
+  }
+
   fontColor(status: SolutionStatus): string {
     if (status < 5) {
       return '#ff4c4c';
     }
-    if (status < 7) {
+    if (status < 7 || status === 8) {
       return '#0088FF';
     }
     return '#00975d'
