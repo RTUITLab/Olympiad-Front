@@ -82,9 +82,14 @@
                                 <td style="color: {{fontColor(sol.status)}}">
                                     <div class="downSol" style="cursor: auto">
                                         <span>{{solutionStatusPresent(sol.status)}}</span>
-                                        <img class="statusIcon" src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg" />
+                                        <img
+                                            class="statusIcon"
+                                            src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
+                                            [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
+                                            matTooltipPosition="above"
+                                        />
                                     </div>
-                                    </td>
+                                </td>
                             </ng-container>
                         </tr>
                     </tbody>

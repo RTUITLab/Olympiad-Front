@@ -113,12 +113,12 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
             if (solutions.length) {
               this.sendMode = true;
             }
+            this.exerciseInfo.solutions.sort((a, b) => new Date(a.sendingTime) < new Date(b.sendingTime) ? 1 : -1);
             this.finishLoading();
           })
 
         this.titleService.setTitle(`${this.exerciseInfo.name}`);
 
-        this.exerciseInfo.solutions.sort((a, b) => new Date(a.sendingTime) < new Date(b.sendingTime) ? 1 : -1);
 
         this.currentExerciseState.setChallengeId(exInfo.challengeId);
         this.currentExerciseState.setExerciseId(exInfo.id);
@@ -242,6 +242,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
             }
             const f = () => this.solutionCheckLoop(createdSolution);
             this.toastr.success(`Решение успешно загружено`);
+            this.exerciseInfo.solutions.unshift(createdSolution);
             f();
           },
           (error: HttpErrorResponse) => {
