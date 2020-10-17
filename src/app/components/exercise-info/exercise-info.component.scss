@@ -330,6 +330,16 @@ tbody>tr>td {
         width: 25px;
         margin: auto;
     }
+
+    &.status {
+        grid-template-columns: 1fr 30px;
+        span {
+            grid-column: 1;
+        }
+        img {
+            grid-column: 2;
+        }
+    }
 }
 
 .solStatus>img {
