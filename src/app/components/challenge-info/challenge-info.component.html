@@ -12,7 +12,7 @@
         <table class="table">
             <tr *ngFor="let exercise of exercises">
                 <td class="statusCircle" [ngClass]="statusClass(exercise)"></td>
-                <td class="name">{{exercise.name}}</td>
+                <td class="name"><a routerLink="/exercises/{{exercise.id}}">{{exercise.name}}</a></td>
                 <td class="status" [ngClass]="statusClass(exercise)">{{solutionStatusPresent(exercise.status)}}</td>
             </tr>
         </table>

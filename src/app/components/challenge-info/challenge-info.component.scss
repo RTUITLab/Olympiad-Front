@@ -85,6 +85,11 @@ td {
     padding: 0 10px;
 }
 
+a {
+    text-decoration: none;
+    color: #454545;
+}
+
 .status {
     padding: 0 10px;
     white-space: nowrap;
@@ -113,5 +118,6 @@ td {
     font-family: GillSans;
     font-size: 18px;
     font-weight: 900;
+    cursor: pointer;
     color: #FFF;
 }
