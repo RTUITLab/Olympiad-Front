@@ -218,6 +218,7 @@
     width: 100%;
     margin: 0;
     padding: 0;
+    z-index: 1;
 }
 
 .selectLanguage > ul > div {
@@ -225,7 +226,7 @@
     width: inherit;
     margin: 0;
     padding: 0;
-    background-color: rgba(0, 136, 255, 0.7);
+    background-color: rgba(0, 136, 255);
 }
 
 .selectLanguage > ul > div > li {
