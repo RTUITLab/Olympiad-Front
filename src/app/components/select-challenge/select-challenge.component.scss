@@ -43,7 +43,7 @@ ul.submenu {
 
 ul.submenu > li {
     min-width: max-content;
-    background-color: #EFEFEFB3;
+    background-color: #EFEFEF;
 
     &[solid] {
         background-color: #EFEFEF;
@@ -51,7 +51,7 @@ ul.submenu > li {
 }
 
 ul.submenu > li:hover {
-    background-color: #E0E0E0B3;
+    background-color: #E0E0E0;
     
     &[solid] {
         background-color: #E0E0E0;
