@@ -26,6 +26,7 @@
     padding: 10px 0;
     justify-content: center;
     font-weight: 900;
+    font-size: 18px;
     cursor: pointer;
 
     &:hover {
@@ -40,6 +41,7 @@
 .info {
     grid-row: 2;
     padding: 0 15px;
+    padding-bottom: 5px;
 }
 
 ::ng-deep h1 {
