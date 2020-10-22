@@ -45,7 +45,7 @@ export class UpdateService {
       })
       .build();
     
-    this.connection.on('UpdateSolutionStatus', (solution: Solution) => {this.solutionsBehavior.next(solution); console.log('sada')});
+    this.connection.on('UpdateSolutionStatus', (solution: Solution) => {this.solutionsBehavior.next(solution)});
     this.connection.on('UpdateExerciseStatus', (exerciseStatus: ExerciseCompact) => this.exerciseBehavior.next(exerciseStatus));
     this.connection.on('InformationMessage', (message: string) => this.messageBehavior.next(message));
       
