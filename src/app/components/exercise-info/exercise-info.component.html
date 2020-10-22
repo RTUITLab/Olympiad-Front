@@ -29,7 +29,7 @@
                         <div class="correctInput" [ngClass]="{empty: !exerciseInfo.solutions[0]}">
                             <img
                                 *ngIf="exerciseInfo.solutions[0]"
-                                src="../../../assets/icon/statusCodes/{{solutionStatusIcon(exerciseInfo.solutions[0].status)}}.svg"
+                                src="../../../assets/icon/statusCodes/{{solutionStatusIcon(getStatus())}}.svg"
                                 [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
                                 matTooltipPosition="above"
                             >

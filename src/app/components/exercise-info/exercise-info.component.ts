@@ -328,4 +328,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   public isReady() {
     return !this.isLoading();
   }
+
+  getStatus() {
+    const ex = this.exercises.find(E => E.id === this.exerciseInfo.id);
+    return ex.status;
+  }
 }
