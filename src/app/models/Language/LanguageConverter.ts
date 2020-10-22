@@ -39,7 +39,7 @@ export class LanguageConverter {
       fileName: 'Progran.cpp'
     },
     {
-      language: 'Python 3.6.4',  // TODO Python version
+      language: 'Python 3.9.0',
       fileExtension: '.py',
       webName: 'python',
       fileName: 'Program.py'
