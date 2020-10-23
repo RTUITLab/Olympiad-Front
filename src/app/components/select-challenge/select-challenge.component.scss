@@ -39,6 +39,7 @@ ul.submenu {
     position: absolute;
     width: 100%;
     min-width: max-content;
+    z-index: 3;
 }
 
 ul.submenu > li {
