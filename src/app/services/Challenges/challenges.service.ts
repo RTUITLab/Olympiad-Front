@@ -25,6 +25,10 @@ export class ChallengesService {
           let date = C.toStart.split('.');
           date.pop();
 
+          if (date[0][0] === '-') {
+            date[0] = date[0].slice(1);
+          }
+
           let time = date.pop().split(':');
 
           if (date.length) {
@@ -42,6 +46,10 @@ export class ChallengesService {
           let date = C.toEnd.split('.');
           date.pop();
 
+          if (date[0][0] === '-') {
+            date[0] = date[0].slice(1);
+          }
+
           let time = date.pop().split(':');
 
           if (date.length) {
@@ -50,7 +58,7 @@ export class ChallengesService {
           
           currentDate = new Date(currentDate.getTime() + 1000 * sign * (60*60*parseInt(time[0]) + 60*parseInt(time[1]) + parseInt(time[0])));
 
-          C.startTime = currentDate.toISOString();
+          C.endTime = currentDate.toISOString();
         }
         return C;
       })).toPromise();
