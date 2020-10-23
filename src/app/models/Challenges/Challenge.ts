@@ -7,5 +7,7 @@ export class Challenge {
   public creationTime: string;
   public startTime?: string;
   public endTime?: string;
+  public toEnd?: string;
+  public toStart?: string;
   public challengeAccessType: ChallengeAccessType;
 }
