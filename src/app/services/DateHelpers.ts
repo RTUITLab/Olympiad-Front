@@ -54,7 +54,7 @@ export class DateHelpers {
     difference -= minutes * DateHelpers.oneMinute;
 
     const seconds = Math.floor((difference / DateHelpers.oneSecond));
-    if (seconds >= 9) {
+    if (seconds > 9) {
       result += `${seconds}`;
     } else {
        result += `0${seconds}`;
