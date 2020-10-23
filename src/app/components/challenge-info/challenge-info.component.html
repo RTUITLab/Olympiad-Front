@@ -5,18 +5,20 @@
         <div class="deadline" *ngIf="challenge.EndTime">Дедлайн:&nbsp;<span>{{convertDate(challenge.endTime)}}</span></div>
         <div class="header">Описание</div>
         <markdown>{{challenge.description}}</markdown>
-        
-        <div class="header">Задачи</div>
-        <div class="head">{{challenge.name}}</div>
 
-        <table class="table">
-            <tr *ngFor="let exercise of exercises">
-                <td class="statusCircle" [ngClass]="statusClass(exercise)"></td>
-                <td class="name"><a routerLink="/exercises/{{exercise.id}}">{{exercise.name}}</a></td>
-                <td class="status" [ngClass]="statusClass(exercise)">{{solutionStatusPresent(exercise.status)}}</td>
-            </tr>
-        </table>
-        <button class="start" (click)="start()">Начать тестирование</button>
+        <div *ngIf="!challenge.toStart || isStarted()">
+            <div class="header">Задачи</div>
+            <div class="head">{{challenge.name}}</div>
+
+            <table class="table">
+                <tr *ngFor="let exercise of exercises">
+                    <td class="statusCircle" [ngClass]="statusClass(exercise)"></td>
+                    <td class="name"><a routerLink="/exercises/{{exercise.id}}">{{exercise.name}}</a></td>
+                    <td class="status" [ngClass]="statusClass(exercise)">{{solutionStatusPresent(exercise.status)}}</td>
+                </tr>
+            </table>
+            <button class="start" (click)="start()">Начать тестирование</button>
+        </div>
     </div>
     <div class="col"></div>
 </div>

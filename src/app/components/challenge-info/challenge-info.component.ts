@@ -104,6 +104,16 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
     }
   }
 
+  public isStarted() {
+    const currentDate = new Date();
+    const date = new Date(this.challenge.startTime);
+
+    console.log(currentDate);
+    console.log(date);
+    
+    return currentDate.getTime() > date.getTime();
+  }
+
   public start() {
     this.router.navigate([`exercises/${this.exercises[0].id}`])
   }
