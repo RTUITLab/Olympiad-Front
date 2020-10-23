@@ -170,6 +170,18 @@
     width: 100%;
 }
 
+th[col2] {
+    display: grid !important;
+    grid-template-columns: 50% 50%;
+}
+
+.solutionTime {
+    margin: auto;
+    margin-left: 20px;
+    text-align: start;
+    font-weight: 500;
+}
+
 .buttons {
     text-align: right;
     margin-right: 10px;

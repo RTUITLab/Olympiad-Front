@@ -29,7 +29,7 @@
                         <div class="correctInput" [ngClass]="{empty: !exerciseInfo.solutions[0]}">
                             <img
                                 *ngIf="exerciseInfo.solutions[0]"
-                                src="../../../assets/icon/statusCodes/{{solutionStatusIcon(getStatus())}}.svg"
+                                src="../../../assets/icon/statusCodes/{{solutionStatusIcon(exerciseInfo.solutions[0].status)}}.svg"
                                 [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
                                 matTooltipPosition="above"
                             >
@@ -40,6 +40,7 @@
                     <tr>
                         <th col1></th>
                         <th col2>
+                            <div class="solutionTime"><div *ngIf="!loadedSolution">Решение от {{prettyTime(exerciseInfo.solutions[0].sendingTime)}}</div></div>
                             <div class="buttons">
                                 <img (click)="copy()" src="../../../assets/icon/copy.svg">
                                 <a id="a" [href]="sanitize(solutionUrl)"><img class="download" src="../../../assets/icon/download.svg"></a>

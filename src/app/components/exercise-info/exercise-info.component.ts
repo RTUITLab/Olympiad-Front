@@ -22,6 +22,8 @@ import { LoadingComponent } from 'src/app/models/LoadingComponent';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UpdateService } from 'src/app/services/Updates/update.service';
 import { SolutionService } from 'src/app/services/Solutions/solution.service';
+import { environment } from 'src/environments/environment';
+import { UserStateService } from 'src/app/services/Users/user-state.service';
 
 @Component({
   selector: 'app-exercise-info',
@@ -39,6 +41,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   availableLanguages = LanguageConverter.languages();
   model: SolutionViewModel;
   sendMode: boolean;
+  loadedSolution: boolean;
   exercises: Array<ExerciseCompact>;
 
   constructor(
@@ -51,7 +54,8 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     private currentExerciseState: ExerciseStateService,
     private updateService: UpdateService,
     private domSanitizer: DomSanitizer,
-    private solutionService: SolutionService
+    private solutionService: SolutionService,
+    private usersService: UserStateService
   ) { super(); }
 
   ngOnInit(): void {
@@ -87,9 +91,10 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
     this.challenge = new Challenge();
     this.sendMode = false;
-    this.model = new SolutionViewModel();
+    this.loadedSolution = false;
     this.exerciseInfo = new ExerciseInfo();
     this.solutionPreview = null;
+    this.model = new SolutionViewModel();
     this.model.language = null;
     this.model.exerciseId = this.route.snapshot.paramMap.get('ExerciseID');
 
@@ -111,9 +116,29 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
           .then(solutions => {
             this.exerciseInfo.solutions = solutions;
             if (solutions.length) {
+              this.exerciseInfo.solutions.sort((a, b) => new Date(a.sendingTime) < new Date(b.sendingTime) ? 1 : -1);
+
+              this.model.language = LanguageConverter.normalFromWeb(this.exerciseInfo.solutions[0].language);
+              this.model.exerciseId = this.exerciseInfo.id;
+              
+              const xhr = new XMLHttpRequest();
+              xhr.open('GET', environment.baseUrl + '/api/check/download/' + solutions[0].id);
+              xhr.setRequestHeader('Authorization', this.usersService.bearer.get('Authorization'));
+              xhr.responseType = 'text';
+              xhr.onload = () => {
+                this.model.file = new File([xhr.response], LanguageConverter.fileName(solutions[0].language));
+                
+                const fileReader = new FileReader();
+                fileReader.onload = _ => {
+                  this.solutionPreview = fileReader.result;
+                };
+                fileReader.readAsText(this.model.file);
+              }
+              xhr.send();
+
               this.sendMode = true;
             }
-            this.exerciseInfo.solutions.sort((a, b) => new Date(a.sendingTime) < new Date(b.sendingTime) ? 1 : -1);
+
             this.finishLoading();
           })
 
@@ -185,7 +210,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   setFile(event) {
+    console.log('out');
     if (event.srcElement.files[0]) {
+      console.log('in');
       if (this.model.language === null) {
         this.toastr.warning('Выберите язык программирования');
       }
@@ -193,6 +220,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       const fileReader = new FileReader();
       fileReader.onload = _ => {
         this.solutionPreview = fileReader.result;
+        this.loadedSolution = true;
       };
       fileReader.readAsText(this.model.file);
       this.solutionUrl = URL.createObjectURL(this.model.file);
@@ -327,10 +355,5 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
   public isReady() {
     return !this.isLoading();
-  }
-
-  getStatus() {
-    const ex = this.exercises.find(E => E.id === this.exerciseInfo.id);
-    return ex.status;
   }
 }
