@@ -131,6 +131,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
                 const fileReader = new FileReader();
                 fileReader.onload = _ => {
                   this.solutionPreview = fileReader.result;
+
+                  this.solutionUrl = URL.createObjectURL(this.model.file);
+                  document.getElementById('a').setAttribute('download', this.model.file.name);
                 };
                 fileReader.readAsText(this.model.file);
               }
