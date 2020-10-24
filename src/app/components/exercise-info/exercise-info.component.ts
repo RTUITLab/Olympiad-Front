@@ -223,10 +223,10 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
         this.solutionPreview = fileReader.result;
         this.loadedSolution = true;
         event.srcElement.value = '';
+        this.solutionUrl = URL.createObjectURL(this.model.file);
+        document.getElementById('a').setAttribute('download', this.model.file.name);
       };
       fileReader.readAsText(this.model.file);
-      this.solutionUrl = URL.createObjectURL(this.model.file);
-      document.getElementById('a').setAttribute('download', this.model.file.name);
     }
   }
 
