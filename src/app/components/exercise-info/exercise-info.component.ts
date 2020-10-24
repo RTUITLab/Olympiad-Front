@@ -210,9 +210,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   setFile(event) {
-    console.log('out');
     if (event.srcElement.files[0]) {
-      console.log('in');
       if (this.model.language === null) {
         this.toastr.warning('Выберите язык программирования');
       }
@@ -221,6 +219,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       fileReader.onload = _ => {
         this.solutionPreview = fileReader.result;
         this.loadedSolution = true;
+        event.srcElement.value = '';
       };
       fileReader.readAsText(this.model.file);
       this.solutionUrl = URL.createObjectURL(this.model.file);
