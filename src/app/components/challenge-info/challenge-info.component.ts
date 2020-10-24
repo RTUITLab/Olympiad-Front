@@ -75,7 +75,6 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
         this.exercises = _exercises;
         this.exercises.forEach((exercise) => {
           exercise.status = exercise.status || exercise.hiddenStatus || -1;
-          console.log(exercise.status);
         });
         this.finishLoading();
       });
@@ -107,9 +106,6 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
   public isStarted() {
     const currentDate = new Date();
     const date = new Date(this.challenge.startTime);
-
-    console.log(currentDate);
-    console.log(date);
     
     return currentDate.getTime() > date.getTime();
   }
