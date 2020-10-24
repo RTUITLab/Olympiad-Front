@@ -26,6 +26,5 @@ export class LangInfoComponent implements OnInit {
 
   public changeLang(lang: string) {
     this.currentLang = lang;
-    console.log(this.files[this.currentLang].default)
   }
 }

@@ -41,9 +41,18 @@
                         <th col1></th>
                         <th col2>
                             <div class="solutionTime"><div *ngIf="!loadedSolution && exerciseInfo.solutions && exerciseInfo.solutions[0]">Решение от {{prettyTime(exerciseInfo.solutions[0].sendingTime)}}</div></div>
-                            <div class="buttons">
-                                <img (click)="copy()" src="../../../assets/icon/copy.svg">
-                                <a id="a" [href]="sanitize(solutionUrl)"><img class="download" src="../../../assets/icon/download.svg"></a>
+                            <div class="buttons" *ngIf="exerciseInfo.solutions.length || model.file">
+                                <img
+                                    (click)="copy()"
+                                    src="../../../assets/icon/copy.svg"
+                                    [matTooltip]="['Копировать решение']"
+                                    matTooltipPosition="above"
+                                >
+                                <a id="a" [href]="sanitize(solutionUrl)"><img
+                                    class="download"
+                                    src="../../../assets/icon/download.svg"
+                                    [matTooltip]="['Скачать решение']"
+                                    matTooltipPosition="above"></a>
                             </div>
                         </th>
                     </tr>
