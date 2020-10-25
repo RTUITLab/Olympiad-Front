@@ -48,7 +48,7 @@
                                     [matTooltip]="['Копировать решение']"
                                     matTooltipPosition="above"
                                 >
-                                <a id="a" [href]="sanitize(solutionUrl)"><img
+                                <a id="a" [href]="sanitize(solutionUrl)" [download]="this.model.file.name"><img
                                     class="download"
                                     src="../../../assets/icon/download.svg"
                                     [matTooltip]="['Скачать решение']"
