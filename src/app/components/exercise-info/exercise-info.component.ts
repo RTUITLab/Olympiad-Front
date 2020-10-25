@@ -361,25 +361,11 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   public syncEditor() {
-    var isSyncingLeftScroll = false;
-    var isSyncingRightScroll = false;
     var leftDiv = document.getElementById('rows');
     var rightDiv = <HTMLElement>document.getElementById('codeRows');
 
-    leftDiv.onscroll = function() {
-    	if (!isSyncingLeftScroll) {
-      	isSyncingRightScroll = true;
-      	rightDiv.scrollTop = leftDiv.scrollTop;
-      }
-      isSyncingLeftScroll = false;
-    }
-
     rightDiv.onscroll = function() {
-    	if (!isSyncingRightScroll) {
-      	isSyncingLeftScroll = true;
-      	leftDiv.scrollTop = rightDiv.scrollTop;
-      }
-      isSyncingRightScroll = false;
+      leftDiv.scrollTop = rightDiv.scrollTop;
     }
   }
 }
