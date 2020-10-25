@@ -56,13 +56,16 @@
                             </div>
                         </th>
                     </tr>
-                    <div *ngIf="solutionPreview && model.language">
-                        <tr *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">
-                            <td col1>{{i + 1}}</td>
-                            <td col2><markdown [data]="line | language : model.language"></markdown></td>
-                        </tr>
+                    <div class="code" *ngIf="solutionPreview && model.language">
+                        <div col1 id="rows">
+                            <div *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">{{i + 1}}</div>
+                        </div>
+                        <div class="col2" id="codeRows">
+                            <markdown [data]="solutionPreview.toString() | language : model.language"></markdown>
+                            <div>&nbsp;</div>
+                        </div>
                     </div>
-                    <tr>
+                    <tr *ngIf="!(solutionPreview && model.language)">
                         <td col1></td>
                         <td col2></td>
                     </tr>

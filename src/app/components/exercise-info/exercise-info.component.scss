@@ -135,7 +135,7 @@
 .editor {
     height: 405px;
     display: block;
-    overflow: auto;
+    overflow: hidden;
     margin-bottom: 15px;
     background-color: #EFEFEF;
     border-collapse: collapse;
@@ -173,6 +173,27 @@
 th[col2] {
     display: grid !important;
     grid-template-columns: 50% 50%;
+}
+
+::ng-deep code {
+    font-size: 20px !important;
+}
+
+.code {
+    display: grid;
+    grid-template-columns: 43px 1fr;
+}
+
+div[col1] {
+    width: 100%;
+    box-sizing: border-box;
+    height: 373px;
+    overflow: hidden;
+}
+
+.col2 {
+    height: 373px;
+    overflow: auto;
 }
 
 .solutionTime {
