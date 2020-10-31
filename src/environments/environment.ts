@@ -6,5 +6,5 @@ export const environment = {
   buildNumber: 'test build number',
   showResults: true,
   recaptchaClientToken: '',
-  redirectUrl: 'http://localhost:4200'
+  redirectUrl: 'http://localhost:4200/teach'
 };
