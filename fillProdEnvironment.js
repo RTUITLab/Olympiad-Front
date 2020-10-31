@@ -11,8 +11,9 @@ const configuration = {
     isAdmin: true,
     baseUrl: '',
     buildNumber: '',
-    showResults: true,
-    recaptchaClientToken: ''
+    recaptchaClientToken: '',
+    isTeacher: false,
+    redirectUrl: '/teacher'
 }
 
 argsMap = process

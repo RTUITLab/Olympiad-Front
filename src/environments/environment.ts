@@ -1,8 +1,10 @@
 export const environment = {
   production: true,
   isAdmin: false,
-  baseUrl: 'http://localhost:5501',
+  isTeacher: true,
+  baseUrl: 'https://mycode.rtuitlab.dev',
   buildNumber: 'test build number',
   showResults: true,
-  recaptchaClientToken: ''
+  recaptchaClientToken: '',
+  redirectUrl: 'http://localhost:4200'
 };
