@@ -58,16 +58,6 @@ stages:
       environment: 'production'
       strategy:
         runOnce:
-          on:
-            failure:
-              steps:
-                - download: none
-                - task: SSH@0
-                  inputs:
-                    sshEndpoint: 'swarm manager'
-                    runOptions: 'commands'
-                    commands: 'docker service rollback mycode_front'
-                    readyTimeout: '20000'
           deploy:
             steps:
               - download: none
@@ -75,5 +65,5 @@ stages:
                 inputs:
                   sshEndpoint: 'swarm manager'
                   runOptions: 'commands'
-                  commands: 'docker service update --image rtuitlab/olympiad-front:$(Build.BuildId) mycode_front'
+                  commands: 'docker service update --image rtuitlab/olympiad-front:$(Build.BuildId) olympiad_front'
                   readyTimeout: '20000'
