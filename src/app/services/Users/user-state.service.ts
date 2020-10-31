@@ -29,6 +29,10 @@ export class UserStateService {
     localStorage.setItem('userToken', response.token);
     this.usersBehavior.next(user);
     this.currentUser = user;
+    
+    if (user.roles.find(R => R === 'teacher') || environment.isTeacher) {
+      window.location.href = environment.redirectUrl;
+    }
   }
 
   public getMe(token: string): Observable<boolean> {
