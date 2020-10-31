@@ -1,7 +1,21 @@
-<div class="container">
-  <div class="bg"></div>
-  <div class="title">
-      "Мой код"<br>
-      Лаборатория по программированию
+<div class="header">
+  <div class="wave" *ngIf="url !== '/login'; else login">
+    <div class="logo"><img src="assets/img/IIT colour.png" class="logoprop"></div>
+    <div class="title">
+      <a routerLink="/overview" class="header_text">СИСТЕМА ТЕСТИРОВАНИЯ<br>ИНСТИТУТА ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ</a>
+    </div>
+
+    <div class="header_userInfo">
+      <app-user-info></app-user-info>
+    </div>
   </div>
+  <ng-template #login>
+    <div class="wave">
+      <div class="title" path="login">
+        <div class="a"><a routerLink="/overview" class="header_text">СИСТЕМА ТЕСТИРОВАНИЯ</a></div>
+        <div class="a"><a routerLink="/overview" class="header_text">ИНСТИТУТА ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ</a></div>
+      </div>
+    </div>
+  </ng-template>
 </div>
+  
