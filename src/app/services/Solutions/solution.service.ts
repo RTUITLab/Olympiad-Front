@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { env } from 'process';
 import { map } from 'rxjs/operators';
 import { Api } from 'src/app/api';
 import { Solution } from 'src/app/models/Solutions/Solution';
+import { environment } from 'src/environments/environment';
 import { UserStateService } from '../Users/user-state.service';
 
 @Injectable({
@@ -31,4 +33,8 @@ export class SolutionService {
     return this.http.get<string>(Api.getBuildLogsForSolution(solutionId), this.usersService.authOptions).toPromise();
   }
 
+public getComments(solutionId: string): Promise<any> {
+    return this.http.get<any>(`${environment.baseUrl}/api/comment?solutionId=${solutionId}`, this.usersService.authOptions).toPromise();
+  }
+  
 }

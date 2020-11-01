@@ -38,6 +38,7 @@ import { UpdateService } from './services/Updates/update.service';
 import { SolutionService } from './services/Solutions/solution.service';
 import { LangInfoComponent } from './components/overview/lang-info/lang-info.component';
 import { ExersizeInfoLogComponent } from './exersize-info-log/exersize-info-log.component';
+import { TaskCheckCommentComponent } from './task-check-comment/task-check-comment.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ExersizeInfoLogComponent } from './exersize-info-log/exersize-info-log.
     AboutComponent,
     MeComponent,
     LangInfoComponent,
-    ExersizeInfoLogComponent
+    ExersizeInfoLogComponent,
+    TaskCheckCommentComponent
   ],
   imports: [
     BrowserAnimationsModule,

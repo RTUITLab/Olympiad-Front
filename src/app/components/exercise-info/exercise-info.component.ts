@@ -46,6 +46,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
   logOpen = false;
   buildLog : string;
+  comments: any;
 
   constructor(
     private challengesService: ChallengesService,
@@ -66,6 +67,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
   ngOnInit(): void {
     this.startLoading();
+
 
     this.solutionUrl = 'javascript:void(0);';
 
@@ -120,10 +122,16 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
         this.solutionService.getSolutions(this.exerciseInfo.id)
           .then(solutions => {
+
+            
+
+
             this.exerciseInfo.solutions = solutions;
             if (solutions.length) {
               this.exerciseInfo.solutions.sort((a, b) => new Date(a.sendingTime) < new Date(b.sendingTime) ? 1 : -1);
-
+              console.log("sdfsdfsadf");
+              
+              this.solutionService.getComments(solutions[0].id).then(e => this.comments = e);
               this.model.language = LanguageConverter.normalFromWeb(this.exerciseInfo.solutions[0].language);
               this.model.exerciseId = this.exerciseInfo.id;
               
@@ -381,5 +389,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     this.logOpen = !this.logOpen;
 
   }
-
+  isNeed(i: number) {
+    return this.comments.find(c => c.rowNumber ===i);
+  }
 }

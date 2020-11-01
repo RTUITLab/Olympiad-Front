@@ -58,7 +58,12 @@
                     </tr>
                     <div class="code" *ngIf="solutionPreview && model.language">
                         <div col1 id="rows">
-                            <div *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">{{i + 1}}</div>
+                            
+                            <div *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">
+                                <span *ngIf="!isNeed(i)">{{i + 1}}</span>
+                                <span *ngIf="isNeed(i)" style="color: red;" [matTooltip]="[isNeed(i).raw]"
+                                matTooltipPosition="above">{{i + 1}}</span>
+                            </div>
                         </div>
                         <div class="col2" id="codeRows">
                             <markdown [data]="solutionPreview.toString() | language : model.language"></markdown>
