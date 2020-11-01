@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   isAdmin: false,
-  isTeacher: true,
+  isTeacher: false,
   baseUrl: 'https://mycode.rtuitlab.dev',
   buildNumber: 'test build number',
   showResults: true,
