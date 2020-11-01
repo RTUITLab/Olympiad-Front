@@ -44,6 +44,8 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   loadedSolution: boolean;
   exercises: Array<ExerciseCompact>;
 
+  logOpen = false;
+
   constructor(
     private challengesService: ChallengesService,
     private exercisesService: ExerciseService,
@@ -57,6 +59,11 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     private solutionService: SolutionService,
     private usersService: UserStateService
   ) { super(); }
+
+
+  logToggle() {
+    this.logOpen = !this.logOpen;
+  }
 
   ngOnInit(): void {
     this.startLoading();

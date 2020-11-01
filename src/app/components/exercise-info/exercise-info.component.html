@@ -70,6 +70,22 @@
                         <td col2></td>
                     </tr>
                 </table>
+                <div class="logs-window" [class.open]="logOpen">
+                    <div class="logs-header" (click)="logToggle()">
+                        <div class="label">
+                            Посмотреть логи компиляции
+                        </div>
+                        <div class="arrowDown">
+                            <img class="icc-arr-down">
+                        </div>
+                        <div class="arrowUp">
+                            <img class="icc-arr-up">
+                        </div>
+                    </div>
+                    <div class="body" *ngIf="logOpen">
+                       <app-exersize-info-log ></app-exersize-info-log>
+                    </div>
+                </div>
             </ng-template>
 
             <div *ngIf="exerciseInfo.solutions && exerciseInfo.solutions.length > 0 && sendMode">

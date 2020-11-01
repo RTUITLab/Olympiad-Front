@@ -1,13 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
-@import './assets/fonts/font';
-@import './assets/loading.css';
+@import "./assets/fonts/font";
+@import "./assets/loading.css";
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 
 body {
-    margin: 0;
-    font-family: GillSans;
-    font-size: 20px;
-    font-weight: 500;
-    color: #454545;
+  margin: 0;
+  font-family: GillSans;
+  font-size: 20px;
+  font-weight: 500;
+  color: #454545;
+}
+
+.icc-arr-down {
+  content: url("./assets/icon/chevron-down-outline.svg");
+  width: 28px !important;
+  display: inline;
+  position: relative;
+}
+
+.icc-arr-up {
+  content: url("./assets/icon/chevron-up-outline.svg");
+  width: 28px !important;
+  display: inline;
+  position: relative;
 }
