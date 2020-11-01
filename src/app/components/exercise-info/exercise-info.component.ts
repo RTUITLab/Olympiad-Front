@@ -45,6 +45,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   exercises: Array<ExerciseCompact>;
 
   logOpen = false;
+  buildLog : string;
 
   constructor(
     private challengesService: ChallengesService,
@@ -61,9 +62,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   ) { super(); }
 
 
-  logToggle() {
-    this.logOpen = !this.logOpen;
-  }
+
 
   ngOnInit(): void {
     this.startLoading();
@@ -375,7 +374,12 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       leftDiv.scrollTop = rightDiv.scrollTop;
     }
   }
-  async getBuildLogsForSolution() {
-    this.solutionService.getBuildLogsForSolution(this.exerciseInfo.solutions[0].id).then(s => console.log(s));
+  async logToggle() {
+    if(!this.logOpen) {
+      this.buildLog = await this.solutionService.getBuildLogsForSolution(this.exerciseInfo.solutions[0].id);
+    }
+    this.logOpen = !this.logOpen;
+
   }
+
 }

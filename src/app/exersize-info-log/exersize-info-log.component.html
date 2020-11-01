@@ -1,29 +1,3 @@
-<ng-container *ngIf="checkerError">
-    <div class="line">
-        <span>Ошибка времени выполнения.</span> Неверный результат на тестовом наборе.
-    </div>
-    
-    <div class="line">
-        <b>Входные данные:</b><br>
-        {{inputData}}
-    </div>
-    
-    <div class="line">
-        <b>Ожидался ответ:</b><br>
-        {{expectedAnswer}}
-    </div>
-    
-    <div class="line">
-        <b>Получен ответ:</b><br>
-        {{receivedAnswer}}
-    </div>
-</ng-container>
-
-
-<div class="line" *ngIf="compileError">
-    <span>Ошибка компиляции.</span>
-</div>
-
 <div class="line">
     {{compileLog}}
 </div>
