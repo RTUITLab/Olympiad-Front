@@ -70,6 +70,7 @@
                         <td col2></td>
                     </tr>
                 </table>
+                <button (click)="getBuildLogsForSolution()">BUILD LOGS TO CONSOLE</button>
             </ng-template>
 
             <div *ngIf="exerciseInfo.solutions && exerciseInfo.solutions.length > 0 && sendMode">
