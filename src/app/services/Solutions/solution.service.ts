@@ -27,4 +27,8 @@ export class SolutionService {
         return s;
       })).toPromise();
   }
+  public getBuildLogsForSolution(solutionId: string): Promise<string> {
+    return this.http.get<string>(Api.getBuildLogsForSolution(solutionId), this.usersService.authOptions).toPromise();
+  }
+
 }

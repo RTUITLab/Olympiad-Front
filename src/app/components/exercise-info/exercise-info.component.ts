@@ -375,4 +375,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       leftDiv.scrollTop = rightDiv.scrollTop;
     }
   }
+  async getBuildLogsForSolution() {
+    this.solutionService.getBuildLogsForSolution(this.exerciseInfo.solutions[0].id).then(s => console.log(s));
+  }
 }

@@ -94,6 +94,10 @@ export class Api {
   public static getSolutionsForExercise(exerciseId: string): string {
     return `${this.baseUrl}/api/check/forExercise?exerciseId=${exerciseId}`;
   }
+  public static getBuildLogsForSolution(solutionId: string): string {
+    return `${this.baseUrl}/api/check/buildLogs/${solutionId}`;
+  }
+
 
   //  Auth  //
   ////////////
