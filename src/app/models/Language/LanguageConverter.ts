@@ -43,6 +43,12 @@ export class LanguageConverter {
       fileExtension: '.py',
       webName: 'python',
       fileName: 'Program.py'
+    },
+    {
+      language: 'JS ES6',
+      fileExtension: '.js',
+      webName: 'js',
+      fileName: 'Program.js'
     }
   ]
 
