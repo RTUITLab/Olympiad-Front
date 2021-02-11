@@ -57,7 +57,7 @@
                         </th>
                     </tr>
                     <div class="code" *ngIf="solutionPreview && model.language">
-                        <div col1 id="rows">
+                        <div col1 id="rows" style="user-select: none;">
                             <div *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">{{i + 1}}</div>
                         </div>
                         <div class="col2" id="codeRows">
