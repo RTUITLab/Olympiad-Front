@@ -54,8 +54,11 @@ export class SelectChallengeComponent implements OnInit {
 
     this.currentExerciseState.currentChallengeId.subscribe(challengeId => {
       if (!challengeId) {
+        this.initChallengeId = '';
+        this.currentChallenge = new CurrentChallenge();
         return;
       }
+
 
       this.initChallengeId = challengeId;
       if (this.challenges) {
