@@ -31,7 +31,16 @@ stages:
 - stage: build
   jobs:
   - job: buildFront
+    variables:
+      npm_config_cache: $(Pipeline.Workspace)/.npm
     steps:
+    - task: Cache@2
+      displayName: Cache npm
+      inputs:
+        key: 'npm | "$(Agent.OS)" | package-lock.json'
+        restoreKeys: |
+          npm | "$(Agent.OS)"
+        path: $(npm_config_cache)
     - task: Npm@1
       displayName: npm ci
       inputs:
