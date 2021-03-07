@@ -3,4 +3,5 @@ export class Language {
   fileExtension: string;
   webName: string;
   fileName: string;
+  note?: string
 }

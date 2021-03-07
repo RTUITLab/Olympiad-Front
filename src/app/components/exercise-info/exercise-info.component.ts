@@ -206,6 +206,10 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     setTimeout(() => document.getElementById('sub').hidden = false, 10);
   }
 
+  get languageNote(): string | undefined {
+    return LanguageConverter.note(this.model.language);
+  }
+
   get selectedLanguage() {
     if (this.model.language) {
       return LanguageConverter.fileExtensionByPrettyName(this.model.language);
