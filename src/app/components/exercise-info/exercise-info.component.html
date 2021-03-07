@@ -3,7 +3,11 @@
         <div class="header" style="font-size: 25px;">{{exerciseInfo.name}}</div>
         <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
     </mat-drawer>
-    <div class="cover" (click)="drawer.toggle()" *ngIf="drawer.opened"></div>
+    <mat-drawer class="drawer" #conditionDrawer mode="over" position="end">
+        <div class="header" style="font-size: 25px;">Условия сдачи</div>
+        <markdown [data]="languageNote"></markdown>
+    </mat-drawer>
+    <div class="cover" (click)="drawer.close() && conditionDrawer.close()" *ngIf="drawer.opened || conditionDrawer.opened"></div>
     
     <div class="view">
         <div class="progress">
@@ -16,6 +20,7 @@
             <div class="header">{{exerciseInfo.name}}</div>
             <div class="info">Баллы:&nbsp;{{exerciseInfo.score}} max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Тестирование: {{challenge.name}}</div>
             <button *ngIf="sendMode" class="taskBtn" (click)="drawer.toggle()">Условия</button>
+            <button *ngIf="sendMode && languageNote" class="taskBtn" (click)="conditionDrawer.toggle()" style="margin-left: 15px;">Условия сдачи</button>
         </div>
             
         <div class="container">
