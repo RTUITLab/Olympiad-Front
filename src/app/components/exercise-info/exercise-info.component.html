@@ -5,7 +5,7 @@
     </mat-drawer>
     <mat-drawer class="drawer" #conditionDrawer mode="over" position="end">
         <div class="header" style="font-size: 25px;">Условия сдачи</div>
-        <markdown [data]="languageNote"></markdown>
+        <markdown *ngIf="model.language" [data]="languageNote"></markdown>
     </mat-drawer>
     <div class="cover" (click)="drawer.close() && conditionDrawer.close()" *ngIf="drawer.opened || conditionDrawer.opened"></div>
     
@@ -20,7 +20,6 @@
             <div class="header">{{exerciseInfo.name}}</div>
             <div class="info">Баллы:&nbsp;{{exerciseInfo.score}} max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Тестирование: {{challenge.name}}</div>
             <button *ngIf="sendMode" class="taskBtn" (click)="drawer.toggle()">Условия</button>
-            <button *ngIf="sendMode && languageNote" class="taskBtn" (click)="conditionDrawer.toggle()" style="margin-left: 15px;">Условия сдачи</button>
         </div>
             
         <div class="container">
@@ -116,26 +115,31 @@
         </div>
 
         <div *ngIf="sendMode" class="submitCol">
-            <div class="selectLanguage">
-                <div class="select">
-                    <span name="Language" *ngIf="model.language; else noLanguage">{{model.language}}</span>
-                    <ng-template #noLanguage><span>Язык программирования</span><img src="../../../assets/icon/down-arrow.svg"></ng-template>
-                </div>
-                <ul class="submenu" id="sub">
-                    <div>
-                        <li *ngFor="let lang of availableLanguages" (click)="selectLanguage(lang)">
-                            <div>
-                                <span>{{lang}}</span>
-                            </div>
-                        </li>
+            <div>
+                <div class="selectLanguage">
+                    <div class="select">
+                        <span name="Language" *ngIf="model.language; else noLanguage">{{model.language}}</span>
+                        <ng-template #noLanguage><span>Язык программирования</span><img src="../../../assets/icon/down-arrow.svg"></ng-template>
                     </div>
-                </ul>
+                    <ul class="submenu" id="sub">
+                        <div>
+                            <li *ngFor="let lang of availableLanguages" (click)="selectLanguage(lang)">
+                                <div>
+                                    <span>{{lang}}</span>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+                <button *ngIf="model.language" class="taskBtn" (click)="conditionDrawer.toggle()" style="width: 100%;">Условия сдачи</button>
             </div>
-            <label for="sol" class="select">
-                <span *ngIf="!model.file; else downloadedSolution">Загрузить решение</span>
-                <ng-template #downloadedSolution><span>{{model.file.name}}</span></ng-template>
-                <img src="../../../assets/icon/down-arrow.svg">
-            </label>
+            <div>
+                <label *ngIf="model.language" for="sol" class="select">
+                    <span *ngIf="!model.file; else downloadedSolution">Загрузить решение</span>
+                    <ng-template #downloadedSolution><span>{{model.file.name}}</span></ng-template>
+                    <img src="../../../assets/icon/down-arrow.svg">
+                </label>
+            </div>
             <input id="sol" type="file" style="display: none;" [accept]="selectedLanguage" (input)="setFile($event)">
             <div class="sendCont"><button id="send" (click)="onSubmit()">Отправить решение</button></div>
         </div>
