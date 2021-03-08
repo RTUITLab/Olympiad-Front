@@ -238,6 +238,7 @@ div[col1] {
     display: flex;
     padding: 10px;
     background-color: #0088FF;
+    color: #FFF;
     cursor: pointer;
 }
 
@@ -389,17 +390,11 @@ tbody>tr>td {
 
 .drawer {
     width: 30%;
-    padding: 30px;
+    height: 100vh;
+    position: fixed;
     border: #4CFFBA solid 2px;
     border-right: none;
     z-index: 3;
-
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
 }
 
 .cover {
@@ -413,6 +408,6 @@ tbody>tr>td {
 }
 
 ::ng-deep .mat-drawer-inner-container {
-    overflow: initial;
-    margin: 30px 0;
+    padding: 60px 30px;
+    box-sizing: border-box;
 }
