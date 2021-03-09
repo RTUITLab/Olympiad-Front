@@ -47,9 +47,7 @@ export class UpdateService {
       .build();
     
     this.connection.on('UpdateSolutionStatus', async (solution: Solution) => {
-      let c = (await this.solutionService.getSolutionLogs(solution.id))[0];
-      console.log(c);
-      solution.logs = c;
+      solution.logs = (await this.solutionService.getSolutionLogs(solution.id))[0];
       this.solutionsBehavior.next(solution);
     });
     this.connection.on('UpdateExerciseStatus', (exerciseStatus: ExerciseCompact) => this.exerciseBehavior.next(exerciseStatus));
