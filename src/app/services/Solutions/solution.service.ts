@@ -23,8 +23,15 @@ export class SolutionService {
   public getSolutions(exerciseId: string): Promise<Array<Solution>> {
     return this.http.get<Array<Solution>>(Api.getSolutionsForExercise(exerciseId), this.usersService.authOptions)
       .pipe<Array<Solution>>(map(s => {
-        s.forEach(S => S = this.processStatus(S));
+        s.forEach(S => {
+          S = this.processStatus(S);
+          this.getSolutionLogs(S.id).then((d) => S.logs = d[0]).catch((e) => console.log(e));
+        });
         return s;
       })).toPromise();
+  }
+
+  public getSolutionLogs(solutionId: string): Promise<string> {
+    return this.http.get<string>(Api.getSolutionLogs(solutionId), this.usersService.authOptions).toPromise();
   }
 }

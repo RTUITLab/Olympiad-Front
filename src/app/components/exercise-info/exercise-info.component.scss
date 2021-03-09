@@ -318,7 +318,11 @@ div[col1] {
     margin: 0;
 }
 
-.solutions, thead>th, tbody>tr>td {
+.tbody {
+    display: contents;
+}
+
+.solutions, thead>th, .tbody>tr>td {
     border: #979797 solid 1px;
     padding: 15px 5px;
 }
@@ -351,7 +355,7 @@ thead>th:nth-child(3) {
     width: 180px;
 }
 
-tbody>tr>td {
+.tbody>tr>td {
     text-align: center;
     vertical-align: middle;
 }
@@ -386,6 +390,25 @@ tbody>tr>td {
 .solStatus>img {
     width: 30px;
     float: right;
+}
+
+.opened-logs {
+    display: none;
+}
+
+.opened-logs:checked ~ .logs {
+    display: table-row;
+}
+
+.logs {
+    display: none;
+}
+
+.logs > td {
+    text-align: left !important;
+    padding: 15px 10px !important;
+    font-family: monospace;
+    font-size: 0.7em;
 }
 
 .drawer {

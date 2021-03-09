@@ -86,29 +86,44 @@
                         <th>Результат</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let sol of exerciseInfo.solutions">
-                            <ng-container *ngIf="sol.exerciseId == exerciseInfo.id">
-                                <td>{{prettyTime(sol.sendingTime)}}</td>
-                                <td>{{normalLang(sol.language)}}</td>
-                                <td (click)="downloadSolution(sol)">
-                                    <div class="downSol">
-                                        <span>Скачать</span>
-                                        <img class="download" src="../../../assets/icon/download.svg">
-                                    </div>
-                                </td>
-                                <td style="color: {{fontColor(sol.status)}}">
-                                    <div class="downSol status" style="cursor: auto">
-                                        <span>{{solutionStatusPresent(sol.status)}}</span>
-                                        <img
-                                            class="statusIcon"
-                                            src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
-                                            [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
-                                            matTooltipPosition="above"
-                                        />
-                                    </div>
-                                </td>
-                            </ng-container>
-                        </tr>
+                        <div *ngFor="let sol of exerciseInfo.solutions" class="tbody">
+                            <tr>
+                                <ng-container *ngIf="sol.exerciseId == exerciseInfo.id">
+                                    <td>{{prettyTime(sol.sendingTime)}}</td>
+                                    <td>{{normalLang(sol.language)}}</td>
+                                    <td (click)="downloadSolution(sol)">
+                                        <div class="downSol">
+                                            <span>Скачать</span>
+                                            <img class="download" src="../../../assets/icon/download.svg">
+                                        </div>
+                                    </td>
+                                    <td style="color: {{fontColor(sol.status)}}">
+                                        <label *ngIf="sol.status !== 5 && sol.status !== 6; else processing" [for]="sol.id" class="downSol status" style="cursor: pointer">
+                                            <span>{{solutionStatusPresent(sol.status)}}</span>
+                                            <img
+                                                class="statusIcon"
+                                                src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
+                                                [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
+                                                matTooltipPosition="above"
+                                            />
+                                        </label>
+                                        <ng-template #processing>
+                                            <div class="downSol status" style="cursor: auto">
+                                                <span>{{solutionStatusPresent(sol.status)}}</span>
+                                                <img
+                                                    class="statusIcon"
+                                                    src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
+                                                    [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
+                                                    matTooltipPosition="above"
+                                                />
+                                            </div>
+                                        </ng-template>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <input type="checkbox" [id]="sol.id" class="opened-logs" />
+                            <tr *ngIf="sol.status !== 5 && sol.status !== 6" class="logs"><td colspan="4"><markdown [data]="sol.logs"></markdown></td></tr>   
+                        </div>
                     </tbody>
                 </table>
             </div>

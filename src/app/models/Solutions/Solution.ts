@@ -10,4 +10,5 @@ export class Solution {
   sendingTime?: string;
   startCheckingTime: string;
   checkedTime: string;
+  logs?: string
 }
