@@ -122,7 +122,11 @@
                                 </ng-container>
                             </tr>
                             <input type="checkbox" [id]="sol.id" class="opened-logs" />
-                            <tr *ngIf="sol.status !== 5 && sol.status !== 6" class="logs"><td colspan="4"><markdown [data]="sol.logs"></markdown></td></tr>   
+                            <tr *ngIf="sol.status !== 5 && sol.status !== 6" class="logs"><td colspan="4">
+                                <div style="margin-bottom: 5px;"><b>Дата:</b> {{prettyTime(sol.sendingTime)}}</div>
+                                <div><b>Логи компиляции</b></div>
+                                <markdown [data]="sol.logs"></markdown>
+                            </td></tr>   
                         </div>
                     </tbody>
                 </table>

@@ -407,8 +407,11 @@ thead>th:nth-child(3) {
 .logs > td {
     text-align: left !important;
     padding: 15px 10px !important;
-    font-family: monospace;
-    font-size: 0.7em;
+
+    & > markdown {
+        font-family: monospace;
+        font-size: 0.7em;
+    }
 }
 
 .drawer {
