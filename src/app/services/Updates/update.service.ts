@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Api } from 'src/app/api';
 import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { Solution } from 'src/app/models/Solutions/Solution';
+import { SolutionService } from '../Solutions/solution.service';
 import { UserStateService } from '../Users/user-state.service';
 
 @Injectable({
@@ -22,7 +23,7 @@ export class UpdateService {
   private messageBehavior = new BehaviorSubject<string>(undefined);
   public messageStream = this.messageBehavior.asObservable();
 
-  constructor(private usersService: UserStateService) {
+  constructor(private usersService: UserStateService, private solutionService: SolutionService) {
     this.usersService.currentUserStream.subscribe(U => {
       if (U && (U.id !== this.userId || !this.userId)) {
         this.userId = U.id;
@@ -45,7 +46,10 @@ export class UpdateService {
       })
       .build();
     
-    this.connection.on('UpdateSolutionStatus', (solution: Solution) => {this.solutionsBehavior.next(solution)});
+    this.connection.on('UpdateSolutionStatus', async (solution: Solution) => {
+      solution.logs = (await this.solutionService.getSolutionLogs(solution.id))[0];
+      this.solutionsBehavior.next(solution);
+    });
     this.connection.on('UpdateExerciseStatus', (exerciseStatus: ExerciseCompact) => this.exerciseBehavior.next(exerciseStatus));
     this.connection.on('InformationMessage', (message: string) => this.messageBehavior.next(message));
       

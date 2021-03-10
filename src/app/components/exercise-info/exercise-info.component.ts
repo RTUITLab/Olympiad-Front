@@ -71,6 +71,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
             solution.startCheckingTime = S.startCheckingTime;
             solution.checkedTime = S.checkedTime;
             solution.status = S.status || S.hiddenStatus;
+            solution.logs = S.logs;
           } else {
             this.exerciseInfo.solutions.unshift(S);
           }
@@ -170,6 +171,16 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
         });
         this.finishLoading();
       });
+  }
+
+  public getSolutionLogs(solution: Solution) {
+    if (solution.logs) {
+      return solution.logs;
+    }
+    this.solutionService.getSolutionLogs(solution.id).then((response) => {
+      solution.logs = response[0];
+      return response;
+    })
   }
 
   public statusClass(exercise: ExerciseCompact) {
