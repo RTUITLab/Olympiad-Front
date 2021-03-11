@@ -71,6 +71,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
             solution.startCheckingTime = S.startCheckingTime;
             solution.checkedTime = S.checkedTime;
             solution.status = S.status || S.hiddenStatus;
+            solution.logs = S.logs;
           } else {
             this.exerciseInfo.solutions.unshift(S);
           }
@@ -133,7 +134,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
                   this.solutionPreview = fileReader.result;
 
                   this.solutionUrl = URL.createObjectURL(this.model.file);
-                  document.getElementById('a').setAttribute('download', this.model.file.name);
+                  if (document.getElementById('a')) {
+                    document.getElementById('a').setAttribute('download', this.model.file.name);
+                  }
                 };
                 fileReader.readAsText(this.model.file);
               }
@@ -168,6 +171,16 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
         });
         this.finishLoading();
       });
+  }
+
+  public getSolutionLogs(solution: Solution) {
+    if (solution.logs) {
+      return solution.logs;
+    }
+    this.solutionService.getSolutionLogs(solution.id).then((response) => {
+      solution.logs = response[0];
+      return response;
+    })
   }
 
   public statusClass(exercise: ExerciseCompact) {
@@ -206,6 +219,10 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     setTimeout(() => document.getElementById('sub').hidden = false, 10);
   }
 
+  get languageNote(): string | undefined {
+    return LanguageConverter.note(this.model.language);
+  }
+
   get selectedLanguage() {
     if (this.model.language) {
       return LanguageConverter.fileExtensionByPrettyName(this.model.language);
@@ -235,6 +252,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   public getCode(): Array<string> {
+    this.syncEditor();
     return this.solutionPreview.toString().split('\n');
   }
 
@@ -357,5 +375,14 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
   public isReady() {
     return !this.isLoading();
+  }
+
+  public syncEditor() {
+    var leftDiv = document.getElementById('rows');
+    var rightDiv = <HTMLElement>document.getElementById('codeRows');
+
+    rightDiv.onscroll = function() {
+      leftDiv.scrollTop = rightDiv.scrollTop;
+    }
   }
 }

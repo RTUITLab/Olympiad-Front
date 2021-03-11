@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { ExerciseStateService } from 'src/app/services/Exercises/exercise-state.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -8,7 +9,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
-  constructor(private titleService: Title) { }
+  constructor(
+    private titleService: Title,
+    private currentExerciseState: ExerciseStateService
+  ) { }
 
   get buildNumber(): string {
     return environment.buildNumber;
@@ -16,6 +20,7 @@ export class AboutComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('О сайте');
+    this.currentExerciseState.setChallengeId('');
   }
 
 }

@@ -35,7 +35,7 @@ export class ChallengesService {
             currentDate = new Date(currentDate.getTime() + 1000*(60*60*24*parseInt(date.pop())));
           }
           
-          currentDate = new Date(currentDate.getTime() + 1000 * sign * (60*60*parseInt(time[0]) + 60*parseInt(time[1]) + parseInt(time[0])));
+          currentDate = new Date(currentDate.getTime() + 1000 * sign * (60*60*parseInt(time[0]) + 60*parseInt(time[1]) + parseInt(time[2])));
 
           C.startTime = currentDate.toISOString();
         }
@@ -56,7 +56,7 @@ export class ChallengesService {
             currentDate = new Date(currentDate.getTime() + 1000*(60*60*24*parseInt(date.pop())));
           }
           
-          currentDate = new Date(currentDate.getTime() + 1000 * sign * (60*60*parseInt(time[0]) + 60*parseInt(time[1]) + parseInt(time[0])));
+          currentDate = new Date(currentDate.getTime() + 1000 * sign * (60*60*parseInt(time[0]) + 60*parseInt(time[1]) + parseInt(time[2])));
 
           C.endTime = currentDate.toISOString();
         }

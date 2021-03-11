@@ -3,7 +3,11 @@
         <div class="header" style="font-size: 25px;">{{exerciseInfo.name}}</div>
         <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
     </mat-drawer>
-    <div class="cover" (click)="drawer.toggle()" *ngIf="drawer.opened"></div>
+    <mat-drawer class="drawer" #conditionDrawer mode="over" position="end">
+        <div class="header" style="font-size: 25px;">Условия сдачи</div>
+        <markdown *ngIf="model.language" [data]="languageNote"></markdown>
+    </mat-drawer>
+    <div class="cover" (click)="drawer.close() && conditionDrawer.close()" *ngIf="drawer.opened || conditionDrawer.opened"></div>
     
     <div class="view">
         <div class="progress">
@@ -48,7 +52,7 @@
                                     [matTooltip]="['Копировать решение']"
                                     matTooltipPosition="above"
                                 >
-                                <a id="a" [href]="sanitize(solutionUrl)"><img
+                                <a id="a" [href]="sanitize(solutionUrl)" [download]="this.model.file.name"><img
                                     class="download"
                                     src="../../../assets/icon/download.svg"
                                     [matTooltip]="['Скачать решение']"
@@ -56,13 +60,16 @@
                             </div>
                         </th>
                     </tr>
-                    <div *ngIf="solutionPreview && model.language">
-                        <tr *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">
-                            <td col1>{{i + 1}}</td>
-                            <td col2><markdown [data]="line | language : model.language"></markdown></td>
-                        </tr>
+                    <div class="code" *ngIf="solutionPreview && model.language">
+                        <div col1 id="rows" style="user-select: none;">
+                            <div *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">{{i + 1}}</div>
+                        </div>
+                        <div class="col2" id="codeRows">
+                            <markdown [data]="solutionPreview.toString() | language : model.language"></markdown>
+                            <div>&nbsp;</div>
+                        </div>
                     </div>
-                    <tr>
+                    <tr *ngIf="!(solutionPreview && model.language)">
                         <td col1></td>
                         <td col2></td>
                     </tr>
@@ -79,55 +86,79 @@
                         <th>Результат</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let sol of exerciseInfo.solutions">
-                            <ng-container *ngIf="sol.exerciseId == exerciseInfo.id">
-                                <td>{{prettyTime(sol.sendingTime)}}</td>
-                                <td>{{normalLang(sol.language)}}</td>
-                                <td (click)="downloadSolution(sol)">
-                                    <div class="downSol">
-                                        <span>Скачать</span>
-                                        <img class="download" src="../../../assets/icon/download.svg">
-                                    </div>
-                                </td>
-                                <td style="color: {{fontColor(sol.status)}}">
-                                    <div class="downSol status" style="cursor: auto">
-                                        <span>{{solutionStatusPresent(sol.status)}}</span>
-                                        <img
-                                            class="statusIcon"
-                                            src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
-                                            [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
-                                            matTooltipPosition="above"
-                                        />
-                                    </div>
-                                </td>
-                            </ng-container>
-                        </tr>
+                        <div *ngFor="let sol of exerciseInfo.solutions" class="tbody">
+                            <tr>
+                                <ng-container *ngIf="sol.exerciseId == exerciseInfo.id">
+                                    <td>{{prettyTime(sol.sendingTime)}}</td>
+                                    <td>{{normalLang(sol.language)}}</td>
+                                    <td (click)="downloadSolution(sol)">
+                                        <div class="downSol">
+                                            <span>Скачать</span>
+                                            <img class="download" src="../../../assets/icon/download.svg">
+                                        </div>
+                                    </td>
+                                    <td style="color: {{fontColor(sol.status)}}">
+                                        <label *ngIf="sol.status !== 5 && sol.status !== 6; else processing" [for]="sol.id" class="downSol status" style="cursor: pointer">
+                                            <span>{{solutionStatusPresent(sol.status)}}</span>
+                                            <img
+                                                class="statusIcon"
+                                                src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
+                                                [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
+                                                matTooltipPosition="above"
+                                            />
+                                        </label>
+                                        <ng-template #processing>
+                                            <div class="downSol status" style="cursor: auto">
+                                                <span>{{solutionStatusPresent(sol.status)}}</span>
+                                                <img
+                                                    class="statusIcon"
+                                                    src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
+                                                    [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
+                                                    matTooltipPosition="above"
+                                                />
+                                            </div>
+                                        </ng-template>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <input type="checkbox" [id]="sol.id" class="opened-logs" />
+                            <tr *ngIf="sol.status !== 5 && sol.status !== 6" class="logs"><td colspan="4">
+                                <div style="margin-bottom: 5px;"><b>Дата:</b> {{prettyTime(sol.sendingTime)}}</div>
+                                <div><b>Логи компиляции</b></div>
+                                <markdown [data]="sol.logs"></markdown>
+                            </td></tr>   
+                        </div>
                     </tbody>
                 </table>
             </div>
         </div>
 
         <div *ngIf="sendMode" class="submitCol">
-            <div class="selectLanguage">
-                <div class="select">
-                    <span name="Language" *ngIf="model.language; else noLanguage">{{model.language}}</span>
-                    <ng-template #noLanguage><span>Язык программирования</span><img src="../../../assets/icon/down-arrow.svg"></ng-template>
-                </div>
-                <ul class="submenu" id="sub">
-                    <div>
-                        <li *ngFor="let lang of availableLanguages" (click)="selectLanguage(lang)">
-                            <div>
-                                <span>{{lang}}</span>
-                            </div>
-                        </li>
+            <div>
+                <div class="selectLanguage">
+                    <div class="select">
+                        <span name="Language" *ngIf="model.language; else noLanguage">{{model.language}}</span>
+                        <ng-template #noLanguage><span>Язык программирования</span><img src="../../../assets/icon/down-arrow.svg"></ng-template>
                     </div>
-                </ul>
+                    <ul class="submenu" id="sub">
+                        <div>
+                            <li *ngFor="let lang of availableLanguages" (click)="selectLanguage(lang)">
+                                <div>
+                                    <span>{{lang}}</span>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+                <button *ngIf="model.language" class="taskBtn" (click)="conditionDrawer.toggle()" style="width: 100%;">Условия сдачи</button>
             </div>
-            <label for="sol" class="select">
-                <span *ngIf="!model.file; else downloadedSolution">Загрузить решение</span>
-                <ng-template #downloadedSolution><span>{{model.file.name}}</span></ng-template>
-                <img src="../../../assets/icon/down-arrow.svg">
-            </label>
+            <div>
+                <label *ngIf="model.language" for="sol" class="select">
+                    <span *ngIf="!model.file; else downloadedSolution">Загрузить решение</span>
+                    <ng-template #downloadedSolution><span>{{model.file.name}}</span></ng-template>
+                    <img src="../../../assets/icon/down-arrow.svg">
+                </label>
+            </div>
             <input id="sol" type="file" style="display: none;" [accept]="selectedLanguage" (input)="setFile($event)">
             <div class="sendCont"><button id="send" (click)="onSubmit()">Отправить решение</button></div>
         </div>

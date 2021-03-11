@@ -135,7 +135,7 @@
 .editor {
     height: 405px;
     display: block;
-    overflow: auto;
+    overflow: hidden;
     margin-bottom: 15px;
     background-color: #EFEFEF;
     border-collapse: collapse;
@@ -164,6 +164,7 @@
     width: max-content;
     min-width: 40px;
     text-align: right;
+    user-select: none;
 }
 
 *[col2] {
@@ -173,6 +174,28 @@
 th[col2] {
     display: grid !important;
     grid-template-columns: 50% 50%;
+}
+
+::ng-deep code {
+    font-size: 20px !important;
+}
+
+.code {
+    display: grid;
+    grid-template-columns: 43px 1fr;
+}
+
+div[col1] {
+    width: 100%;
+    box-sizing: border-box;
+    height: 373px;
+    overflow: hidden;
+    user-select: none;
+}
+
+.col2 {
+    height: 373px;
+    overflow: auto;
 }
 
 .solutionTime {
@@ -215,6 +238,7 @@ th[col2] {
     display: flex;
     padding: 10px;
     background-color: #0088FF;
+    color: #FFF;
     cursor: pointer;
 }
 
@@ -272,6 +296,7 @@ th[col2] {
 .sendCont {
     display: flex;
     height: 100%;
+    margin-top: 5px;
 }
 
 #send {
@@ -293,7 +318,11 @@ th[col2] {
     margin: 0;
 }
 
-.solutions, thead>th, tbody>tr>td {
+.tbody {
+    display: contents;
+}
+
+.solutions, thead>th, .tbody>tr>td {
     border: #979797 solid 1px;
     padding: 15px 5px;
 }
@@ -326,7 +355,7 @@ thead>th:nth-child(3) {
     width: 180px;
 }
 
-tbody>tr>td {
+.tbody>tr>td {
     text-align: center;
     vertical-align: middle;
 }
@@ -363,19 +392,35 @@ tbody>tr>td {
     float: right;
 }
 
+.opened-logs {
+    display: none;
+}
+
+.opened-logs:checked ~ .logs {
+    display: table-row;
+}
+
+.logs {
+    display: none;
+}
+
+.logs > td {
+    text-align: left !important;
+    padding: 15px 10px !important;
+
+    & > markdown {
+        font-family: monospace;
+        font-size: 0.7em;
+    }
+}
+
 .drawer {
     width: 30%;
-    padding: 30px;
+    height: 100vh;
+    position: fixed;
     border: #4CFFBA solid 2px;
     border-right: none;
     z-index: 3;
-
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
 }
 
 .cover {
@@ -389,6 +434,6 @@ tbody>tr>td {
 }
 
 ::ng-deep .mat-drawer-inner-container {
-    overflow: initial;
-    margin: 30px 0;
+    padding: 60px 30px;
+    box-sizing: border-box;
 }

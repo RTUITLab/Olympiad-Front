@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { LoginViewModel } from 'src/app/models/Login/LoginViewModel';
 import { User } from 'src/app/models/Users/User';
+import { ExerciseStateService } from 'src/app/services/Exercises/exercise-state.service';
 import { UserStateService } from 'src/app/services/Users/user-state.service';
 
 @Component({
@@ -30,12 +31,14 @@ export class MeComponent implements OnInit {
   constructor(
     private usersState: UserStateService,
     private toastr: ToastrService,
-    private titleService: Title
+    private titleService: Title,
+    private currentExerciseState: ExerciseStateService
   ) { }
 
   ngOnInit(): void {
     this.usersState.currentUserStream.subscribe(U => this.user = U);
     this.titleService.setTitle('Моя страница');
+    this.currentExerciseState.setChallengeId('');
   }
 
   onSubmit(): void {
