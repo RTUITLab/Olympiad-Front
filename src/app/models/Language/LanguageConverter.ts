@@ -9,6 +9,7 @@ export class LanguageConverter {
     c: require('!!raw-loader!src/assets/languages/C.md'),
     cpp: require('!!raw-loader!src/assets/languages/CPP.md'),
     python: require('!!raw-loader!src/assets/languages/PYTHON.md'),
+    js: require('!!raw-loader!src/assets/languages/JS.md')
   }
 
   private static readonly info: Language[] = [
@@ -60,6 +61,13 @@ export class LanguageConverter {
       webName: 'python',
       fileName: 'Program.py',
       note: LanguageConverter.files.python.default
+    },
+    {
+      language: 'JS ES6',
+      fileExtension: '.js',
+      webName: 'js',
+      fileName: 'Program.js',
+      note: LanguageConverter.files.js.default
     }
   ]
 
