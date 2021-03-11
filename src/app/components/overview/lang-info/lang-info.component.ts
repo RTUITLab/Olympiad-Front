@@ -15,6 +15,7 @@ export class LangInfoComponent implements OnInit {
     c: require('!!raw-loader!src/assets/languages/C.md'),
     cpp: require('!!raw-loader!src/assets/languages/CPP.md'),
     python: require('!!raw-loader!src/assets/languages/PYTHON.md'),
+    js: require('!!raw-loader!src/assets/languages/JS.md'),
   }
 
   constructor() { }
