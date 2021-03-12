@@ -13,20 +13,22 @@
 }
 
 .buttons {
-    display: grid;
-    grid-row: 1;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    display: flex;
     background-color: #EFEFEF;
     margin: 0;
+    justify-content: space-around;
 }
 
 .btn {
-    display: grid;
+    border-bottom: #EFEFEF solid 2px;
+    display: inline-block;
     grid-row: 1;
     padding: 10px 0;
-    justify-content: center;
     font-weight: 900;
     font-size: 18px;
+    border-radius: 5px;
+    min-width: 110px;
+    text-align: center;
     cursor: pointer;
 
     &:hover {
