@@ -2,12 +2,15 @@
     <div class="header">Правила оформления кода</div>
     <div class="langContainer">
         <div class="buttons">
-            <div (click)="changeLang('java')" class="btn" [ngClass]="{active: currentLang === 'java'}">Java</div>
-            <div (click)="changeLang('csharp')" class="btn" [ngClass]="{active: currentLang === 'csharp'}">C#</div>
-            <div (click)="changeLang('pas')" class="btn" [ngClass]="{active: currentLang === 'pas'}">Pascal ABC</div>
-            <div (click)="changeLang('fpas')" class="btn" [ngClass]="{active: currentLang === 'fpas'}">Free Pascal</div>
-            <div (click)="changeLang('c')" class="btn" [ngClass]="{active: currentLang === 'c'}">C</div>
+            <div (click)="changeLang('pas')" class="btn" [ngClass]="{active: currentLang === 'pas'}">Pascal ABC</div>&nbsp;
+            <div (click)="changeLang('fpas')" class="btn" [ngClass]="{active: currentLang === 'fpas'}">Free Pascal</div>&nbsp;
+            <div (click)="changeLang('c')" class="btn" [ngClass]="{active: currentLang === 'c'}">C</div>&nbsp;
             <div (click)="changeLang('cpp')" class="btn" [ngClass]="{active: currentLang === 'cpp'}">C++</div>
+        </div>
+        <div class="buttons">
+            <div (click)="changeLang('java')" class="btn" [ngClass]="{active: currentLang === 'java'}">Java</div>&nbsp;
+            <div (click)="changeLang('csharp')" class="btn" [ngClass]="{active: currentLang === 'csharp'}">C#</div>&nbsp;
+            <div (click)="changeLang('js')" class="btn" [ngClass]="{active: currentLang === 'js'}">JavaScript</div>&nbsp;
             <div (click)="changeLang('python')" class="btn" [ngClass]="{active: currentLang === 'python'}">Python</div>
         </div>
         <div class="info">
