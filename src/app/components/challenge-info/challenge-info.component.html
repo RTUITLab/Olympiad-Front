@@ -3,7 +3,7 @@
     <div class="container" *ngIf="isReady()">
         <div class="header">{{challenge.name}}</div>
         <div class="deadline" *ngIf="challenge.EndTime">Дедлайн:&nbsp;<span>{{convertDate(challenge.endTime)}}</span></div>
-        <div class="header">Описание</div>
+        <div *ngIf="challenge.description" class="header">Описание</div>
         <markdown>{{challenge.description}}</markdown>
 
         <div *ngIf="!challenge.toStart || isStarted()">
