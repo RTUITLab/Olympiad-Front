@@ -9,5 +9,7 @@ export class Challenge {
   public endTime?: string;
   public toEnd?: string;
   public toStart?: string;
+  public last?: number;
+  public lenght?: number;
   public challengeAccessType: ChallengeAccessType;
 }
