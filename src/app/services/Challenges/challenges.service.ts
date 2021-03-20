@@ -61,9 +61,12 @@ export class ChallengesService {
             CA[i].endTime = currentDate.toISOString();
             CA[i].last += sign * (60*60*parseInt(time[0]) + 60*parseInt(time[1]) + parseInt(time[2]));
             CA[i].lenght += sign * (60*60*parseInt(time[0]) + 60*parseInt(time[1]) + parseInt(time[2]));
-
             setInterval(() => {
               CA[i].last!--;
+
+              if (CA[i].last === CA[i].lenght || CA[i].last === 0) {
+                location.assign('challenges/' + CA[i].id);
+              }
             }, 1000);
           }
         }
