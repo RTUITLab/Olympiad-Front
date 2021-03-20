@@ -28,8 +28,8 @@ export class DateHelpers {
     return prettyDate;
   }
 
-  public static difference(from: Date, to: Date): string {
-    let difference = to.getTime() - from.getTime();
+  public static difference(difference: number): string {
+    difference *= 1000;
     let result = ' ';
     const days = Math.floor((difference / DateHelpers.oneDay));
     if (days > 0) {
