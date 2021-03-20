@@ -64,6 +64,10 @@ export class ChallengesService {
 
             setInterval(() => {
               CA[i].last!--;
+
+              if (CA[i].last === CA[i].lenght || CA[i].last === 0) {
+                location.reload();
+              }
             }, 1000);
           }
         }
