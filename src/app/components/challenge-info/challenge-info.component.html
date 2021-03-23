@@ -17,7 +17,7 @@
                     <td class="status" [ngClass]="statusClass(exercise)">{{solutionStatusPresent(exercise.status)}}</td>
                 </tr>
             </table>
-            <button class="start" (click)="start()">Начать тестирование</button>
+            <button *ngIf="!challenge.toEnd || challenge.toEnd[0] !== '-'" class="start" (click)="start()">Начать тестирование</button>
         </div>
     </div>
     <div class="col"></div>
