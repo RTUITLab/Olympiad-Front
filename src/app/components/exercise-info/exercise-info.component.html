@@ -45,7 +45,7 @@
                         <th col1></th>
                         <th col2>
                             <div class="solutionTime"><div *ngIf="!loadedSolution && exerciseInfo.solutions && exerciseInfo.solutions[0]">Решение от {{prettyTime(exerciseInfo.solutions[0].sendingTime)}}</div></div>
-                            <div class="buttons" *ngIf="exerciseInfo.solutions.length || model.file">
+                            <div class="buttons" *ngIf="exerciseInfo.solutions && exerciseInfo.solutions.length || model.file">
                                 <img
                                     (click)="copy()"
                                     src="../../../assets/icon/copy.svg"
@@ -76,7 +76,7 @@
                 </table>
             </ng-template>
 
-            <div *ngIf="exerciseInfo.solutions && exerciseInfo.solutions.length > 0 && sendMode">
+            <div *ngIf="sendMode">
                 <div class="header">Отправленные решения</div>
                 <table class="solutions">
                     <thead>
@@ -85,7 +85,7 @@
                         <th>Скачать решение</th>
                         <th>Результат</th>
                     </thead>
-                    <tbody>
+                    <tbody *ngIf="exerciseInfo.solutions && exerciseInfo.solutions.length > 0; else noSolutions">
                         <div *ngFor="let sol of exerciseInfo.solutions" class="tbody">
                             <tr>
                                 <ng-container *ngIf="sol.exerciseId == exerciseInfo.id">
@@ -129,6 +129,13 @@
                             </td></tr>   
                         </div>
                     </tbody>
+                    <ng-template #noSolutions>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" class="no-solutions">Нет отправленных решений</td>
+                            </tr>
+                        </tbody>
+                    </ng-template>
                 </table>
             </div>
         </div>
@@ -153,14 +160,16 @@
                 <button *ngIf="model.language" class="taskBtn" (click)="conditionDrawer.toggle()" style="width: 100%;">Условия сдачи</button>
             </div>
             <div>
-                <label *ngIf="model.language" for="sol" class="select">
+                <label *ngIf="(model.language || !this.challenge.toEnd) && this.challenge.toEnd[0] !== '-'" for="sol" class="select">
                     <span *ngIf="!model.file; else downloadedSolution">Загрузить решение</span>
                     <ng-template #downloadedSolution><span>{{model.file.name}}</span></ng-template>
                     <img src="../../../assets/icon/down-arrow.svg">
                 </label>
             </div>
             <input id="sol" type="file" style="display: none;" [accept]="selectedLanguage" (input)="setFile($event)">
-            <div class="sendCont"><button id="send" (click)="onSubmit()">Отправить решение</button></div>
+            <div class="sendCont">
+                <button *ngIf="!this.challenge.toEnd || this.challenge.toEnd[0] !== '-'" id="send" (click)="onSubmit()">Отправить решение</button>
+            </div>
         </div>
     </div>
 </div>
