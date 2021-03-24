@@ -7,4 +7,5 @@ export class ExerciseInfo {
     score: number;
     exerciseTask: string;
     solutions?: Solution[];
+    showScores?: boolean;
 }
