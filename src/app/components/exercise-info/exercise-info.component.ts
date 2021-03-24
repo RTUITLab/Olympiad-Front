@@ -24,6 +24,7 @@ import { UpdateService } from 'src/app/services/Updates/update.service';
 import { SolutionService } from 'src/app/services/Solutions/solution.service';
 import { environment } from 'src/environments/environment';
 import { UserStateService } from 'src/app/services/Users/user-state.service';
+import { ChallengeUtils } from 'src/app/services/Challenges/ChallengeUtils';
 
 @Component({
   selector: 'app-exercise-info',
@@ -145,7 +146,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
               this.sendMode = true;
             }
 
-            if (this.challenge.toEnd && this.challenge.toEnd[0] === '-') {
+            if (this.challenge.toEnd && this.isFinished()) {
               this.sendMode = true;
             }
             this.finishLoading();
@@ -378,6 +379,10 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
   public isReady() {
     return !this.isLoading();
+  }
+
+  public isFinished() {
+    return ChallengeUtils.CalcChallengeState(this.challenge) === ChallengeState.Ended;
   }
 
   public syncEditor() {
