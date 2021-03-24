@@ -18,7 +18,7 @@
         </div>
         <div class="name">
             <div class="header">{{exerciseInfo.name}}</div>
-            <div class="info" *ngIf="exerciseInfo.showScores">Баллы:&nbsp;{{exerciseInfo.score}} max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Тестирование: {{challenge.name}}</div>
+            <div class="info"><span *ngIf="exerciseInfo.showScores">Баллы:&nbsp;{{exerciseInfo.score}} max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Тестирование: {{challenge.name}}</div>
             <button *ngIf="sendMode" class="taskBtn" (click)="drawer.toggle()">Условия</button>
         </div>
             
