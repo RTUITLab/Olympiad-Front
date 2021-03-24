@@ -104,10 +104,7 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
   }
 
   public isStarted() {
-    const currentDate = new Date();
-    const date = new Date(this.challenge.startTime);
-    
-    return currentDate.getTime() > date.getTime();
+    return this.challenge.toStart[0] === '-';
   }
 
   public start() {

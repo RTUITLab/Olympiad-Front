@@ -145,6 +145,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
               this.sendMode = true;
             }
 
+            if (this.challenge.toEnd && this.challenge.toEnd[0] === '-') {
+              this.sendMode = true;
+            }
             this.finishLoading();
           })
 

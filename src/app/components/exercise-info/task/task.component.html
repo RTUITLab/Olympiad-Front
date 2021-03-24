@@ -1,7 +1,7 @@
 <div>
     <markdown [data]="exerciseInfo.exerciseTask"></markdown>
     
-    <div *ngIf="inOutData.length" class="header">Пример ввода/вывода</div>
+    <div *ngIf="inOutData && inOutData.length" class="header">Пример ввода/вывода</div>
     <table *ngIf="inOutData.length">
         <tr>
             <th>Ввод</th>

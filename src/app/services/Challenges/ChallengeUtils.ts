@@ -28,22 +28,13 @@ export class ChallengeUtils {
       return ChallengeState.NoLimits;
     }
 
-    const now = new Date();
-    const nowTime = now.getTime();
-
-    const start = new Date(challenge.startTime);
-    const startTime = start.getTime();
-
-    const end = new Date(challenge.endTime);
-    const endTime = end.getTime();
-
-    if (startTime > nowTime) {
+    if (challenge.toStart && challenge.toStart[0] !== '-') {
        return ChallengeState.NotStarted;
     }
-    if (nowTime > endTime) {
+    if (challenge.toEnd && challenge.toEnd[0] === '-') {
       return ChallengeState.Ended;
     }
-    if (startTime <= nowTime && nowTime <= endTime) {
+    if (challenge.toStart && challenge.toStart[0] === '-' && challenge.toEnd && challenge.toEnd[0] !== '-') {
       return ChallengeState.InProgress;
     }
     return ChallengeState.IncorrectLimits;
