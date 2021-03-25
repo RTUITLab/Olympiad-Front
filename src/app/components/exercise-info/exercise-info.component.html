@@ -160,7 +160,7 @@
                 <button *ngIf="model.language" class="taskBtn" (click)="conditionDrawer.toggle()" style="width: 100%;">Условия сдачи</button>
             </div>
             <div>
-                <label *ngIf="model.language && (!this.challenge.toEnd || this.isFinished())" for="sol" class="select">
+                <label *ngIf="model.language && (!this.challenge.toEnd || !this.isFinished())" for="sol" class="select">
                     <span *ngIf="!model.file; else downloadedSolution">Загрузить решение</span>
                     <ng-template #downloadedSolution><span>{{model.file.name}}</span></ng-template>
                     <img src="../../../assets/icon/down-arrow.svg">
