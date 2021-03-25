@@ -168,7 +168,7 @@
             </div>
             <input id="sol" type="file" style="display: none;" [accept]="selectedLanguage" (input)="setFile($event)">
             <div class="sendCont">
-                <button *ngIf="!this.challenge.toEnd || this.isFinished()" id="send" (click)="onSubmit()">Отправить решение</button>
+                <button *ngIf="!this.challenge.toEnd || !this.isFinished()" id="send" (click)="onSubmit()">Отправить решение</button>
             </div>
         </div>
     </div>
