@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   front:
-    image: rtuitlab/olympiad-front
+    image: rtuitlab/olympiad-front:${OLYMPIAD_SERVICE_TAG-latest}
     deploy:
       resources:
         limits:
