@@ -1,5 +1,8 @@
 <div class="page">
   <mat-drawer-container class="container">
+    <div *ngIf="isGlobalAdmin()">
+      <app-admin-header></app-admin-header>
+    </div>
     <div class="header">
       <app-header></app-header>
     </div>
