@@ -26,7 +26,11 @@ export class UserStateService {
       email: response.email,
       roles: this.parseJwt(response.token)
     };
-    localStorage.setItem('userToken', response.token);
+
+    if (!sessionStorage.getItem('userToken')) {
+      localStorage.setItem('userToken', response.token);
+    }
+
     this.usersBehavior.next(user);
     this.currentUser = user;
   }
@@ -113,12 +117,14 @@ export class UserStateService {
   public logOut(): void {
     if (sessionStorage.getItem('userToken')) {
       sessionStorage.removeItem('userToken');
+
+      this.getMe(localStorage.getItem('userToken'));
     } else {
       localStorage.removeItem('userToken');
-    }
 
-    this.usersBehavior.next(null);
-    this.currentUser = null;
+      this.usersBehavior.next(null);
+      this.currentUser = null;
+    }
   }
 
   private parseJwt(token: string): string[] {
