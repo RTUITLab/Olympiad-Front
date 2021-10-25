@@ -93,7 +93,7 @@ stages:
     - deployment: DeployFront
       displayName: Deploy front
       pool:
-        vmImage: 'Ubuntu-16.04'
+        vmImage: 'ubuntu-latest'
       environment: ${{variables.deployEnvironment}}
       strategy:
         runOnce:
