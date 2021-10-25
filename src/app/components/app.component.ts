@@ -15,9 +15,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     if (window.location.hash) {
-      localStorage.setItem('userToken', window.location.hash.slice(1));
+      sessionStorage.setItem('userToken', window.location.hash.slice(1));
     }
-    
+
     this.usersService.currentUserStream.subscribe(U => this.user = U);
   }
 }

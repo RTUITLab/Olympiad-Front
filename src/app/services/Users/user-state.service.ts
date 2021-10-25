@@ -36,7 +36,7 @@ export class UserStateService {
     const observable = new Observable<boolean>(obs => {
       observer = obs;
     });
-    
+
     this.http.get<LoginResponse>(
       Api.getMe(),
       { headers: { 'Authorization': `Bearer ${token}` } }
@@ -95,21 +95,28 @@ export class UserStateService {
   }
 
   public get authOptions(): object {
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
     return {
       headers: new HttpHeaders({
-        'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+        Authorization: `Bearer ${token}`
       })
-    }
+    };
   }
 
   public get bearer(): HttpHeaders {
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
     return new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('userToken')}`
-    })
+      Authorization: `Bearer ${token}`
+    });
   }
 
   public logOut(): void {
-    localStorage.removeItem('userToken');
+    if (sessionStorage.getItem('userToken')) {
+      sessionStorage.removeItem('userToken');
+    } else {
+      localStorage.removeItem('userToken');
+    }
+
     this.usersBehavior.next(null);
     this.currentUser = null;
   }

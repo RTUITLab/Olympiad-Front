@@ -35,12 +35,12 @@ export class LoginComponent implements OnInit {
   ) { }
 
   get login() { return this.loginForm.controls['Login']; }
-  
+
   get password() { return this.loginForm.controls['Password']; }
 
   ngOnInit(): void {
     this.titleService.setTitle('Вход');
-    if (localStorage.getItem('userToken')) {
+    if (sessionStorage.getItem('userToken') || localStorage.getItem('userToken')) {
       this.router.navigate(['/overview']);
     }
   }
