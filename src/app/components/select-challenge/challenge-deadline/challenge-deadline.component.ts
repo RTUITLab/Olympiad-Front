@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, AfterViewInit, SimpleChanges, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnChanges, AfterViewInit, SimpleChanges, Input, ChangeDetectorRef } from '@angular/core';
 import { Challenge } from 'src/app/models/Challenges/Challenge';
 import { ChallengeUtils } from 'src/app/services/Challenges/ChallengeUtils';
 
@@ -35,14 +35,18 @@ export class ChallengeDeadlineComponent implements AfterViewInit, OnChanges {
       return challengeTime;
     }
 
-    return `${
-      complexTime.length === 4 ? 'Дней: ' + complexTime.shift() + ', ' : ''
-    }${
-      complexTime[0] ? 'Часов: ' + complexTime.shift() + ', ' : ''
-    }${
-      complexTime[0] ? 'Минут: ' + complexTime.shift() + ', ' : ''
-    }${
-      'Секунд: ' + complexTime.shift()
-    }`;
+    const labels = ['Дней', 'Часов', 'Минут', 'Секунд'];
+
+    const result: string[] = [];
+    while (complexTime.length) {
+      const value = complexTime.pop();
+      if (value) {
+        result.unshift(labels.pop() + ': ' + value);
+      } else {
+        labels.pop();
+      }
+    }
+
+    return result.join(', ');
   }
 }
