@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Вход');
-    if (localStorage.getItem('userToken')) {
+    if (sessionStorage.getItem('userToken') || localStorage.getItem('userToken')) {
       this.router.navigate(['/overview']);
     }
   }

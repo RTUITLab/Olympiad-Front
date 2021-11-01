@@ -1,0 +1,30 @@
+<div class="admin-header">
+  <div class="control-panel">Пользователь: {{userService.currentUser.firstName}}</div>
+
+  <div class="UserInfo">
+    <button class="menu-btn" mat-icon-button disableRipple="true" [matMenuTriggerFor]="menu">
+      <mat-icon svgIcon="profile" aria-hidden="false" aria-label="Profile"></mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" class="menu">
+      <div>
+        <a class="btn" href="/admin" disableRipple="true" mat-menu-item>
+          Панель Администратора
+        </a>
+        <mat-divider></mat-divider>
+      </div>
+      <div>
+        <a class="btn" href="/control-panel" disableRipple="true" mat-menu-item>
+          Панель управления
+        </a>
+        <mat-divider></mat-divider>
+      </div>
+      <div>
+        <a class="btn" href="/results-viewer" disableRipple="true" mat-menu-item>
+          Панель результатов
+        </a>
+        <mat-divider></mat-divider>
+      </div>
+    </mat-menu>
+  </div>
+
+</div>

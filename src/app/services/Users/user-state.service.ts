@@ -26,7 +26,11 @@ export class UserStateService {
       email: response.email,
       roles: this.parseJwt(response.token)
     };
-    localStorage.setItem('userToken', response.token);
+
+    if (!sessionStorage.getItem('userToken')) {
+      localStorage.setItem('userToken', response.token);
+    }
+
     this.usersBehavior.next(user);
     this.currentUser = user;
   }
@@ -100,23 +104,32 @@ export class UserStateService {
   }
 
   public get authOptions(): object {
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
     return {
       headers: new HttpHeaders({
-        'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+        Authorization: `Bearer ${token}`
       })
-    }
+    };
   }
 
   public get bearer(): HttpHeaders {
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
     return new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('userToken')}`
-    })
+      Authorization: `Bearer ${token}`
+    });
   }
 
   public logOut(): void {
-    localStorage.removeItem('userToken');
-    this.usersBehavior.next(null);
-    this.currentUser = null;
+    if (sessionStorage.getItem('userToken')) {
+      sessionStorage.removeItem('userToken');
+
+      this.getMe(localStorage.getItem('userToken'));
+    } else {
+      localStorage.removeItem('userToken');
+
+      this.usersBehavior.next(null);
+      this.currentUser = null;
+    }
   }
 
   private parseJwt(token: string): string[] {

@@ -27,7 +27,7 @@ export class UpdateService {
     this.usersService.currentUserStream.subscribe(U => {
       if (U && (U.id !== this.userId || !this.userId)) {
         this.userId = U.id;
-        this.connect(localStorage.getItem('userToken'));
+        this.connect(sessionStorage.getItem('userToken') || localStorage.getItem('userToken'));
       }
       if (!U) {
         this.userId = undefined;
@@ -45,14 +45,14 @@ export class UpdateService {
         }
       })
       .build();
-    
+
     this.connection.on('UpdateSolutionStatus', async (solution: Solution) => {
       solution.logs = (await this.solutionService.getSolutionLogs(solution.id))[0];
       this.solutionsBehavior.next(solution);
     });
     this.connection.on('UpdateExerciseStatus', (exerciseStatus: ExerciseCompact) => this.exerciseBehavior.next(exerciseStatus));
     this.connection.on('InformationMessage', (message: string) => this.messageBehavior.next(message));
-      
+
     this.connection.start()
       .catch(() => console.log('Can not connect'));
   }
