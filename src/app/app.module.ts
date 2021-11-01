@@ -37,7 +37,7 @@ import { CurrentChallenge } from './models/Challenges/CurrentChallenge';
 import { UpdateService } from './services/Updates/update.service';
 import { SolutionService } from './services/Solutions/solution.service';
 import { LangInfoComponent } from './components/overview/lang-info/lang-info.component';
-import {AdminHeaderComponenet} from "./components/admin-header/admin-header.componenet";
+import { AdminHeaderComponent } from './components/admin-header/admin-header.componenet';
 
 @NgModule({
   declarations: [
@@ -54,7 +54,7 @@ import {AdminHeaderComponenet} from "./components/admin-header/admin-header.comp
     AboutComponent,
     MeComponent,
     LangInfoComponent,
-    AdminHeaderComponenet
+    AdminHeaderComponent
   ],
   imports: [
     BrowserAnimationsModule,

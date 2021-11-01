@@ -7,7 +7,7 @@ import {DomSanitizer} from '@angular/platform-browser';
   templateUrl: './admin-header.component.html',
   styleUrls: ['./admin-header.component.scss']
 })
-export class AdminHeaderComponenet {
+export class AdminHeaderComponent {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       'profile',
