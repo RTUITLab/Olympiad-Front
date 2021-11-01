@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   isAdmin: false,
-  baseUrl: 'https://dev.olympiad.rtuitlab.dev',
+  baseUrl: 'http://localhost:5001',
   buildNumber: 'test build number',
   showResults: true,
   recaptchaClientToken: ''

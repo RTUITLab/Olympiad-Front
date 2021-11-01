@@ -1,6 +1,6 @@
 <div class="page">
   <mat-drawer-container class="container">
-    <div *ngIf="isGlobalAdmin()">
+    <div *ngIf="isGlobalAdmin() && underAnotherUser()">
       <app-admin-header></app-admin-header>
     </div>
     <div class="header">

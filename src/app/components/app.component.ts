@@ -40,4 +40,8 @@ export class AppComponent implements OnInit {
     const roles = parsedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
     return roles.indexOf('Admin') !== -1;
   }
+
+  public underAnotherUser(): boolean {
+    return !!sessionStorage.getItem('userToken');
+  }
 }
