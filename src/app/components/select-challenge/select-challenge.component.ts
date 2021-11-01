@@ -35,7 +35,7 @@ export class SelectChallengeComponent implements OnInit {
     public currentChallenge: CurrentChallenge
   ) { }
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.usersState.currentUserStream.subscribe(U => {
       this.user = U;
       if (this.user) {
@@ -44,7 +44,7 @@ export class SelectChallengeComponent implements OnInit {
     });
   }
 
-  public async loadChallenges() {
+  public async loadChallenges(): Promise<void> {
     this.challenges = await this.challengeService.getChallengeList();
 
     if (this.initChallengeId) {
@@ -83,7 +83,7 @@ export class SelectChallengeComponent implements OnInit {
     const timer = setInterval(() => this.timeToEnd(), 1000);
   }
 
-  private async loadExercises() {
+  private async loadExercises(): Promise<void> {
     this.exerciseService.getExercises(this.currentChallenge.challenge.id)
       .then((_exercises) => {
         this.exercises = _exercises;
@@ -106,7 +106,7 @@ export class SelectChallengeComponent implements OnInit {
     return ChallengeUtils.ChallengeTime(challenge);
   }
 
-  private async updateState(state: ChallengeState) {
+  private async updateState(state: ChallengeState): Promise<void> {
     if (state === null) {
       return;
     }
@@ -120,7 +120,7 @@ export class SelectChallengeComponent implements OnInit {
     }
   }
 
-  setDefaultExercise () {
+  setDefaultExercise(): void {
     this.currentExercise = null;
     this.initExerciseId = null;
   }
