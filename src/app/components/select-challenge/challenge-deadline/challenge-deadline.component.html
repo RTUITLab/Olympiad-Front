@@ -1,5 +1,8 @@
 <div class="challenge-deadline" *ngIf="challenge">
-    <span>
+    <span
+      [matTooltip]="challengeTimeComplex"
+      matTooltipPosition="below"
+    >
       {{challengeTime(challenge)}}
     </span>
 </div>

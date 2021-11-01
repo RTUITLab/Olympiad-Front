@@ -63,26 +63,31 @@ export class UserStateService {
     const observable = new Observable<LoginResponse>(obs => {
       observer = obs;
     });
-
-    this.http.post<LoginResponse>(Api.login(), model, { responseType: 'json' })
-      .subscribe(
-        event => {
-          this.initUser(event);
-          observer.next(event);
-        },
-        error => {
-          if (error.status === 400) {
-            observer.error('Неверные email (ID) или пароль');
-          } else {
-            observer.error('Сервер недоступен\nПроверьте соединение');
-          }
-        }
-      );
+    // TODO: server can't read client IP (docker swarm ingress)
+    // as workaround - client can request ip
+    fetch("https://api.ipify.org?format=json")
+      .then(r => r.json())
+      .then((ipModel: { ip: string }) => {
+        this.http.post<LoginResponse>(Api.login(), { ...model, clientIp: ipModel.ip }, { responseType: 'json' })
+          .subscribe(
+            event => {
+              this.initUser(event);
+              observer.next(event);
+            },
+            error => {
+              if (error.status === 400) {
+                observer.error('Неверные email (ID) или пароль');
+              } else {
+                observer.error('Сервер недоступен\nПроверьте соединение');
+              }
+            }
+          );
+      });
     return observable;
   }
 
   public changePass(model: LoginViewModel): Promise<Object> {
-     return this.http.post(Api.changePassword(), model, { responseType: 'json', headers: this.bearer }).toPromise();
+    return this.http.post(Api.changePassword(), model, { responseType: 'json', headers: this.bearer }).toPromise();
   }
 
   public isAdmin(): boolean {

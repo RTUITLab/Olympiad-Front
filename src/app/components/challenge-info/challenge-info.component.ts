@@ -9,7 +9,6 @@ import { ChallengesService } from 'src/app/services/Challenges/challenges.servic
 import { DateHelpers } from 'src/app/services/DateHelpers';
 import { ExerciseStateService } from 'src/app/services/Exercises/exercise-state.service';
 import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
-import { SolutionService } from 'src/app/services/Solutions/solution.service';
 import { SolutionStatusConverter } from 'src/app/services/SolutionStatusConverter';
 import { UpdateService } from 'src/app/services/Updates/update.service';
 
@@ -33,10 +32,9 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
     private challengesService: ChallengesService,
     private exerciseService: ExerciseService,
     private updateService: UpdateService,
-    private solutionService: SolutionService
-  ) { super() }
+  ) { super(); }
 
-  async ngDoCheck() {
+  async ngDoCheck(): Promise<void> {
     if (this.isReady() && this.challenge && this.challenge.id !== this.route.snapshot.paramMap.get('ChallengeId')) {
       this.ngOnInit();
     }
@@ -52,23 +50,23 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
           ex.status = S.status;
         }
       }
-    })
+    });
 
     const id = this.route.snapshot.paramMap.get('ChallengeId');
     this.currentExerciseState.setChallengeId(id);
-     
+
     this.challengesService.getChallenge(id)
       .then(challenge => {
         this.challenge = challenge;
         this.currentExerciseState.setChallenge(this.challenge);
         this.titleService.setTitle(`${this.challenge.name}`);
-        
+
         this.loadExercises();
         this.finishLoading();
       });
   }
 
-  private async loadExercises() {
+  private async loadExercises(): Promise<void> {
     this.startLoading();
     this.exerciseService.getExercises(this.challenge.id)
       .then((_exercises) => {
@@ -88,7 +86,7 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
     return SolutionStatusConverter.convertToPretty(status);
   }
 
-  public statusClass(exercise: ExerciseCompact) {
+  public statusClass(exercise: ExerciseCompact): string {
     if (exercise.status === -1) {
       return '';
     }
@@ -103,12 +101,12 @@ export class ChallengeInfoComponent extends LoadingComponent implements OnInit, 
     }
   }
 
-  public isStarted() {
+  public isStarted(): boolean {
     return this.challenge.toStart[0] === '-';
   }
 
-  public start() {
-    this.router.navigate([`exercises/${this.exercises[0].id}`])
+  public start(): void {
+    this.router.navigate([`exercises/${this.exercises[0].id}`]);
   }
 
   public isReady(): boolean {
