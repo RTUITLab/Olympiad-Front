@@ -80,7 +80,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
           this.exerciseInfo.solutions.unshift(S);
         }
       }
-    })
+    });
 
     this.updateService.exerciseStream.subscribe(S => {
       if (this.exercises && S) {
@@ -89,7 +89,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
           ex.status = S.status || S.hiddenStatus;
         }
       }
-    })
+    });
 
     this.challenge = new Challenge();
     this.sendMode = false;
@@ -122,14 +122,14 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
               this.model.language = LanguageConverter.normalFromWeb(this.exerciseInfo.solutions[0].language);
               this.model.exerciseId = this.exerciseInfo.id;
-              
+
               const xhr = new XMLHttpRequest();
               xhr.open('GET', environment.baseUrl + '/api/check/download/' + solutions[0].id);
               xhr.setRequestHeader('Authorization', this.usersService.bearer.get('Authorization'));
               xhr.responseType = 'text';
               xhr.onload = () => {
                 this.model.file = new File([xhr.response], LanguageConverter.fileName(solutions[0].language));
-                
+
                 const fileReader = new FileReader();
                 fileReader.onload = _ => {
                   this.solutionPreview = fileReader.result;
@@ -140,7 +140,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
                   }
                 };
                 fileReader.readAsText(this.model.file);
-              }
+              };
               xhr.send();
 
               this.sendMode = true;
@@ -150,7 +150,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
               this.sendMode = true;
             }
             this.finishLoading();
-          })
+          });
 
         this.titleService.setTitle(`${this.exerciseInfo.name}`);
 
@@ -166,7 +166,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     });
   }
 
-  private async loadExercises() {
+  private async loadExercises(): Promise<void> {
     this.exercisesService.getExercises(this.challenge.id)
       .then((_exercises) => {
         this.exercises = _exercises;
@@ -184,10 +184,10 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     this.solutionService.getSolutionLogs(solution.id).then((response) => {
       solution.logs = response[0];
       return response;
-    })
+    });
   }
 
-  public statusClass(exercise: ExerciseCompact) {
+  public statusClass(exercise: ExerciseCompact): string {
     if (exercise.status === -1) {
       return '';
     }
@@ -202,21 +202,21 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     }
   }
 
-  async ngDoCheck() {
+  async ngDoCheck(): Promise<void> {
     if (this.isReady() && this.model.exerciseId !== this.route.snapshot.paramMap.get('ExerciseID')) {
       this.ngOnInit();
     }
   }
 
-  public setSendMode() {
+  public setSendMode(): void {
     this.sendMode = true;
   }
 
   public solved(): boolean {
-    return this.exerciseInfo.solutions.find(s => s.status === 7) !== undefined ? true : false;
+    return this.exerciseInfo.solutions.find(s => s.status === 7) !== undefined;
   }
-  
-  public selectLanguage(Language: string) {
+
+  public selectLanguage(Language: string): void {
     this.model.language = Language;
 
     document.getElementById('sub').hidden = true;
@@ -227,13 +227,13 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     return LanguageConverter.note(this.model.language);
   }
 
-  get selectedLanguage() {
+  get selectedLanguage(): string {
     if (this.model.language) {
       return LanguageConverter.fileExtensionByPrettyName(this.model.language);
     }
   }
 
-  setFile(event) {
+  setFile(event): void {
     if (event.srcElement.files[0]) {
       if (this.model.language === null) {
         this.toastr.warning('Выберите язык программирования');
@@ -251,7 +251,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     }
   }
 
-  public sanitize (url: string) {
+  public sanitize(url: string): any {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
 
@@ -260,7 +260,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     return this.solutionPreview.toString().split('\n');
   }
 
-  get submitDisabled() {
+  get submitDisabled(): boolean {
     if (!this.model.file) {
       this.toastr.warning('Загрузите файл');
       return true;
@@ -279,7 +279,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     }
   }
 
-  onSubmit() {
+  onSubmit(): any {
     if (!this.submitDisabled) {
       this.exercisesService.sendSolution(this.model)
         .subscribe(
@@ -308,7 +308,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     }
   }
 
-  solutionCheckLoop(checkSolution: Solution) {
+  solutionCheckLoop(checkSolution: Solution): void {
     /*this.exercisesService.checkSolution(checkSolution.Id).subscribe(solution => {
       const target = this.exerciseInfo.Solutions.find(s => s.Id === solution.Id);
       if (!target) {

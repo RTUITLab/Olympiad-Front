@@ -22,8 +22,8 @@ export class UserInfoComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.currentUserStream.subscribe(U => this.user = U);
   }
-  
-  myPage() {
+
+  myPage(): void {
     this.router.navigate(['user', this.user.id ]);
   }
 
@@ -31,11 +31,11 @@ export class UserInfoComponent implements OnInit {
     return this.usersService.isAdmin();
   }
 
-  adminFunctions() {
+  adminFunctions(): void {
     this.router.navigate(['admin-functions']);
   }
 
-  logout() {
+  logout(): void {
     this.usersService.logOut();
     this.router.navigate(['/login']);
   }

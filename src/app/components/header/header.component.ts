@@ -24,14 +24,15 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.currentUserStream.subscribe(U => this.user = U);
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) 
+      if (event instanceof NavigationEnd) {
         this.url = event.url;
+      }
     });
 
     this.updateService.messageStream.subscribe(M => {
       if (M) {
         this.toastr.info(M);
       }
-    })
+    });
   }
 }

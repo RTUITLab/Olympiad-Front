@@ -16,16 +16,16 @@ export class LangInfoComponent implements OnInit {
     cpp: require('!!raw-loader!src/assets/languages/CPP.md'),
     python: require('!!raw-loader!src/assets/languages/PYTHON.md'),
     js: require('!!raw-loader!src/assets/languages/JS.md'),
-  }
+  };
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  public get file(): string { return this.files[this.currentLang].default };
+  public get file(): string { return this.files[this.currentLang].default; }
 
-  public changeLang(lang: string) {
+  public changeLang(lang: string): void {
     this.currentLang = lang;
   }
 }

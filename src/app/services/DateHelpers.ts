@@ -44,7 +44,7 @@ export class DateHelpers {
       result += `0${hours}:`;
     }
     difference -= hours * DateHelpers.oneHour;
-    
+
     const minutes = Math.floor((difference / DateHelpers.oneMinute));
     if (minutes > 9) {
       result += `${minutes}:`;
@@ -66,6 +66,26 @@ export class DateHelpers {
     return result;
   }
 
+  public static convertLastToTime(last: string): number {
+    let sign = 1;
+
+    if (last[0] === '-') {
+      sign = -1;
+      last = last.slice(1);
+    }
+
+    let result = 0;
+
+    const splittedLast = last.split('.');
+    if (splittedLast.length === 3) {
+      result += parseInt(splittedLast.shift(), 10) * this.oneDay;
+    }
+
+    const time = splittedLast.shift().split(':');
+    result += parseInt(time[0], 10) * this.oneHour + parseInt(time[1], 10) * this.oneMinute + parseInt(time[2], 10) * this.oneSecond;
+
+    return result * sign / 1000;
+  }
 
   private static round(val: number): string {
     if (val < 10) {

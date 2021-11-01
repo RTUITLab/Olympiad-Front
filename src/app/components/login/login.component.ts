@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   get login() { return this.loginForm.controls['Login']; }
-  
+
   get password() { return this.loginForm.controls['Password']; }
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(): any {
     if (this.loginForm.valid) {
       this.model = this.loginForm.value;
       this.usersState.login(this.model).subscribe(
