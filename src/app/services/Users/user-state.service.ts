@@ -65,24 +65,29 @@ export class UserStateService {
     });
     // TODO: server can't read client IP (docker swarm ingress)
     // as workaround - client can request ip
-    fetch("https://api.ipify.org?format=json")
-      .then(r => r.json())
-      .then((ipModel: { ip: string }) => {
-        this.http.post<LoginResponse>(Api.login(), { ...model, clientIp: ipModel.ip }, { responseType: 'json' })
-          .subscribe(
-            event => {
-              this.initUser(event);
-              observer.next(event);
-            },
-            error => {
-              if (error.status === 400) {
-                observer.error('Неверные email (ID) или пароль');
-              } else {
-                observer.error('Сервер недоступен\nПроверьте соединение');
-              }
+
+    const loginAfterIpHandler = (ipModel: { ip: string }) => {
+      this.http.post<LoginResponse>(Api.login(), { ...model, clientIp: ipModel.ip }, { responseType: 'json' })
+        .subscribe(
+          event => {
+            this.initUser(event);
+            observer.next(event);
+          },
+          error => {
+            if (error.status === 400) {
+              observer.error('Неверные email (ID) или пароль');
+            } else {
+              observer.error('Сервер недоступен\nПроверьте соединение');
             }
-          );
-      });
+          }
+        );
+    };
+    const ipRequest = fetch("https://api.ipify.org?format=json");
+    ipRequest
+      .then(r => r.json())
+      .then(loginAfterIpHandler);
+    ipRequest
+      .catch(r => loginAfterIpHandler({ip: JSON.stringify(r).substring(0,50)}));
     return observable;
   }
 
