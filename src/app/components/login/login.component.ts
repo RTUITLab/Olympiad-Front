@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoginViewModel } from 'src/app/models/Login/LoginViewModel';
 import { FormValidateService } from 'src/app/services/Forms/form-validate.service';
@@ -26,9 +26,12 @@ export class LoginComponent implements OnInit {
     ])
   });
 
+  returnTo = '/overview';
+
   constructor(
     private usersState: UserStateService,
     private router: Router,
+    private route: ActivatedRoute,
     private toastr: ToastrService,
     private titleService: Title,
     private formValid: FormValidateService
@@ -40,8 +43,15 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Вход');
+
+    this.route.queryParams.subscribe((value) => {
+      if (value.returnTo) {
+        this.returnTo = value.returnTo;
+      }
+    });
+
     if (sessionStorage.getItem('userToken') || localStorage.getItem('userToken')) {
-      this.router.navigate(['/overview']);
+      this.router.navigate([this.returnTo]);
     }
   }
 
@@ -50,7 +60,7 @@ export class LoginComponent implements OnInit {
       this.model = this.loginForm.value;
       this.usersState.login(this.model).subscribe(
         success => {
-          this.router.navigate(['overview']);
+          this.router.navigate([this.returnTo]);
         },
         error => {
           this.errorMessage = error;
