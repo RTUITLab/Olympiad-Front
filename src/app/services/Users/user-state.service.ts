@@ -50,7 +50,7 @@ export class UserStateService {
           this.initUser(response);
           observer.next(true);
         },
-        failure => {
+        () => {
           this.logOut();
           observer.next(false);
         }
@@ -74,7 +74,7 @@ export class UserStateService {
             observer.next(event);
           },
           error => {
-            if (error.status === 400) {
+            if (error.status === 401) {
               observer.error('Неверные email (ID) или пароль');
             } else {
               observer.error('Сервер недоступен\nПроверьте соединение');
@@ -87,7 +87,7 @@ export class UserStateService {
       .then(r => r.json())
       .then(loginAfterIpHandler);
     ipRequest
-      .catch(r => loginAfterIpHandler({ip: JSON.stringify(r).substring(0,50)}));
+      .catch(r => loginAfterIpHandler({ip: JSON.stringify(r).substring(0, 50)}));
     return observable;
   }
 

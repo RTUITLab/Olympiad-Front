@@ -23,16 +23,8 @@ export class UserInfoComponent implements OnInit {
     this.usersService.currentUserStream.subscribe(U => this.user = U);
   }
 
-  myPage(): void {
-    this.router.navigate(['user', this.user.id ]);
-  }
-
   isAdmin(): boolean {
     return this.usersService.isAdmin();
-  }
-
-  adminFunctions(): void {
-    this.router.navigate(['admin-functions']);
   }
 
   logout(): void {
