@@ -17,7 +17,7 @@ export class UserStateService {
 
   constructor(private http: HttpClient) { }
 
-  private initUser(response: LoginResponse) {
+  private initUser(response: LoginResponse): void {
     const user: User = {
       firstName: response.firstName,
       studentID: response.studentId,
@@ -43,7 +43,7 @@ export class UserStateService {
 
     this.http.get<LoginResponse>(
       Api.getMe(),
-      { headers: { 'Authorization': `Bearer ${token}` } }
+      { headers: { Authorization: `Bearer ${token}` } }
     )
       .subscribe(
         response => {
@@ -95,17 +95,18 @@ export class UserStateService {
     return this.http.post(Api.changePassword(), model, { responseType: 'json', headers: this.bearer }).toPromise();
   }
 
-  public isAdmin(): boolean {
-    if (!this.currentUser) {
-      return false;
+  public checkUserRole(role: string): boolean {
+    if (this.currentUser && this.currentUser.roles && this.currentUser.roles.find((R) => R === role)) {
+      return true;
     }
-    if (!environment.production) {
-      return environment.isAdmin;
+
+    if (role === 'Admin') {
+      if (!environment.production) {
+        return environment.isAdmin;
+      }
     }
-    if (!this.currentUser.roles) {
-      return false;
-    }
-    return this.currentUser.roles.indexOf('Admin') !== -1;
+
+    return false;
   }
 
   public get authOptions(): object {

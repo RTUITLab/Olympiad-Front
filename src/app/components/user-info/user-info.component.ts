@@ -24,7 +24,11 @@ export class UserInfoComponent implements OnInit {
   }
 
   isAdmin(): boolean {
-    return this.usersService.isAdmin();
+    return this.usersService.checkUserRole('Admin');
+  }
+
+  isResultsViewer(): boolean {
+    return this.usersService.checkUserRole('ResultsViewer');
   }
 
   logout(): void {
