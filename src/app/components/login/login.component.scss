@@ -40,6 +40,7 @@ input {
 
 input[type=submit] {
     margin-top: 30px;
+    cursor: pointer;
 }
 
 input[type=submit]:hover {
@@ -61,4 +62,5 @@ a {
     margin: auto;
     color: #FFF;
     font-size: 20px;
+    cursor: pointer;
 }

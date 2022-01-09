@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     private usersState: UserStateService,
     private router: Router,
     private route: ActivatedRoute,
-    private toastr: ToastrService,
+    public toastr: ToastrService,
     private titleService: Title,
     private formValid: FormValidateService
   ) { }

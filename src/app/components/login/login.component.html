@@ -12,7 +12,7 @@
                     Пароль должен содержать минимум 6 символов
                 </div>
                 <input [ngClass]="{'submit-unvaliable': loginForm.invalid}" type="submit" value="Вход">
-                <a routerLink=""> <!-- TODO /register -->
+                <a (click)="toastr.warning('В данный момент регистрация невозможна')"> <!-- TODO /register -->
                     Нет аккаунта? Зарегистрироваться.
                 </a>
             </form>
