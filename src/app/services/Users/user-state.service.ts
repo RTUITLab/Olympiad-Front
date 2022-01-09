@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subscriber } from 'rxjs';
 import { User } from '../../models/Users/User';
 import { LoginViewModel } from '../../models/Login/LoginViewModel';
@@ -17,7 +17,7 @@ export class UserStateService {
 
   constructor(private http: HttpClient) { }
 
-  private initUser(response: LoginResponse) {
+  private initUser(response: LoginResponse): void {
     const user: User = {
       firstName: response.firstName,
       studentID: response.studentId,
@@ -43,14 +43,14 @@ export class UserStateService {
 
     this.http.get<LoginResponse>(
       Api.getMe(),
-      { headers: { 'Authorization': `Bearer ${token}` } }
+      { headers: { Authorization: `Bearer ${token}` } }
     )
       .subscribe(
         response => {
           this.initUser(response);
           observer.next(true);
         },
-        failure => {
+        () => {
           this.logOut();
           observer.next(false);
         }
@@ -74,7 +74,7 @@ export class UserStateService {
             observer.next(event);
           },
           error => {
-            if (error.status === 400) {
+            if (error.status === 401) {
               observer.error('Неверные email (ID) или пароль');
             } else {
               observer.error('Сервер недоступен\nПроверьте соединение');
@@ -87,7 +87,7 @@ export class UserStateService {
       .then(r => r.json())
       .then(loginAfterIpHandler);
     ipRequest
-      .catch(r => loginAfterIpHandler({ip: JSON.stringify(r).substring(0,50)}));
+      .catch(r => loginAfterIpHandler({ip: JSON.stringify(r).substring(0, 50)}));
     return observable;
   }
 
@@ -95,17 +95,18 @@ export class UserStateService {
     return this.http.post(Api.changePassword(), model, { responseType: 'json', headers: this.bearer }).toPromise();
   }
 
-  public isAdmin(): boolean {
-    if (!this.currentUser) {
-      return false;
+  public checkUserRole(role: string): boolean {
+    if (this.currentUser && this.currentUser.roles && this.currentUser.roles.find((R) => R === role)) {
+      return true;
     }
-    if (!environment.production) {
-      return environment.isAdmin;
+
+    if (role === 'Admin') {
+      if (!environment.production) {
+        return environment.isAdmin;
+      }
     }
-    if (!this.currentUser.roles) {
-      return false;
-    }
-    return this.currentUser.roles.indexOf('Admin') !== -1;
+
+    return false;
   }
 
   public get authOptions(): object {

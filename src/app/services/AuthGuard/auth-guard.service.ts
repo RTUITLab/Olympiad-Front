@@ -11,17 +11,29 @@ export class AuthGuardService implements CanActivate {
   canActivate(): boolean {
     const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
 
+    let returnTo = location.pathname;
+
     if (this.usersState.currentUser || token) {
       this.usersState.getMe(token)
         .subscribe(success => {
           if (!success) {
-            this.router.navigate(['login']);
+            returnTo = location.pathname;
+            this.redirectToLogin(returnTo);
           }
         });
       return true;
     }
 
-    this.router.navigate(['login']);
+    this.redirectToLogin(returnTo);
+
     return false;
+  }
+
+  private redirectToLogin(path): void {
+    if (path === '/') {
+      this.router.navigate(['login']);
+    } else {
+      this.router.navigate(['login'], { queryParams: { returnTo: path } });
+    }
   }
 }

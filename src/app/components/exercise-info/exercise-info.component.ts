@@ -329,9 +329,12 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
   public copy(): void {
     if (this.solutionPreview) {
-      navigator.clipboard.writeText(this.solutionPreview.toString());
+      navigator.clipboard.writeText(this.solutionPreview.toString())
+        .then(() => this.toastr.success('Код скопирован в буфер обмена'))
+        .catch(() => this.toastr.error('Не удалось скопировать код в буфер обмена'));
     } else {
       navigator.clipboard.writeText('Кода не было');
+      this.toastr.warning('Нечего копировать');
     }
   }
 

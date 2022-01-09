@@ -17,13 +17,13 @@
       </a>
       <mat-divider></mat-divider>
     </div>
-    <div *ngIf="isAdmin()">
+    <div *ngIf="isAdmin() || isResultsViewer()">
       <a class="btn" href="/control-panel" disableRipple="true" mat-menu-item>
         Панель управления
       </a>
       <mat-divider></mat-divider>
     </div>
-    <div *ngIf="isAdmin()">
+    <div *ngIf="isResultsViewer()">
       <a class="btn" href="/results-viewer" disableRipple="true" mat-menu-item>
         Панель результатов
       </a>
