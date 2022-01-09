@@ -1,4 +1,5 @@
 export enum SolutionStatus {
+    Empty = -1,
     ErrorWhileCompile,
     CompileError,
     RunTimeError,
