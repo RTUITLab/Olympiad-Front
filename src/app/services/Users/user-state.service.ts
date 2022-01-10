@@ -96,7 +96,7 @@ export class UserStateService {
   }
 
   public checkUserRole(role: string): boolean {
-    if (this.currentUser && this.currentUser.roles && this.currentUser.roles.find((R) => R === role)) {
+    if (this.currentUser && this.currentUser.roles && typeof (this.currentUser.roles) !== 'string' && this.currentUser.roles.find((R) => R === role)) {
       return true;
     }
 

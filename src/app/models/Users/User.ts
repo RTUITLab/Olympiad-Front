@@ -5,5 +5,5 @@ export class User {
     public studentID?: string;
     public password?: string;
     public token?: string;
-    public roles?: string[];
+    public roles?: string[] | string;
 }
