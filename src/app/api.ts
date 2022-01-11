@@ -113,4 +113,10 @@ export class Api {
   public static changePassword(): string {
     return `${this.baseUrl}/api/account/changePassword`;
   }
+
+  //  About  //
+  ////////////
+  public static getAbout(): string {
+    return `${this.baseUrl}/api/about`;
+  }
 }
