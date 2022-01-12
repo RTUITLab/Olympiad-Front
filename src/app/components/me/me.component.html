@@ -1,4 +1,4 @@
-<div class="overview">
+<div class="overview" *ngIf="isReady(); else notReady">
     <div class="container">
         <div class="header">Моя страница</div>
         <p>ID:&nbsp;{{user.studentID}}</p>
@@ -15,3 +15,9 @@
         </ng-template>
     </div>
 </div>
+
+<ng-template #notReady>
+  <div class="spinnerContainer">
+    <div class="spinner"></div>
+  </div>
+</ng-template>

@@ -16,6 +16,7 @@ export class MeComponent implements OnInit {
   user: User;
   public isChangingPassword = false;
   model: LoginViewModel;
+  isLoading = true;
 
   newPassForm = new FormGroup({
     CurrentPassword: new FormControl('', [
@@ -36,7 +37,10 @@ export class MeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.usersState.currentUserStream.subscribe(U => this.user = U);
+    this.usersState.currentUserStream.subscribe(U => {
+      this.user = U;
+      this.isLoading = !U;
+    });
     this.titleService.setTitle('Моя страница');
     this.currentExerciseState.setChallengeId('');
   }
@@ -50,5 +54,9 @@ export class MeComponent implements OnInit {
     } else {
       this.toastr.error('Введите корректные данные', `Ошибка`);
     }
+  }
+
+  public isReady(): boolean {
+    return !this.isLoading;
   }
 }
