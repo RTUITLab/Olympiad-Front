@@ -25,6 +25,7 @@ import { SolutionService } from 'src/app/services/Solutions/solution.service';
 import { environment } from 'src/environments/environment';
 import { UserStateService } from 'src/app/services/Users/user-state.service';
 import { ChallengeUtils } from 'src/app/services/Challenges/ChallengeUtils';
+import { Language } from 'src/app/models/Language/Language';
 
 @Component({
   selector: 'app-exercise-info',
@@ -39,7 +40,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   inOutData: InOutData[];
   exerciseInfo: ExerciseInfo;
   solutionPreview?: string | ArrayBuffer;
-  availableLanguages = LanguageConverter.languages();
+  availableLanguages: string[] = LanguageConverter.languages();
   model: SolutionViewModel;
   sendMode: boolean;
   loadedSolution: boolean;
@@ -103,7 +104,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     this.exercisesService.getExercise(this.model.exerciseId)
       .then((exInfo: ExerciseInfo) => {
         this.exerciseInfo = exInfo;
-
+        this.availableLanguages = exInfo.restrictions.code.allowedRuntimes
+          .map(r => LanguageConverter.normalFromWeb(r))
+          .filter(r => r);
         this.challengesService.getChallenge(this.exerciseInfo.challengeId).then(c => {
           this.startLoading();
           this.challenge = c;

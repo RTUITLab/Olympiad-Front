@@ -1,4 +1,5 @@
 import { Solution } from '../Solutions/Solution';
+import { ExerciseRestrictions } from './ExerciseRestrictions';
 
 export class ExerciseInfo {
     id: string;
@@ -8,4 +9,5 @@ export class ExerciseInfo {
     exerciseTask: string;
     solutions?: Solution[];
     showScores?: boolean;
+    restrictions: ExerciseRestrictions;
 }
