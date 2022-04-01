@@ -7,8 +7,9 @@
         <div class="header" style="font-size: 25px;">Условия сдачи</div>
         <markdown *ngIf="model.language" [data]="languageNote"></markdown>
     </mat-drawer>
-    <div class="cover" (click)="drawer.close() && conditionDrawer.close()" *ngIf="drawer.opened || conditionDrawer.opened"></div>
-    
+    <div class="cover" (click)="drawer.close() && conditionDrawer.close()"
+        *ngIf="drawer.opened || conditionDrawer.opened"></div>
+
     <div class="view">
         <div class="progress">
             <div class="exercise" *ngFor="let exercise of exercises">
@@ -18,10 +19,11 @@
         </div>
         <div class="name">
             <div class="header">{{exerciseInfo.name}}</div>
-            <div class="info"><span *ngIf="exerciseInfo.showScores">Баллы:&nbsp;{{exerciseInfo.score}} max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Тестирование: {{challenge.name}}</div>
+            <div class="info"><span *ngIf="exerciseInfo.showScores">Баллы:&nbsp;{{exerciseInfo.score}}
+                    max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Тестирование: {{challenge.name}}</div>
             <button *ngIf="sendMode" class="taskBtn" (click)="drawer.toggle()">Условия</button>
         </div>
-            
+
         <div class="container">
             <div *ngIf="!sendMode; else send">
                 <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
@@ -31,12 +33,10 @@
                 <div id="header">
                     <div class="wave">
                         <div class="correctInput" [ngClass]="{empty: !exerciseInfo.solutions[0]}">
-                            <img
-                                *ngIf="exerciseInfo.solutions[0]"
+                            <img *ngIf="exerciseInfo.solutions[0]"
                                 src="../../../assets/icon/statusCodes/{{solutionStatusIcon(exerciseInfo.solutions[0].status)}}.svg"
                                 [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
-                                matTooltipPosition="above"
-                            >
+                                matTooltipPosition="above">
                         </div>
                     </div>
                 </div>
@@ -44,15 +44,15 @@
                     <tr>
                         <th col1></th>
                         <th col2>
-                            <div class="solutionTime"><div *ngIf="!loadedSolution && exerciseInfo.solutions && exerciseInfo.solutions[0]">Решение от {{prettyTime(exerciseInfo.solutions[0].sendingTime)}}</div></div>
-                            <div class="buttons" *ngIf="exerciseInfo.solutions && exerciseInfo.solutions.length || model.file">
-                                <img
-                                    (click)="copy()"
-                                    src="../../../assets/icon/copy.svg"
-                                    [matTooltip]="['Копировать решение']"
-                                    matTooltipPosition="above"
-                                >
-                                <a id="a" [href]="sanitize(solutionUrl)" [download]="this.model.file.name"><img
+                            <div class="solutionTime">
+                                <div *ngIf="!loadedSolution && exerciseInfo.solutions && exerciseInfo.solutions[0]">
+                                    Решение от {{prettyTime(exerciseInfo.solutions[0].sendingTime)}}</div>
+                            </div>
+                            <div class="buttons"
+                                *ngIf="exerciseInfo.solutions && exerciseInfo.solutions.length || model.file">
+                                <img (click)="copy()" src="../../../assets/icon/copy.svg"
+                                    [matTooltip]="['Копировать решение']" matTooltipPosition="above">
+                                <a id="a" [href]="sanitize(solutionUrl)" [download]="model.file && model.file.name"><img
                                     class="download"
                                     src="../../../assets/icon/download.svg"
                                     [matTooltip]="['Скачать решение']"
@@ -76,68 +76,8 @@
                 </table>
             </ng-template>
 
-            <div *ngIf="sendMode">
-                <div class="header">Отправленные решения</div>
-                <table class="solutions">
-                    <thead>
-                        <th>Время отправки</th>
-                        <th>Язык</th>
-                        <th>Скачать решение</th>
-                        <th>Результат</th>
-                    </thead>
-                    <tbody *ngIf="exerciseInfo.solutions && exerciseInfo.solutions.length > 0; else noSolutions">
-                        <div *ngFor="let sol of exerciseInfo.solutions" class="tbody">
-                            <tr>
-                                <ng-container *ngIf="sol.exerciseId == exerciseInfo.id">
-                                    <td>{{prettyTime(sol.sendingTime)}}</td>
-                                    <td>{{normalLang(sol.language)}}</td>
-                                    <td (click)="downloadSolution(sol)">
-                                        <div class="downSol">
-                                            <span>Скачать</span>
-                                            <img class="download" src="../../../assets/icon/download.svg">
-                                        </div>
-                                    </td>
-                                    <td style="color: {{fontColor(sol.status)}}">
-                                        <label *ngIf="sol.status !== 5 && sol.status !== 6; else processing" [for]="sol.id" class="downSol status" style="cursor: pointer">
-                                            <span>{{solutionStatusPresent(sol.status)}}</span>
-                                            <img
-                                                class="statusIcon"
-                                                src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
-                                                [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
-                                                matTooltipPosition="above"
-                                            />
-                                        </label>
-                                        <ng-template #processing>
-                                            <div class="downSol status" style="cursor: auto">
-                                                <span>{{solutionStatusPresent(sol.status)}}</span>
-                                                <img
-                                                    class="statusIcon"
-                                                    src="../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
-                                                    [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)"
-                                                    matTooltipPosition="above"
-                                                />
-                                            </div>
-                                        </ng-template>
-                                    </td>
-                                </ng-container>
-                            </tr>
-                            <input type="checkbox" [id]="sol.id" class="opened-logs" />
-                            <tr *ngIf="sol.status !== 5 && sol.status !== 6" class="logs"><td colspan="4">
-                                <div style="margin-bottom: 5px;"><b>Дата:</b> {{prettyTime(sol.sendingTime)}}</div>
-                                <div><b>Логи компиляции</b></div>
-                                <markdown [data]="sol.logs"></markdown>
-                            </td></tr>   
-                        </div>
-                    </tbody>
-                    <ng-template #noSolutions>
-                        <tbody>
-                            <tr>
-                                <td colspan="4" class="no-solutions">Нет отправленных решений</td>
-                            </tr>
-                        </tbody>
-                    </ng-template>
-                </table>
-            </div>
+            <app-code-sent-solutions-table *ngIf="sendMode" [exerciseInfo]="exerciseInfo">
+            </app-code-sent-solutions-table>
         </div>
 
         <div *ngIf="sendMode" class="submitCol">
@@ -145,7 +85,8 @@
                 <div class="selectLanguage">
                     <div class="select">
                         <span name="Language" *ngIf="model.language; else noLanguage">{{model.language}}</span>
-                        <ng-template #noLanguage><span>Язык программирования</span><img src="../../../assets/icon/down-arrow.svg"></ng-template>
+                        <ng-template #noLanguage><span>Язык программирования</span><img
+                                src="../../../assets/icon/down-arrow.svg"></ng-template>
                     </div>
                     <ul class="submenu" id="sub">
                         <div>
@@ -157,7 +98,8 @@
                         </div>
                     </ul>
                 </div>
-                <button *ngIf="model.language" class="taskBtn" (click)="conditionDrawer.toggle()" style="width: 100%;">Условия сдачи</button>
+                <button *ngIf="model.language" class="taskBtn" (click)="conditionDrawer.toggle()"
+                    style="width: 100%;">Условия сдачи</button>
             </div>
             <div>
                 <label *ngIf="model.language && (!this.challenge.toEnd || !this.isFinished())" for="sol" class="select">
@@ -168,7 +110,8 @@
             </div>
             <input id="sol" type="file" style="display: none;" [accept]="selectedLanguage" (input)="setFile($event)">
             <div class="sendCont">
-                <button *ngIf="!this.challenge.toEnd || !this.isFinished()" id="send" (click)="onSubmit()">Отправить решение</button>
+                <button *ngIf="!this.challenge.toEnd || !this.isFinished()" id="send" (click)="onSubmit()">Отправить
+                    решение</button>
             </div>
         </div>
     </div>

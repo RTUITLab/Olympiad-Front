@@ -38,6 +38,8 @@ import { UpdateService } from './services/Updates/update.service';
 import { SolutionService } from './services/Solutions/solution.service';
 import { LangInfoComponent } from './components/overview/lang-info/lang-info.component';
 import { AdminHeaderComponent } from './components/admin-header/admin-header.componenet';
+import { DocsModeComponent } from './components/exercise-info/docs-mode/docs-mode.component';
+import { CodeSentSolutionsTableComponent } from './components/exercise-info/code-mode/code-sent-solutions-table/code-sent-solutions-table.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { AdminHeaderComponent } from './components/admin-header/admin-header.com
     AboutComponent,
     MeComponent,
     LangInfoComponent,
-    AdminHeaderComponent
+    AdminHeaderComponent,
+    DocsModeComponent,
+    CodeSentSolutionsTableComponent
   ],
   imports: [
     BrowserAnimationsModule,

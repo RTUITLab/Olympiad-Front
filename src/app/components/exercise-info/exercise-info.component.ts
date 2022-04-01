@@ -25,7 +25,7 @@ import { SolutionService } from 'src/app/services/Solutions/solution.service';
 import { environment } from 'src/environments/environment';
 import { UserStateService } from 'src/app/services/Users/user-state.service';
 import { ChallengeUtils } from 'src/app/services/Challenges/ChallengeUtils';
-import { Language } from 'src/app/models/Language/Language';
+import { ExerciseType } from 'src/app/models/Exercises/ExerciseType';
 
 @Component({
   selector: 'app-exercise-info',
@@ -93,7 +93,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     });
 
     this.challenge = new Challenge();
-    this.sendMode = false;
+    this.sendMode = true;// TODO: CHANGE TO FALSE
     this.loadedSolution = false;
     this.exerciseInfo = new ExerciseInfo();
     this.solutionPreview = null;
@@ -104,9 +104,11 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     this.exercisesService.getExercise(this.model.exerciseId)
       .then((exInfo: ExerciseInfo) => {
         this.exerciseInfo = exInfo;
-        this.availableLanguages = exInfo.restrictions.code.allowedRuntimes
-          .map(r => LanguageConverter.normalFromWeb(r))
-          .filter(r => r);
+        if (this.exerciseInfo.type === ExerciseType.Code) {
+          this.availableLanguages = exInfo.restrictions.code.allowedRuntimes
+            .map(r => LanguageConverter.normalFromWeb(r))
+            .filter(r => r);
+        }
         this.challengesService.getChallenge(this.exerciseInfo.challengeId).then(c => {
           this.startLoading();
           this.challenge = c;
@@ -161,7 +163,8 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
         this.currentExerciseState.setChallengeId(exInfo.challengeId);
         this.currentExerciseState.setExerciseId(exInfo.id);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error(error);
         this.router.navigate(['overview']);
       });
     this.currentExerciseState.currentChallengeState.subscribe(s => {
@@ -295,10 +298,8 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
               this.toastr.warning(`Вы уже отправляли такое решение`);
               return;
             }
-            const f = () => this.solutionCheckLoop(createdSolution);
             this.toastr.success(`Решение успешно загружено`);
             this.exerciseInfo.solutions.unshift(createdSolution);
-            f();
           },
           (error: HttpErrorResponse) => {
             if (error.status === 429) { // TooManyRequests HTTP Status
@@ -309,25 +310,6 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
           }
         );
     }
-  }
-
-  solutionCheckLoop(checkSolution: Solution): void {
-    /*this.exercisesService.checkSolution(checkSolution.Id).subscribe(solution => {
-      const target = this.exerciseInfo.Solutions.find(s => s.Id === solution.Id);
-      if (!target) {
-        this.exerciseInfo.Solutions.unshift(solution);
-      } else {
-        target.Status = solution.Status;
-        target.StartCheckingTime = solution.StartCheckingTime;
-        target.CheckedTime = solution.CheckedTime;
-      }
-      if (solution.Status === SolutionStatus.InQueue ||
-        solution.Status === SolutionStatus.InProcessing) {
-        this.solutionCheckTimers.push(
-          setTimeout(() => this.solutionCheckLoop(checkSolution), 800)
-        );
-      }
-    });*/
   }
 
   public copy(): void {
@@ -395,7 +377,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     var leftDiv = document.getElementById('rows');
     var rightDiv = <HTMLElement>document.getElementById('codeRows');
 
-    rightDiv.onscroll = function() {
+    rightDiv.onscroll = function () {
       leftDiv.scrollTop = rightDiv.scrollTop;
     }
   }
