@@ -5,7 +5,7 @@
       <ng-template #noLanguage><span>Язык программирования</span><img src="../../../../../assets/icon/down-arrow.svg">
       </ng-template>
     </div>
-    <ul class="submenu" id="sub">
+    <ul class="submenu" id="sub" *ngIf="!isFinished">
       <div>
         <li *ngFor="let lang of availableLanguages" (click)="selectLanguage(lang)">
           <div>

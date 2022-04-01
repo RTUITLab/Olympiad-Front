@@ -12,14 +12,8 @@ import { ChallengesService } from 'src/app/services/Challenges/challenges.servic
 import { ExerciseStateService } from 'src/app/services/Exercises/exercise-state.service';
 import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
 import { InOutData } from 'src/app/models/Exercises/InOutData';
-import { Solution } from 'src/app/models/Solutions/Solution';
-import { SolutionStatus } from 'src/app/models/Solutions/SolutionStatus';
-import { DateHelpers } from 'src/app/services/DateHelpers';
-import { SolutionUtils } from 'src/app/services/SolutionUtils';
-import { SolutionStatusConverter } from 'src/app/services/SolutionStatusConverter';
 import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { LoadingComponent } from 'src/app/models/LoadingComponent';
-import { DomSanitizer } from '@angular/platform-browser';
 import { UpdateService } from 'src/app/services/Updates/update.service';
 import { SolutionService } from 'src/app/services/Solutions/solution.service';
 import { environment } from 'src/environments/environment';
@@ -33,9 +27,6 @@ import { ExerciseType } from 'src/app/models/Exercises/ExerciseType';
   styleUrls: ['./exercise-info.component.scss']
 })
 export class ExerciseInfoComponent extends LoadingComponent implements OnInit, DoCheck {
-  private challengeState: ChallengeState;
-  private solutionCheckTimers: Array<any> = [];
-
   challenge: Challenge;
   inOutData: InOutData[];
   exerciseInfo: ExerciseInfo;
@@ -53,7 +44,6 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     private titleService: Title,
     private currentExerciseState: ExerciseStateService,
     private updateService: UpdateService,
-    private domSanitizer: DomSanitizer,
     private solutionService: SolutionService,
     private usersService: UserStateService
   ) { super(); }
@@ -141,7 +131,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
               this.sendMode = true;
             }
 
-            if (this.challenge.toEnd && this.isFinished()) {
+            if (this.challenge.toEnd && this.isFinished() && solutions.length) {
               this.sendMode = true;
             }
             this.finishLoading();
@@ -157,9 +147,6 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
         console.error(error);
         this.router.navigate(['overview']);
       });
-    this.currentExerciseState.currentChallengeState.subscribe(s => {
-      this.challengeState = s;
-    });
   }
 
   private async loadExercises(): Promise<void> {
@@ -201,34 +188,6 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   get languageNote(): string | undefined {
     return LanguageConverter.note(this.model.language);
   }
-
-  public sanitize(url: string): any {
-    return this.domSanitizer.bypassSecurityTrustUrl(url);
-  }
-
-  public getCode(): Array<string> {
-    this.syncEditor();
-    return this.model.content.toString().split('\n');
-  }
-
-  public copy(): void {
-    if (this.model.content) {
-      navigator.clipboard.writeText(this.model.content.toString())
-        .then(() => this.toastr.success('Код скопирован в буфер обмена'))
-        .catch(() => this.toastr.error('Не удалось скопировать код в буфер обмена'));
-    } else {
-      navigator.clipboard.writeText('Кода не было');
-      this.toastr.warning('Нечего копировать');
-    }
-  }
-
-  prettyTime(time: string): string {
-    if (!time) {
-      return 'нет данных';
-    }
-    return DateHelpers.prettyTime(time);
-  }
-
   public isReady() {
     return !this.isLoading();
   }
@@ -237,21 +196,4 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     return ChallengeUtils.CalcChallengeState(this.challenge) === ChallengeState.Ended;
   }
 
-  public syncEditor() {
-    var leftDiv = document.getElementById('rows');
-    var rightDiv = <HTMLElement>document.getElementById('codeRows');
-
-    rightDiv.onscroll = function () {
-      leftDiv.scrollTop = rightDiv.scrollTop;
-    }
-  }
-  solutionStatusPresent(status: SolutionStatus): string {
-    return SolutionStatusConverter.convertToPretty(status);
-  }
-  solutionStatusTooltip(status: SolutionStatus): string {
-    return SolutionStatusConverter.getTooltip(status);
-  }
-  solutionStatusIcon(status: SolutionStatus): string {
-    return SolutionStatusConverter.getIcon(status);
-  }
 }

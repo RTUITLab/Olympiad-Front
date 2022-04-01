@@ -27,51 +27,10 @@
         <div class="container">
             <div *ngIf="!sendMode; else send">
                 <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
-                <button class="send" (click)="setSendMode()">Сдать задачу</button>
+                <button *ngIf="!isFinished()" class="send" (click)="setSendMode()">Сдать задачу</button>
             </div>
             <ng-template #send>
-                <div id="header">
-                    <div class="wave">
-                        <div class="correctInput" [ngClass]="{empty: !model.solution}">
-                            <img *ngIf="model.solution"
-                                src="../../../assets/icon/statusCodes/{{solutionStatusIcon(model.solution.status)}}.svg"
-                                [matTooltip]="solutionStatusTooltip(model.solution.status)"
-                                matTooltipPosition="above">
-                        </div>
-                    </div>
-                </div>
-                <table class="editor">
-                    <tr>
-                        <th col1></th>
-                        <th col2>
-                            <div class="solutionTime">
-                                <div *ngIf="model.solution">
-                                    Решение от {{prettyTime(model.solution.sendingTime)}}</div>
-                            </div>
-                            <div class="buttons"
-                                *ngIf="model.file">
-                                <img (click)="copy()" src="../../../assets/icon/copy.svg"
-                                    [matTooltip]="['Копировать решение']" matTooltipPosition="above">
-                                <a id="a" [href]="sanitize(model.solutionUrl)" [download]="model.file && model.file.name"><img
-                                        class="download" src="../../../assets/icon/download.svg"
-                                        [matTooltip]="['Скачать решение']" matTooltipPosition="above"></a>
-                            </div>
-                        </th>
-                    </tr>
-                    <div class="code" *ngIf="model.content && model.language">
-                        <div col1 id="rows" style="user-select: none;">
-                            <div *ngFor="let line of getCode(); let i = index; trackBy: trackByFn">{{i + 1}}</div>
-                        </div>
-                        <div class="col2" id="codeRows">
-                            <markdown [data]="model.content | language : model.language"></markdown>
-                            <div>&nbsp;</div>
-                        </div>
-                    </div>
-                    <tr *ngIf="!(model.content && model.language)">
-                        <td col1></td>
-                        <td col2></td>
-                    </tr>
-                </table>
+                <app-code-preview [model]="model"></app-code-preview>
             </ng-template>
 
             <app-code-sent-solutions-table *ngIf="sendMode" [exerciseInfo]="exerciseInfo">

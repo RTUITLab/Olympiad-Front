@@ -41,6 +41,7 @@ import { AdminHeaderComponent } from './components/admin-header/admin-header.com
 import { DocsModeComponent } from './components/exercise-info/docs-mode/docs-mode.component';
 import { CodeSentSolutionsTableComponent } from './components/exercise-info/code-mode/code-sent-solutions-table/code-sent-solutions-table.component';
 import { CodeSendButtonsComponent } from './components/exercise-info/code-mode/code-send-buttons/code-send-buttons.component';
+import { CodePreviewComponent } from './components/exercise-info/code-mode/code-preview/code-preview.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { CodeSendButtonsComponent } from './components/exercise-info/code-mode/c
     AdminHeaderComponent,
     DocsModeComponent,
     CodeSentSolutionsTableComponent,
-    CodeSendButtonsComponent
+    CodeSendButtonsComponent,
+    CodePreviewComponent
   ],
   imports: [
     BrowserAnimationsModule,
