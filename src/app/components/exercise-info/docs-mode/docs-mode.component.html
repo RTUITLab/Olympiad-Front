@@ -1,1 +1,45 @@
-<p>docs-mode works!</p>
+<markdown [data]="exerciseInfo.exerciseTask"></markdown>
+
+<div><strong>Отправка решения</strong></div>
+
+<table>
+  <thead>
+    <th>Файл</th>
+    <th>
+      <span matTooltip="Максимальный размер" matTooltipPosition="above">
+        Размер
+      </span>
+    </th>
+    <th>Расширения</th>
+    <th>Решение</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let document of exerciseInfo.restrictions.docs.documents; let i = index">
+      <td>
+        <p class="title"><strong>{{document.title}}</strong></p>
+        <p *ngIf="document.description" class="description">{{document.description}}</p>
+      </td>
+      <td>{{maxSizeInMegabytes(document.maxSize) | number:'0.0-2'}} МБ</td>
+      <td>
+        <div class="extensions">
+          <span class="extension" *ngFor="let extension of document.allowedExtensions">{{extension}}</span>
+        </div>
+      </td>
+      <td>
+        <label>
+          <input type="file" style="display: none;" [accept]="document.allowedExtensions" (input)="selectedFile(i, $event)" />
+          <span *ngIf="files[i]; else selectedFileName">{{files[i].name}}</span>
+          <ng-template #selectedFileName>
+            Выбрать файл
+          </ng-template>
+        </label>
+        <p *ngIf="sendingStatus[i]">{{sendingStatus[i]}}</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="!allFilesSelected(); else sendButton">Выберите все необходимые файлы для отправки</p>
+<ng-template #sendButton>
+  <button (click)="sendFiles()" class="send">Отправить решение</button>
+</ng-template>

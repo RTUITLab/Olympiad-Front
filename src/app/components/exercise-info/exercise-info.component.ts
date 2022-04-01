@@ -195,5 +195,10 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   public isFinished() {
     return ChallengeUtils.CalcChallengeState(this.challenge) === ChallengeState.Ended;
   }
-
+  public isCodeMode() {
+    return this.exerciseInfo && this.exerciseInfo.type === ExerciseType.Code;
+  }
+  public isDocsMode() {
+    return this.exerciseInfo && this.exerciseInfo.type === ExerciseType.Docs;
+  }
 }
