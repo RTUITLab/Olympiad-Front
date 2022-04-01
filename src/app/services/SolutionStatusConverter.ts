@@ -11,13 +11,13 @@ export class SolutionStatusConverter {
     {
       status: SolutionStatus.Accepted,
       pretty: 'Решение принято',
-      tooltip: 'Программа принята на проверку, результат будет известен после окончания соревнования',
+      tooltip: 'Решение принято на проверку, результат будет известен после окончания соревнования',
       icon: '6'
     },
     {
       status: SolutionStatus.InQueue,
       pretty: 'В очереди на проверку',
-      tooltip: 'Программа находится в очереди на проверку',
+      tooltip: 'Решение находится в очереди на проверку',
       icon: '3'
     },
     {
@@ -53,7 +53,7 @@ export class SolutionStatusConverter {
     {
       status: SolutionStatus.Sucessful,
       pretty: 'Решение проверено',
-      tooltip: 'Программа успешно прошла все испытания',
+      tooltip: 'Решение успешно прошло все испытания',
       icon: '5'
     },
     {

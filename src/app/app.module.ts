@@ -42,6 +42,7 @@ import { DocsModeComponent } from './components/exercise-info/docs-mode/docs-mod
 import { CodeSentSolutionsTableComponent } from './components/exercise-info/code-mode/code-sent-solutions-table/code-sent-solutions-table.component';
 import { CodeSendButtonsComponent } from './components/exercise-info/code-mode/code-send-buttons/code-send-buttons.component';
 import { CodePreviewComponent } from './components/exercise-info/code-mode/code-preview/code-preview.component';
+import { SolutionResultTableContentComponent } from './components/exercise-info/solution-result-table-content/solution-result-table-content.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { CodePreviewComponent } from './components/exercise-info/code-mode/code-
     DocsModeComponent,
     CodeSentSolutionsTableComponent,
     CodeSendButtonsComponent,
-    CodePreviewComponent
+    CodePreviewComponent,
+    SolutionResultTableContentComponent
   ],
   imports: [
     BrowserAnimationsModule,

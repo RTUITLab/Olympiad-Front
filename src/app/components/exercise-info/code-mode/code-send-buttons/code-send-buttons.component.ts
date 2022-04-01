@@ -6,9 +6,10 @@ import { Challenge } from 'src/app/models/Challenges/Challenge';
 import { ChallengeState } from 'src/app/models/Challenges/ChallengeState';
 import { ExerciseInfo } from 'src/app/models/Exercises/ExerciseInfo';
 import { LanguageConverter } from 'src/app/models/Language/LanguageConverter';
-import { SolutionViewModel } from 'src/app/models/Solutions/SolutionViewModel';
+import { CodeSolutionViewModel } from 'src/app/models/Solutions/CodeSolutionViewModel';
 import { ChallengeUtils } from 'src/app/services/Challenges/ChallengeUtils';
 import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
+import { SolutionService } from 'src/app/services/Solutions/solution.service';
 
 @Component({
   selector: 'app-code-send-buttons',
@@ -17,7 +18,7 @@ import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
 })
 export class CodeSendButtonsComponent implements OnInit {
 
-  @Input() model: SolutionViewModel;
+  @Input() model: CodeSolutionViewModel;
   @Input() availableLanguages: string[] = LanguageConverter.languages();
   @Input() conditionDrawer: MatDrawer;
   @Input() challenge: Challenge;
@@ -25,7 +26,7 @@ export class CodeSendButtonsComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
-    private exercisesService: ExerciseService,
+    private solutionsService: SolutionService,
   ) { }
 
   ngOnInit(): void {
@@ -84,7 +85,7 @@ export class CodeSendButtonsComponent implements OnInit {
   }
   onSubmit(): any {
     if (!this.submitDisabled) {
-      this.exercisesService.sendSolution(this.model)
+      this.solutionsService.sendCodeSolution(this.model)
         .subscribe(
           createdSolution => {
             if (!createdSolution) {

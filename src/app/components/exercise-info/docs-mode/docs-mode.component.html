@@ -27,7 +27,8 @@
       </td>
       <td>
         <label>
-          <input type="file" style="display: none;" [accept]="document.allowedExtensions" (input)="selectedFile(i, $event)" />
+          <input type="file" style="display: none;" [accept]="document.allowedExtensions"
+            (input)="selectedFile(i, $event)" />
           <span *ngIf="files[i]; else selectedFileName">{{files[i].name}}</span>
           <ng-template #selectedFileName>
             Выбрать файл
@@ -43,3 +44,30 @@
 <ng-template #sendButton>
   <button (click)="sendFiles()" class="send">Отправить решение</button>
 </ng-template>
+
+<div *ngIf="exerciseInfo.solutions && exerciseInfo.solutions.length">
+  <strong>Отправленные решения</strong>
+
+  <table class="sentSolutions">
+    <thead>
+      <th>Время отправки</th>
+      <th>Файлы</th>
+      <th>Результат</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let solution of exerciseInfo.solutions">
+        <td>{{prettyTime(solution.sendingTime)}}</td>
+        <td>
+          <ul>
+            <li *ngFor="let file of solution.documents">
+              <a [download]="file.name" [href]="getFileLink(solution, file.name)">{{file.name}}</a>
+            </li>
+          </ul>
+        </td>
+        <td>
+          <app-solution-result-table-content [solutionStatus]="solution.status"></app-solution-result-table-content>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,6 +1,6 @@
 import { Solution } from "./Solution";
 
-export class SolutionViewModel {
+export class CodeSolutionViewModel {
   language: string;
   exerciseId: string;
   solution: Solution;

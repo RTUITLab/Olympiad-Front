@@ -46,15 +46,6 @@ export class CodeSentSolutionsTableComponent implements OnInit {
     });
   }
 
-  fontStyle(status: SolutionStatus): any {
-    if (status < SolutionStatus.InQueue) {
-      return ["fontStyleRed"];
-    }
-    if (status < SolutionStatus.Sucessful || status === SolutionStatus.Accepted) {
-      return ["fontStyleBlue"];
-    }
-    return ["fontStyleGreen"];
-  }
   solutionStatusPresent(status: SolutionStatus): string {
     return SolutionStatusConverter.convertToPretty(status);
   }

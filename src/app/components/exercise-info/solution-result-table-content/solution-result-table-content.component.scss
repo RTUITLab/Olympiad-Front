@@ -1,0 +1,39 @@
+.fontStyleRed {
+  color: #ff4c4c;
+}
+
+.fontStyleBlue {
+  color: #0088FF;
+}
+
+.fontStyleGreen {
+  color: #00975d;
+}
+
+
+.downSol {
+  display: grid;
+  grid-template-columns: 1fr auto auto 1fr;
+  cursor: pointer;
+
+  span {
+      grid-column: 2;
+      margin: auto 5px;
+  }
+
+  img {
+      grid-column: 3;
+      width: 25px;
+      margin: auto;
+  }
+
+  &.status {
+      grid-template-columns: 1fr 30px;
+      span {
+          grid-column: 1;
+      }
+      img {
+          grid-column: 2;
+      }
+  }
+}

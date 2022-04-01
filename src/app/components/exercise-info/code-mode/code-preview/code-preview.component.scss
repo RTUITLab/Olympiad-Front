@@ -113,3 +113,6 @@ div[col1] {
 .download {
   transform: rotate(180deg);
 }
+::ng-deep pre {
+  margin: 0;
+}

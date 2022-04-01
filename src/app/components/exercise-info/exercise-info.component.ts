@@ -7,7 +7,7 @@ import { Challenge } from 'src/app/models/Challenges/Challenge';
 import { ChallengeState } from 'src/app/models/Challenges/ChallengeState';
 import { ExerciseInfo } from 'src/app/models/Exercises/ExerciseInfo';
 import { LanguageConverter } from 'src/app/models/Language/LanguageConverter';
-import { SolutionViewModel } from 'src/app/models/Solutions/SolutionViewModel';
+import { CodeSolutionViewModel } from 'src/app/models/Solutions/CodeSolutionViewModel';
 import { ChallengesService } from 'src/app/services/Challenges/challenges.service';
 import { ExerciseStateService } from 'src/app/services/Exercises/exercise-state.service';
 import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
@@ -31,7 +31,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   inOutData: InOutData[];
   exerciseInfo: ExerciseInfo;
   availableLanguages: string[] = LanguageConverter.languages();
-  model: SolutionViewModel;
+  model: CodeSolutionViewModel;
   sendMode: boolean;
   exercises: Array<ExerciseCompact>;
 
@@ -81,7 +81,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     this.challenge = new Challenge();
     this.sendMode = false;
     this.exerciseInfo = new ExerciseInfo();
-    this.model = new SolutionViewModel();
+    this.model = new CodeSolutionViewModel();
     this.model.content = null;
     this.model.language = null;
     this.model.exerciseId = this.route.snapshot.paramMap.get('ExerciseID');
@@ -112,22 +112,6 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
               this.model.solution = this.exerciseInfo.solutions[0];
               this.model.language = LanguageConverter.normalFromWeb(this.exerciseInfo.solutions[0].language);
               this.model.exerciseId = this.exerciseInfo.id;
-
-              const xhr = new XMLHttpRequest();
-              xhr.open('GET', environment.baseUrl + '/api/check/download/' + solutions[0].id);
-              xhr.setRequestHeader('Authorization', this.usersService.bearer.get('Authorization'));
-              xhr.responseType = 'text';
-              xhr.onload = () => {
-                this.model.file = new File([xhr.response], LanguageConverter.fileName(solutions[0].language));
-
-                const fileReader = new FileReader();
-                fileReader.onload = _ => {
-                  this.model.content = fileReader.result;
-                };
-                fileReader.readAsText(this.model.file);
-              };
-              xhr.send();
-
               this.sendMode = true;
             }
 

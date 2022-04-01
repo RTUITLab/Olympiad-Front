@@ -18,22 +18,8 @@
               <img class="download" src="../../../../../assets/icon/download.svg">
             </div>
           </td>
-          <td [ngClass]="fontStyle(sol.status)">
-            <label *ngIf="sol.status !== 5 && sol.status !== 6; else processing" [for]="sol.id" class="downSol status"
-              style="cursor: pointer">
-              <span>{{solutionStatusPresent(sol.status)}}</span>
-              <img class="statusIcon"
-                src="../../../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
-                [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)" matTooltipPosition="above" />
-            </label>
-            <ng-template #processing>
-              <div class="downSol status" style="cursor: auto">
-                <span>{{solutionStatusPresent(sol.status)}}</span>
-                <img class="statusIcon"
-                  src="../../../../../assets/icon/statusCodes/{{solutionStatusIcon(sol.status)}}.svg"
-                  [matTooltip]="solutionStatusTooltip(exerciseInfo.solutions[0].status)" matTooltipPosition="above" />
-              </div>
-            </ng-template>
+          <td>
+              <app-solution-result-table-content [solutionStatus]="sol.status"></app-solution-result-table-content>
           </td>
         </ng-container>
       </tr>
