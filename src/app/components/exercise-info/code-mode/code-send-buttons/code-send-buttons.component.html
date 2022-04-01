@@ -1,0 +1,33 @@
+<div>
+  <div class="selectLanguage">
+    <div class="select">
+      <span name="Language" *ngIf="model.language; else noLanguage">{{model.language}}</span>
+      <ng-template #noLanguage><span>Язык программирования</span><img src="../../../../../assets/icon/down-arrow.svg">
+      </ng-template>
+    </div>
+    <ul class="submenu" id="sub">
+      <div>
+        <li *ngFor="let lang of availableLanguages" (click)="selectLanguage(lang)">
+          <div>
+            <span>{{lang}}</span>
+          </div>
+        </li>
+      </div>
+    </ul>
+  </div>
+  <button *ngIf="model.language" class="taskBtn" (click)="conditionDrawer.toggle()" style="width: 100%;">Условия
+    сдачи</button>
+</div>
+<div>
+  <label *ngIf="model.language && (!challenge.toEnd || !isFinished())" for="sol" class="select">
+    <span *ngIf="!model.file; else downloadedSolution">Загрузить решение</span>
+    <ng-template #downloadedSolution><span>{{model.file.name}}</span></ng-template>
+    <img src="../../../../../assets/icon/down-arrow.svg">
+  </label>
+</div>
+<input id="sol" type="file" style="display: none;" [accept]="selectedLanguage" (input)="setFile($event)">
+<div class="sendCont">
+  <button *ngIf="!challenge.toEnd || !isFinished()" id="send" (click)="onSubmit()">
+    Отправить решение
+  </button>
+</div>

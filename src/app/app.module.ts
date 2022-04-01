@@ -40,6 +40,7 @@ import { LangInfoComponent } from './components/overview/lang-info/lang-info.com
 import { AdminHeaderComponent } from './components/admin-header/admin-header.componenet';
 import { DocsModeComponent } from './components/exercise-info/docs-mode/docs-mode.component';
 import { CodeSentSolutionsTableComponent } from './components/exercise-info/code-mode/code-sent-solutions-table/code-sent-solutions-table.component';
+import { CodeSendButtonsComponent } from './components/exercise-info/code-mode/code-send-buttons/code-send-buttons.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { CodeSentSolutionsTableComponent } from './components/exercise-info/code
     LangInfoComponent,
     AdminHeaderComponent,
     DocsModeComponent,
-    CodeSentSolutionsTableComponent
+    CodeSentSolutionsTableComponent,
+    CodeSendButtonsComponent
   ],
   imports: [
     BrowserAnimationsModule,

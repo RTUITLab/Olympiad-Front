@@ -79,19 +79,6 @@
     font-weight: 100;
 }
 
-.send {
-    width: 320px;
-    margin: 30px 0;
-    padding: 10px 0;
-    box-sizing: border-box;
-    border: none;
-    background-color: #0088FF;
-    font-family: GillSans;
-    font-size: 18px;
-    font-weight: 900;
-    color: #FFF;
-    cursor: pointer;
-}
 
 .taskBtn {
     width: max-content;
@@ -232,74 +219,6 @@ div[col1] {
     position: relative;
 }
 
-.selectLanguage {
-    color: #FFF;
-}
-
-.select {
-    display: flex;
-    padding: 10px;
-    background-color: #0088FF;
-    color: #FFF;
-    cursor: pointer;
-}
-
-.select > span {
-    width: 100%;
-    text-align: center;
-}
-
-.select > img {
-    width: 30px;
-    height: 30px;
-}
-
-.selectLanguage > ul {
-    position: relative;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    z-index: 1;
-}
-
-.selectLanguage > ul > div {
-    display: none;
-    width: inherit;
-    margin: 0;
-    padding: 0;
-    background-color: rgba(0, 136, 255);
-}
-
-.selectLanguage > ul > div > li {
-    display: block;
-    padding: 10px 0;
-    text-align: center;
-    cursor: pointer;
-}
-
-.selectLanguage:hover > ul > div {
-    display: block;
-    position: absolute;
-}
-
-.selectLanguage:hover > ul > div > li:hover {
-    background-color: #2599ffbb;
-}
-
-.select:nth-child(2) {
-    margin-top: 30px;
-    color: #FFF;
-}
-
-.select:nth-child(2) > img {
-    transform: rotate(180deg);
-}
-
-.sendCont {
-    display: flex;
-    height: 100%;
-    margin-top: 5px;
-}
 
 #send {
     display: block;

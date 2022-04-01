@@ -35,15 +35,13 @@ import { ExerciseType } from 'src/app/models/Exercises/ExerciseType';
 export class ExerciseInfoComponent extends LoadingComponent implements OnInit, DoCheck {
   private challengeState: ChallengeState;
   private solutionCheckTimers: Array<any> = [];
-  solutionUrl: string;
+
   challenge: Challenge;
   inOutData: InOutData[];
   exerciseInfo: ExerciseInfo;
-  solutionPreview?: string | ArrayBuffer;
   availableLanguages: string[] = LanguageConverter.languages();
   model: SolutionViewModel;
   sendMode: boolean;
-  loadedSolution: boolean;
   exercises: Array<ExerciseCompact>;
 
   constructor(
@@ -62,8 +60,6 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
   ngOnInit(): void {
     this.startLoading();
-
-    this.solutionUrl = 'javascript:void(0);';
 
     this.updateService.solutionStream.subscribe(S => {
       if (this.exerciseInfo && S && S.exerciseId === this.exerciseInfo.id) {
@@ -93,11 +89,10 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     });
 
     this.challenge = new Challenge();
-    this.sendMode = true;// TODO: CHANGE TO FALSE
-    this.loadedSolution = false;
+    this.sendMode = false;
     this.exerciseInfo = new ExerciseInfo();
-    this.solutionPreview = null;
     this.model = new SolutionViewModel();
+    this.model.content = null;
     this.model.language = null;
     this.model.exerciseId = this.route.snapshot.paramMap.get('ExerciseID');
 
@@ -124,7 +119,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
             this.exerciseInfo.solutions = solutions;
             if (solutions.length) {
               this.exerciseInfo.solutions.sort((a, b) => new Date(a.sendingTime) < new Date(b.sendingTime) ? 1 : -1);
-
+              this.model.solution = this.exerciseInfo.solutions[0];
               this.model.language = LanguageConverter.normalFromWeb(this.exerciseInfo.solutions[0].language);
               this.model.exerciseId = this.exerciseInfo.id;
 
@@ -137,12 +132,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
                 const fileReader = new FileReader();
                 fileReader.onload = _ => {
-                  this.solutionPreview = fileReader.result;
-
-                  this.solutionUrl = URL.createObjectURL(this.model.file);
-                  if (document.getElementById('a')) {
-                    document.getElementById('a').setAttribute('download', this.model.file.name);
-                  }
+                  this.model.content = fileReader.result;
                 };
                 fileReader.readAsText(this.model.file);
               };
@@ -183,16 +173,6 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       });
   }
 
-  public getSolutionLogs(solution: Solution) {
-    if (solution.logs) {
-      return solution.logs;
-    }
-    this.solutionService.getSolutionLogs(solution.id).then((response) => {
-      solution.logs = response[0];
-      return response;
-    });
-  }
-
   public statusClass(exercise: ExerciseCompact): string {
     if (exercise.status === -1) {
       return '';
@@ -218,43 +198,8 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     this.sendMode = true;
   }
 
-  public solved(): boolean {
-    return this.exerciseInfo.solutions.find(s => s.status === 7) !== undefined;
-  }
-
-  public selectLanguage(Language: string): void {
-    this.model.language = Language;
-
-    document.getElementById('sub').hidden = true;
-    setTimeout(() => document.getElementById('sub').hidden = false, 10);
-  }
-
   get languageNote(): string | undefined {
     return LanguageConverter.note(this.model.language);
-  }
-
-  get selectedLanguage(): string {
-    if (this.model.language) {
-      return LanguageConverter.fileExtensionByPrettyName(this.model.language);
-    }
-  }
-
-  setFile(event): void {
-    if (event.srcElement.files[0]) {
-      if (this.model.language === null) {
-        this.toastr.warning('Выберите язык программирования');
-      }
-      this.model.file = event.srcElement.files[0];
-      const fileReader = new FileReader();
-      fileReader.onload = _ => {
-        this.solutionPreview = fileReader.result;
-        this.loadedSolution = true;
-        event.srcElement.value = '';
-        this.solutionUrl = URL.createObjectURL(this.model.file);
-        document.getElementById('a').setAttribute('download', this.model.file.name);
-      };
-      fileReader.readAsText(this.model.file);
-    }
   }
 
   public sanitize(url: string): any {
@@ -263,58 +208,12 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
 
   public getCode(): Array<string> {
     this.syncEditor();
-    return this.solutionPreview.toString().split('\n');
-  }
-
-  get submitDisabled(): boolean {
-    if (!this.model.file) {
-      this.toastr.warning('Загрузите файл');
-      return true;
-    } else {
-      if (this.model.language === null) {
-        this.toastr.warning('Выберите язык программирования');
-        return true;
-      } else {
-        if (!this.model.file.name.endsWith(LanguageConverter.fileExtensionByPrettyName(this.model.language))) {
-          this.toastr.warning(`Расширение загружаемого вами файла не соответсвует выбранному языку программирования`);
-          return true;
-        } else {
-          return false;
-        }
-      }
-    }
-  }
-
-  onSubmit(): any {
-    if (!this.submitDisabled) {
-      this.exercisesService.sendSolution(this.model)
-        .subscribe(
-          createdSolution => {
-            if (!createdSolution) {
-              this.toastr.warning(`Решение не загружено`);
-              return;
-            }
-            if (this.exerciseInfo.solutions.some(s => s.id === createdSolution.id)) {
-              this.toastr.warning(`Вы уже отправляли такое решение`);
-              return;
-            }
-            this.toastr.success(`Решение успешно загружено`);
-            this.exerciseInfo.solutions.unshift(createdSolution);
-          },
-          (error: HttpErrorResponse) => {
-            if (error.status === 429) { // TooManyRequests HTTP Status
-              this.toastr.warning(`Отправлять решения можно только раз в минуту`);
-            } else {
-              this.toastr.error('Не удалось отправить решение');
-            }
-          }
-        );
-    }
+    return this.model.content.toString().split('\n');
   }
 
   public copy(): void {
-    if (this.solutionPreview) {
-      navigator.clipboard.writeText(this.solutionPreview.toString())
+    if (this.model.content) {
+      navigator.clipboard.writeText(this.model.content.toString())
         .then(() => this.toastr.success('Код скопирован в буфер обмена'))
         .catch(() => this.toastr.error('Не удалось скопировать код в буфер обмена'));
     } else {
@@ -328,41 +227,6 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       return 'нет данных';
     }
     return DateHelpers.prettyTime(time);
-  }
-
-  normalLang(lang: string): string {
-    return LanguageConverter.normalFromWeb(lang);
-  }
-
-  downloadSolution(solution: Solution): void {
-    this.exercisesService.downloadSolution(solution.id).subscribe(s => {
-      SolutionUtils.downloadSolution(solution, s);
-      this.toastr.success(`Загрузка начата`);
-    }, fail => {
-      this.toastr.error(`Невозможно скачать решение`);
-    });
-  }
-
-  solutionStatusPresent(status: SolutionStatus): string {
-    return SolutionStatusConverter.convertToPretty(status);
-  }
-
-  solutionStatusIcon(status: SolutionStatus): string {
-    return SolutionStatusConverter.getIcon(status);
-  }
-
-  solutionStatusTooltip(status: SolutionStatus): string {
-    return SolutionStatusConverter.getTooltip(status);
-  }
-
-  fontColor(status: SolutionStatus): string {
-    if (status < 5) {
-      return '#ff4c4c';
-    }
-    if (status < 7 || status === 8) {
-      return '#0088FF';
-    }
-    return '#00975d'
   }
 
   public isReady() {
@@ -380,5 +244,14 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     rightDiv.onscroll = function () {
       leftDiv.scrollTop = rightDiv.scrollTop;
     }
+  }
+  solutionStatusPresent(status: SolutionStatus): string {
+    return SolutionStatusConverter.convertToPretty(status);
+  }
+  solutionStatusTooltip(status: SolutionStatus): string {
+    return SolutionStatusConverter.getTooltip(status);
+  }
+  solutionStatusIcon(status: SolutionStatus): string {
+    return SolutionStatusConverter.getIcon(status);
   }
 }
