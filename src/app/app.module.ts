@@ -38,6 +38,11 @@ import { UpdateService } from './services/Updates/update.service';
 import { SolutionService } from './services/Solutions/solution.service';
 import { LangInfoComponent } from './components/overview/lang-info/lang-info.component';
 import { AdminHeaderComponent } from './components/admin-header/admin-header.componenet';
+import { DocsModeComponent } from './components/exercise-info/docs-mode/docs-mode.component';
+import { CodeSentSolutionsTableComponent } from './components/exercise-info/code-mode/code-sent-solutions-table/code-sent-solutions-table.component';
+import { CodeSendButtonsComponent } from './components/exercise-info/code-mode/code-send-buttons/code-send-buttons.component';
+import { CodePreviewComponent } from './components/exercise-info/code-mode/code-preview/code-preview.component';
+import { SolutionResultTableContentComponent } from './components/exercise-info/solution-result-table-content/solution-result-table-content.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +59,12 @@ import { AdminHeaderComponent } from './components/admin-header/admin-header.com
     AboutComponent,
     MeComponent,
     LangInfoComponent,
-    AdminHeaderComponent
+    AdminHeaderComponent,
+    DocsModeComponent,
+    CodeSentSolutionsTableComponent,
+    CodeSendButtonsComponent,
+    CodePreviewComponent,
+    SolutionResultTableContentComponent
   ],
   imports: [
     BrowserAnimationsModule,

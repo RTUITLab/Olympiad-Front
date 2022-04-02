@@ -6,8 +6,9 @@ import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { ExerciseInfo } from 'src/app/models/Exercises/ExerciseInfo';
 import { InOutData } from 'src/app/models/Exercises/InOutData';
 import { Solution } from 'src/app/models/Solutions/Solution';
-import { SolutionViewModel } from 'src/app/models/Solutions/SolutionViewModel';
+import { CodeSolutionViewModel } from 'src/app/models/Solutions/CodeSolutionViewModel';
 import { UserStateService } from '../Users/user-state.service';
+import { DocsSolutionResponse } from 'src/app/models/Solutions/DocsSolutionResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -27,33 +28,6 @@ export class ExerciseService {
   public getExerciseInOutData(exerciseId: string): Promise<InOutData[]> {
     return this.http.get<InOutData[]>(
       Api.getExerciseInOutData(exerciseId), this.usersService.authOptions).toPromise();
-  }
-
-  sendSolution(data: SolutionViewModel): Observable<any> {
-    const formData: FormData = new FormData();
-    formData.append('file', data.file, data.file.name);
-    return this.http.post<Solution>(
-      Api.sendSolution(data), formData, this.usersService.authOptions);
-  }
-
-  checkSolution(solutionId: string): Observable<Solution> {
-    let observer: Subscriber<Solution>;
-    const observable = new Observable<Solution>(obs => {
-      observer = obs;
-    });
-    this.http.get<Solution>(
-      Api.checkSolution(solutionId), this.usersService.authOptions).subscribe(
-        success => {
-          if (success) {
-            observer.next(success);
-          }
-        },
-        failure => {
-          console.log('error');
-          console.log(failure);
-        }
-      );
-    return observable;
   }
 
   downloadSolution(solutionId: string): Observable<any> {

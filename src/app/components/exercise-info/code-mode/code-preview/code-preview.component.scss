@@ -1,0 +1,118 @@
+#header{
+  width: 100%;
+  background-image: linear-gradient(to left, #0088ff, #00ff9d);
+}
+
+.wave {
+  display: flow-root;
+  background-image: url('../../../../../assets/img/wave.svg');
+  background-size: inherit;
+  background-position: bottom;
+}
+
+.correctInput {
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  padding: 1px;
+  background-color: #FFF;
+  border-radius: 100px;
+  float: right;
+
+  &.empty {
+      background-color: #00000000;
+  }
+}
+
+.editor {
+  height: 405px;
+  display: block;
+  overflow: hidden;
+  margin-bottom: 15px;
+  background-color: #EFEFEF;
+  border-collapse: collapse;
+
+  
+  tr {
+      display: flex;
+
+      &:last-child {
+          height: inherit;
+      }
+
+      th {
+          border-bottom: #979797 solid 1px;
+          height: 30px;
+      }
+
+      td, th {
+          display: inline-block;
+      }
+  }
+}
+
+*[col1] {
+  border-right: #979797 solid 1px;
+  width: max-content;
+  min-width: 40px;
+  text-align: right;
+  user-select: none;
+}
+
+*[col2] {
+  width: 100%;
+}
+
+th[col2] {
+  display: grid !important;
+  grid-template-columns: 50% 50%;
+}
+
+::ng-deep code {
+  font-size: 20px !important;
+  padding: 0 7px !important;
+}
+
+.code {
+  display: grid;
+  grid-template-columns: 43px 1fr;
+}
+
+div[col1] {
+  width: 100%;
+  box-sizing: border-box;
+  height: 373px;
+  overflow: hidden;
+  user-select: none;
+  padding-right: 7px;
+}
+
+.col2 {
+  height: 373px;
+  overflow: auto;
+}
+
+.solutionTime {
+  margin: auto;
+  margin-left: 7px;
+  text-align: start;
+  font-weight: 500;
+}
+
+.buttons {
+  text-align: right;
+  margin-right: 10px;
+}
+
+.buttons>img, .buttons>a>img {
+  height: 26px;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.download {
+  transform: rotate(180deg);
+}
+::ng-deep pre {
+  margin: 0;
+}

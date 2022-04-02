@@ -11,21 +11,9 @@
       О сайте
     </button>
     <mat-divider></mat-divider>
-    <div *ngIf="isAdmin()">
-      <a class="btn" href="/admin" disableRipple="true" mat-menu-item>
-        Панель Администратора
-      </a>
-      <mat-divider></mat-divider>
-    </div>
     <div *ngIf="isAdmin() || isResultsViewer()">
       <a class="btn" href="/control-panel" disableRipple="true" mat-menu-item>
         Панель управления
-      </a>
-      <mat-divider></mat-divider>
-    </div>
-    <div *ngIf="isResultsViewer()">
-      <a class="btn" href="/results-viewer" disableRipple="true" mat-menu-item>
-        Панель результатов
       </a>
       <mat-divider></mat-divider>
     </div>

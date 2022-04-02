@@ -1,0 +1,43 @@
+<div class="header">Отправленные решения</div>
+<table class="solutions">
+  <thead>
+    <th>Время отправки</th>
+    <th>Язык</th>
+    <th>Скачать решение</th>
+    <th>Результат</th>
+  </thead>
+  <tbody *ngIf="exerciseInfo && exerciseInfo.solutions && exerciseInfo.solutions.length > 0; else noSolutions">
+    <div *ngFor="let sol of exerciseInfo.solutions" class="tbody">
+      <tr>
+        <ng-container *ngIf="sol.exerciseId == exerciseInfo.id">
+          <td>{{prettyTime(sol.sendingTime)}}</td>
+          <td>{{normalLang(sol.language)}}</td>
+          <td (click)="downloadSolution(sol)">
+            <div class="downSol">
+              <span>Скачать</span>
+              <img class="download" src="../../../../../assets/icon/download.svg">
+            </div>
+          </td>
+          <td>
+              <app-solution-result-table-content [solutionStatus]="sol.status"[solutionId]="sol.id" ></app-solution-result-table-content>
+          </td>
+        </ng-container>
+      </tr>
+      <input type="checkbox" [id]="sol.id" class="opened-logs" />
+      <tr *ngIf="sol.status !== 5 && sol.status !== 6" class="logs">
+        <td colspan="4">
+          <div style="margin-bottom: 5px;"><b>Дата:</b> {{prettyTime(sol.sendingTime)}}</div>
+          <div><b>Логи компиляции</b></div>
+          <markdown [data]="sol.logs"></markdown>
+        </td>
+      </tr>
+    </div>
+  </tbody>
+  <ng-template #noSolutions>
+    <tbody>
+      <tr>
+        <td colspan="4" class="no-solutions">Нет отправленных решений</td>
+      </tr>
+    </tbody>
+  </ng-template>
+</table>

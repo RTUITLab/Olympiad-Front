@@ -1,0 +1,105 @@
+.header {
+  display: grid;
+  margin: 5px 0;
+  font-weight: 900;
+}
+
+.download {
+  transform: rotate(180deg);
+}
+
+.tbody {
+  display: contents;
+}
+
+.solutions, thead>th, .tbody>tr>td {
+  border: #979797 solid 1px;
+  padding: 15px 5px;
+}
+
+.solutions {
+  display: table;
+  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #D8D8D8;
+  
+  th {
+      font-weight: 500;
+      padding: 10px 0;
+  }
+}
+
+thead>th:first-child {
+  width: 190px;
+}
+
+thead>th:nth-child(2) {
+  width: 120px;
+}
+
+thead>th:nth-child(3) {
+  width: 180px;
+}
+
+.tbody>tr>td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.downSol {
+  display: grid;
+  grid-template-columns: 1fr auto auto 1fr;
+  cursor: pointer;
+
+  span {
+      grid-column: 2;
+      margin: auto 5px;
+  }
+
+  img {
+      grid-column: 3;
+      width: 25px;
+      margin: auto;
+  }
+
+  &.status {
+      grid-template-columns: 1fr 30px;
+      span {
+          grid-column: 1;
+      }
+      img {
+          grid-column: 2;
+      }
+  }
+}
+
+.opened-logs {
+  display: none;
+}
+
+.opened-logs:checked ~ .logs {
+  display: table-row;
+}
+
+.logs {
+  display: none;
+}
+
+.logs > td {
+  text-align: left !important;
+  padding: 15px 10px !important;
+
+  & > markdown {
+      font-family: monospace;
+      font-size: 0.7em;
+  }
+}
+.no-solutions {
+  text-align: center;
+  font-weight: 500;
+  padding: 10px 0;
+}

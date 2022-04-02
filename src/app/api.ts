@@ -1,6 +1,6 @@
 import { environment } from 'src/environments/environment';
 import { LanguageConverter } from './models/Language/LanguageConverter';
-import { SolutionViewModel } from './models/Solutions/SolutionViewModel';
+import { CodeSolutionViewModel as CodeSolutionViewModel } from './models/Solutions/CodeSolutionViewModel';
 
 export class Api {
   private static baseUrl = environment.baseUrl;
@@ -59,8 +59,12 @@ export class Api {
     return `${this.baseUrl}/api/check/${exerciseId}/${userId}`;
   }
 
-  public static sendSolution(solutionView: SolutionViewModel): string {
-    return `${this.baseUrl}/api/check/${LanguageConverter.webName(solutionView.language)}/${solutionView.exerciseId}`;
+  public static sendCodeSolution(solutionView: CodeSolutionViewModel): string {
+    return `${this.baseUrl}/api/check/code/${solutionView.exerciseId}/${LanguageConverter.webName(solutionView.language)}`;
+  }
+
+  public static sendDocsSolution(exerciseId: string): string {
+    return `${this.baseUrl}/api/check/docs/${exerciseId}`;
   }
 
   public static downloadSolution(solutionId: string): string {
@@ -69,10 +73,6 @@ export class Api {
 
   public static checkSolutionsLogs(solutionId: string): string {
     return `${this.baseUrl}/api/check/logs/${solutionId}`;
-  }
-
-  public static checkSolution(solutionId: string): string {
-    return `${this.baseUrl}/api/check/${solutionId}`;
   }
 
   public static recheckSolutions(exerciseId: string): string {
