@@ -62,7 +62,7 @@
         <td>
           <ul>
             <li *ngFor="let file of solution.documents">
-              <a [download]="file.name" [href]="getFileLink(solution, file.name)">{{file.name}}</a>
+              <a [download]="file.name" [href]="getFileLink(solution, file.name)" target="_blank">{{file.name}}</a>
             </li>
           </ul>
         </td>
