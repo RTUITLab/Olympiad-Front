@@ -40,6 +40,8 @@ ul.submenu {
     width: 100%;
     min-width: max-content;
     z-index: 3;
+    max-height: 50vh;
+    overflow: auto;
 }
 
 ul.submenu > li {
