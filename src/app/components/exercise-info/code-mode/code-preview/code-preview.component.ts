@@ -26,8 +26,6 @@ export class CodePreviewComponent implements OnInit, OnChanges {
       return;
     }
     const localModel = this.model;
-    console.log("localModel", localModel);
-    
     const xhr = new XMLHttpRequest();
     xhr.open('GET', environment.baseUrl + '/api/check/download/' + localModel.solution.id);
     xhr.setRequestHeader('Authorization', this.userService.bearer.get('Authorization'));

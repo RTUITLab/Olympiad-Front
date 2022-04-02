@@ -34,10 +34,9 @@ export class DocsModeComponent implements OnInit, OnChanges {
     return sizeInBytes / 1_000_000;
   }
   public selectedFile(index: number, event): void {
-    console.log(event);
     const file = event.srcElement.files[0] as File;
     event.srcElement.value = '';
-    if (file.size > this.exerciseInfo.restrictions.docs.documents[index].maxSize) {
+    if (!file.size || file.size > this.exerciseInfo.restrictions.docs.documents[index].maxSize) {
       this.toastr.warning("Недопустимый размер файла");
       return;
     }
@@ -60,9 +59,6 @@ export class DocsModeComponent implements OnInit, OnChanges {
     try {
 
       const solutionSentResponse = await this.solutionsService.sendDocsSolution(this.exerciseInfo.id, request).toPromise();
-      console.log(solutionSentResponse);
-
-
 
       for (let i = 0; i < this.files.length; i++) {
         const element = this.files[i];
@@ -78,8 +74,12 @@ export class DocsModeComponent implements OnInit, OnChanges {
       this.toastr.success("Решение отправлено");
       this.resetFiles();
     } catch (error) {
-      console.log(error);
-
+      console.error('DocsModeComponent', error);
+      if (error.status == 429){ // to many requests
+        this.toastr.warning("Отправлять решение можно только раз в минуту")
+      } else {
+        this.toastr.error("Не удалось отправить решение")
+      }
     }
   }
 

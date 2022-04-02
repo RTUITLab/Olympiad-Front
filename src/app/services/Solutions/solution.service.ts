@@ -42,7 +42,7 @@ export class SolutionService {
       .pipe<Array<Solution>>(map(s => {
         s.forEach(S => {
           S = this.processStatus(S);
-          this.getSolutionLogs(S.id).then((d) => S.logs = d[0]).catch((e) => console.log(e));
+          this.getSolutionLogs(S.id).then((d) => S.logs = d[0]).catch((e) => console.warn('SolutionsService', e));
         });
         return s;
       })).toPromise();

@@ -26,7 +26,7 @@
         </div>
       </td>
       <td>
-        <label>
+        <label class="selectFile">
           <input type="file" style="display: none;" [accept]="document.allowedExtensions"
             (input)="selectedFile(i, $event)" />
           <span *ngIf="files[i]; else selectedFileName">{{files[i].name}}</span>

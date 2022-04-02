@@ -10,6 +10,7 @@ import { SolutionStatusConverter } from 'src/app/services/SolutionStatusConverte
 export class SolutionResultTableContentComponent implements OnInit {
 
   @Input() solutionStatus: SolutionStatus;
+  @Input() solutionId: string;
 
   constructor() { }
 

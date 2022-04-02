@@ -1,7 +1,7 @@
 <div [ngClass]="fontStyle(solutionStatus)">
-  <label *ngIf="solutionStatus !== 5 && solutionStatus !== 6; else processing" [for]="sol.id" class="downSol status"
+  <label *ngIf="solutionStatus !== 5 && solutionStatus !== 6; else processing" [for]="solutionId" class="downSol status"
     style="cursor: pointer">
-    <span>{{solutionStatusPresent(sol.status)}}</span>
+    <span>{{solutionStatusPresent(solutionStatus)}}</span>
     <img class="statusIcon"
       src="../../../../../assets/icon/statusCodes/{{solutionStatusIcon(solutionStatus)}}.svg"
       [matTooltip]="solutionStatusTooltip(solutionStatus)" matTooltipPosition="above" />

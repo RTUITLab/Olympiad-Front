@@ -54,6 +54,6 @@ export class UpdateService {
     this.connection.on('InformationMessage', (message: string) => this.messageBehavior.next(message));
 
     this.connection.start()
-      .catch(() => console.log('Can not connect'));
+      .catch(error => console.warn('UpdateService', 'Can not connect', error));
   }
 }
