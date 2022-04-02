@@ -21,26 +21,6 @@ export class AppComponent implements OnInit {
     this.usersService.currentUserStream.subscribe(U => this.user = U);
   }
 
-  public isGlobalAdmin(): boolean {
-    const token = localStorage.getItem('userToken');
-    if (!token) {
-      return false;
-    }
-
-    const payload = token.split('.')[1];
-    if (!payload) {
-      return false;
-    }
-
-    const parsedToken = JSON.parse(atob(payload) || '{}') || {};
-    if (!parsedToken || !parsedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']) {
-      return false;
-    }
-
-    const roles = parsedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-    return roles.indexOf('Admin') !== -1;
-  }
-
   public underAnotherUser(): boolean {
     return !!sessionStorage.getItem('userToken');
   }
