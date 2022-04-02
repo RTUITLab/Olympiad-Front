@@ -1,9 +1,9 @@
 <div *ngIf="isReady(); else notReady">
-    <mat-drawer class="drawer" #drawer mode="over" position="end">
+    <mat-drawer class="drawer exercise" #drawer mode="over" position="end">
         <div class="header" style="font-size: 25px;">{{exerciseInfo.name}}</div>
         <app-task [exerciseInfo]="exerciseInfo" [inOutData]="inOutData"></app-task>
     </mat-drawer>
-    <mat-drawer class="drawer" #conditionDrawer mode="over" position="end">
+    <mat-drawer class="drawer solutionDescription" #conditionDrawer mode="over" position="end">
         <div class="header" style="font-size: 25px;">Условия сдачи</div>
         <markdown *ngIf="model.language" [data]="languageNote"></markdown>
     </mat-drawer>

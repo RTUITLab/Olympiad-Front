@@ -104,12 +104,18 @@
 }
 
 .drawer {
-    width: 30%;
     height: 100vh;
     position: fixed;
     border: #4CFFBA solid 2px;
     border-right: none;
     z-index: 3;
+    width: 1000px;
+    &.exercise {
+        max-width: 50%;
+    }
+    &.solutionDescription {
+        max-width: 30%;
+    }
 }
 
 .cover {
