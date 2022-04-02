@@ -22,7 +22,7 @@ export class CodePreviewComponent implements OnInit, OnChanges {
     private userService: UserStateService,
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.model) {
+    if (!this.model || !this.model.solution) {
       return;
     }
     const localModel = this.model;
