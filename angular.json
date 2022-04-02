@@ -41,7 +41,7 @@
               "node_modules/prismjs/components/prism-pascal.min.js",
               "node_modules/prismjs/components/prism-python.min.js",
               "node_modules/prismjs/components/prism-bash.min.js",
-              "node_modules/marked/lib/marked.js"
+              "node_modules/marked/bin/marked.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
