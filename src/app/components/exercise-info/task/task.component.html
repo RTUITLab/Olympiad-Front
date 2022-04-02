@@ -1,17 +1,23 @@
 <div>
     <markdown [data]="exerciseInfo.exerciseTask"></markdown>
 
-    <div *ngIf="inOutData && inOutData.length">
+    <div *ngIf="inOutData && inOutData.length" >
         <div class="header">Пример ввода/вывода</div>
-        <table>
-            <tr>
-                <th>Ввод</th>
-                <th>Вывод</th>
-            </tr>
-            <tr *ngFor="let inOut of inOutData">
-                <td *ngIf="!inOut.IsPublic"><pre>{{inOut.inData}}</pre></td>
-                <td *ngIf="!inOut.IsPublic"><pre>{{inOut.outData}}</pre></td>
-            </tr>
-        </table>
+        <div class="inOutExamples">
+            <table>
+                <tr>
+                    <th>Ввод</th>
+                    <th>Вывод</th>
+                </tr>
+                <tr *ngFor="let inOut of inOutData">
+                    <td *ngIf="!inOut.IsPublic">
+                        <pre>{{inOut.inData}}</pre>
+                    </td>
+                    <td *ngIf="!inOut.IsPublic">
+                        <pre>{{inOut.outData}}</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
