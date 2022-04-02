@@ -2,14 +2,14 @@ import { Language } from './Language';
 
 export class LanguageConverter {
   public static files = {
-    java: require('!!raw-loader!src/assets/languages/JAVA.md'),
-    csharp: require('!!raw-loader!src/assets/languages/CSHAPR.md'),
-    pas: require('!!raw-loader!src/assets/languages/PASABC.md'),
-    fpas: require('!!raw-loader!src/assets/languages/FPAS.md'),
-    c: require('!!raw-loader!src/assets/languages/C.md'),
-    cpp: require('!!raw-loader!src/assets/languages/CPP.md'),
-    python: require('!!raw-loader!src/assets/languages/PYTHON.md'),
-    js: require('!!raw-loader!src/assets/languages/JS.md')
+    java: 'assets/languages/JAVA.md',
+    csharp: 'assets/languages/CSHAPR.md',
+    pas: 'assets/languages/PASABC.md',
+    fpas: 'assets/languages/FPAS.md',
+    c: 'assets/languages/C.md',
+    cpp: 'assets/languages/CPP.md',
+    python: 'assets/languages/PYTHON.md',
+    js: 'assets/languages/JS.md'
   }
 
   private static readonly info: Language[] = [
@@ -18,56 +18,56 @@ export class LanguageConverter {
       fileExtension: '.java',
       webName: 'java',
       fileName: 'Main.java',
-      note: LanguageConverter.files.java.default
+      link: LanguageConverter.files.java
     },
     {
       language: 'C#',
       fileExtension: '.cs',
       webName: 'csharp',
       fileName: 'Program.cs',
-      note: LanguageConverter.files.csharp.default
+      link: LanguageConverter.files.csharp
     },
     {
       language: 'Pascal ABC',
       fileExtension: '.pas',
       webName: 'pasabc',
       fileName: 'Program.pas',
-      note: LanguageConverter.files.pas.default
+      link: LanguageConverter.files.pas
     },
     {
       language: 'Free Pascal',
       fileExtension: '.pas',
       webName: 'fpas',
       fileName: 'Program.pas',
-      note: LanguageConverter.files.fpas.default
+      link: LanguageConverter.files.fpas
     },
     {
       language: 'C',
       fileExtension: '.c',
       webName: 'c',
       fileName: 'Program.c',
-      note: LanguageConverter.files.c.default
+      link: LanguageConverter.files.c
     },
     {
       language: 'C++',
       fileExtension: '.cpp',
       webName: 'cpp',
       fileName: 'Progran.cpp',
-      note: LanguageConverter.files.cpp.default
+      link: LanguageConverter.files.cpp
     },
     {
       language: 'Python 3.9.0',
       fileExtension: '.py',
       webName: 'python',
       fileName: 'Program.py',
-      note: LanguageConverter.files.python.default
+      link: LanguageConverter.files.python
     },
     {
       language: 'JS ES6',
       fileExtension: '.js',
       webName: 'js',
       fileName: 'Program.js',
-      note: LanguageConverter.files.js.default
+      link: LanguageConverter.files.js
     }
   ]
 
@@ -79,8 +79,8 @@ export class LanguageConverter {
     return LanguageConverter.info.map(LI => LI.language);
   }
 
-  public static note(language: string): string | undefined {
-    return LanguageConverter.info.find((L) => L.language === language).note;
+  public static link(language: string): string | undefined {
+    return LanguageConverter.info.find((L) => L.language === language || L.webName == language).link;
   }
   
   public static fileExtensionByPrettyName(language: string) {

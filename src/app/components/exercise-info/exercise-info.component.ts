@@ -169,8 +169,8 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     this.sendMode = true;
   }
 
-  get languageNote(): string | undefined {
-    return LanguageConverter.note(this.model.language);
+  get languageLink(): string | undefined {
+    return LanguageConverter.link(this.model.language);
   }
   public isReady() {
     return !this.isLoading();
