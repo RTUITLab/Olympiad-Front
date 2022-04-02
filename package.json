@@ -8,7 +8,6 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "ng": "ng",
     "postinstall": "ngcc",
     "fillDefaultProdEnv": "node ./fillProdEnvironment.js",
     "buildToDeploy": "npm run build & node ./copyDistToDeploy.js"
