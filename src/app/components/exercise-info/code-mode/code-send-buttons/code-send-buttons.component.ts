@@ -103,6 +103,8 @@ export class CodeSendButtonsComponent implements OnInit {
           (error: HttpErrorResponse) => {
             if (error.status === 429) { // TooManyRequests HTTP Status
               this.toastr.warning(`Отправлять решения можно только раз в минуту`);
+            } else if (error.status == 409) {  // Conflict HTTP Status
+              this.toastr.warning(`Данный код уже был отправлен`);
             } else {
               this.toastr.error('Не удалось отправить решение');
             }
