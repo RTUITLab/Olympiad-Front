@@ -87,22 +87,22 @@ stages:
         Dockerfile: '$(Pipeline.Workspace)/olympiad-front-pack/Dockerfile'
         buildContext: '$(Pipeline.Workspace)/olympiad-front-pack'
         tags: ${{variables.imageTags}}
-- stage: deploy
-  condition: and(succeeded(), ${{variables.deployService}})
-  jobs:
-    - deployment: DeployFront
-      displayName: Deploy front
-      pool:
-        vmImage: 'ubuntu-latest'
-      environment: ${{variables.deployEnvironment}}
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - download: none
-              - task: SSH@0
-                inputs:
-                  sshEndpoint: 'swarm manager'
-                  runOptions: 'commands'
-                  commands: 'docker service update --image rtuitlab/olympiad-front:$(Build.BuildId) ${{variables.frontServiceName}}'
-                  readyTimeout: '20000'
+# - stage: deploy
+#   condition: and(succeeded(), ${{variables.deployService}})
+#   jobs:
+#     - deployment: DeployFront
+#       displayName: Deploy front
+#       pool:
+#         vmImage: 'ubuntu-latest'
+#       environment: ${{variables.deployEnvironment}}
+#       strategy:
+#         runOnce:
+#           deploy:
+#             steps:
+#               - download: none
+#               - task: SSH@0
+#                 inputs:
+#                   sshEndpoint: 'swarm manager'
+#                   runOptions: 'commands'
+#                   commands: 'docker service update --image rtuitlab/olympiad-front:$(Build.BuildId) ${{variables.frontServiceName}}'
+#                   readyTimeout: '20000'
