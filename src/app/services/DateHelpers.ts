@@ -28,8 +28,13 @@ export class DateHelpers {
     return prettyDate;
   }
 
-  public static difference(difference: number): string {
-    difference *= 1000;
+  public static differenceAbsoluteWithNowStr(compareDate: Date): string {
+    if (!compareDate){
+      console.trace("no compareDate");
+      return "";
+    }
+    const nowDate = new Date();
+    let difference = Math.abs(nowDate.getTime() - compareDate.getTime());
     let result = ' ';
     const days = Math.floor((difference / DateHelpers.oneDay));
     if (days > 0) {

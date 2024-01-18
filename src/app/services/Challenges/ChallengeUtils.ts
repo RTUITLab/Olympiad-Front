@@ -11,9 +11,9 @@ export class ChallengeUtils {
       case ChallengeState.Ended:
         return 'Соревнование завершено';
       case ChallengeState.NotStarted:
-        return `До начала: ${DateHelpers.difference(challenge.last - challenge.lenght)}`;
+        return `До начала: ${DateHelpers.differenceAbsoluteWithNowStr(challenge.startTimeDate)}`;
       case ChallengeState.InProgress:
-        return `Осталось: ${DateHelpers.difference(challenge.last)}`;
+        return `Осталось: ${DateHelpers.differenceAbsoluteWithNowStr(challenge.endTimeDate)}`;
       case ChallengeState.IncorrectLimits:
       default:
         return 'Неверные данные о соревновании, обратитесь к администратору';
