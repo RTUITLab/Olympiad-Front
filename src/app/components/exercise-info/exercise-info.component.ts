@@ -1,8 +1,6 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ToastrService } from 'ngx-toastr';
 import { Challenge } from 'src/app/models/Challenges/Challenge';
 import { ChallengeState } from 'src/app/models/Challenges/ChallengeState';
 import { ExerciseInfo } from 'src/app/models/Exercises/ExerciseInfo';
@@ -16,8 +14,6 @@ import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { LoadingComponent } from 'src/app/models/LoadingComponent';
 import { UpdateService } from 'src/app/services/Updates/update.service';
 import { SolutionService } from 'src/app/services/Solutions/solution.service';
-import { environment } from 'src/environments/environment';
-import { UserStateService } from 'src/app/services/Users/user-state.service';
 import { ChallengeUtils } from 'src/app/services/Challenges/ChallengeUtils';
 import { ExerciseType } from 'src/app/models/Exercises/ExerciseType';
 
@@ -40,12 +36,10 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     private exercisesService: ExerciseService,
     private route: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService,
     private titleService: Title,
     private currentExerciseState: ExerciseStateService,
     private updateService: UpdateService,
     private solutionService: SolutionService,
-    private usersService: UserStateService
   ) { super(); }
 
   ngOnInit(): void {
@@ -170,7 +164,9 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   }
 
   get languageLink(): string | undefined {
-    return LanguageConverter.link(this.model.language);
+    console.error("Нет условий сдачи, так как они теперь тянутся с сервера");
+    
+    return "/notfoundroute";
   }
   public isReady() {
     return !this.isLoading();
