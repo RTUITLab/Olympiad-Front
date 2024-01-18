@@ -1,20 +1,18 @@
 <div>
-    <div class="header">Правила оформления кода</div>
-    <div class="langContainer">
-        <div class="buttons">
-            <div (click)="changeLang('pasabc')" class="btn" [ngClass]="{active: currentLang === 'pasabc'}">Pascal ABC</div>&nbsp;
-            <div (click)="changeLang('fpas')" class="btn" [ngClass]="{active: currentLang === 'fpas'}">Free Pascal</div>&nbsp;
-            <div (click)="changeLang('c')" class="btn" [ngClass]="{active: currentLang === 'c'}">C</div>&nbsp;
-            <div (click)="changeLang('cpp')" class="btn" [ngClass]="{active: currentLang === 'cpp'}">C++</div>
-        </div>
-        <div class="buttons">
-            <div (click)="changeLang('java')" class="btn" [ngClass]="{active: currentLang === 'java'}">Java</div>&nbsp;
-            <div (click)="changeLang('csharp')" class="btn" [ngClass]="{active: currentLang === 'csharp'}">C#</div>&nbsp;
-            <div (click)="changeLang('js')" class="btn" [ngClass]="{active: currentLang === 'js'}">JavaScript</div>&nbsp;
-            <div (click)="changeLang('python')" class="btn" [ngClass]="{active: currentLang === 'python'}">Python</div>
-        </div>
-        <div class="info">
-            <markdown [src]="link"></markdown>
-        </div>
+  <div class="header">Правила оформления кода</div>
+  <div class="langContainer">
+    <div class="buttons">
+      <div
+        *ngFor="let runtime of supportedRuntimes"
+        class="btn"
+        (click)="changeLang(runtime.title)"
+        [ngClass]="{ active: currentRuntime.title === runtime.title }"
+      >
+        {{ runtime.title }}
+      </div>
     </div>
+    <div class="info">
+      <markdown [data]="currentRuntime?.markdownDescription"></markdown>
+    </div>
+  </div>
 </div>

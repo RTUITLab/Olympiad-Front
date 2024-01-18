@@ -119,4 +119,7 @@ export class Api {
   public static getAbout(): string {
     return `${this.baseUrl}/api/about`;
   }
+  public static getSupportedRuntimes(): string {
+    return `${this.baseUrl}/api/about/supportedruntimes`;
+  }
 }

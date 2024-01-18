@@ -1,21 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { LanguageConverter } from 'src/app/models/Language/LanguageConverter';
+import { SupportedRuntime } from 'src/app/models/About/BuildInfo';
+import { AboutService } from 'src/app/services/About/about.service';
 
 @Component({
   selector: 'app-lang-info',
   templateUrl: './lang-info.component.html',
-  styleUrls: ['./lang-info.component.scss']
+  styleUrls: ['./lang-info.component.scss'],
 })
 export class LangInfoComponent implements OnInit {
-  public currentLang = 'java';
-  constructor() { }
+  constructor(private aboutService: AboutService) {}
+  private _currentRuntimeTitle = '';
+  private _supportedRuntimes: SupportedRuntime[] = [];
 
   ngOnInit(): void {
+    this.aboutService.getSupportedRuntimes().then((r) => {
+      this._supportedRuntimes = r.supportedRuntimes;
+      if (this._supportedRuntimes[0]) {
+        this._currentRuntimeTitle = this._supportedRuntimes[0].title;
+      }
+    });
   }
 
-  public get link(): string { return LanguageConverter.link(this.currentLang) }
+  public get currentRuntime(): SupportedRuntime {
+    return this._supportedRuntimes.find(
+      (r) => r.title == this._currentRuntimeTitle
+    );
+  }
+
+  public get supportedRuntimes(): SupportedRuntime[] {
+    return this._supportedRuntimes;
+  }
 
   public changeLang(lang: string): void {
-    this.currentLang = lang;
+    this._currentRuntimeTitle = lang;
   }
 }
