@@ -1,8 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ExerciseInfo } from 'src/app/models/Exercises/ExerciseInfo';
-import { CodeSolutionViewModel } from 'src/app/models/Solutions/CodeSolutionViewModel';
-import { DocsSolutionFileRequest, DocsSolutionRequest } from 'src/app/models/Solutions/DocsSolutionRequest';
 import { Solution } from 'src/app/models/Solutions/Solution';
 import { DateHelpers } from 'src/app/services/DateHelpers';
 import { SolutionService } from 'src/app/services/Solutions/solution.service';
@@ -48,28 +46,9 @@ export class DocsModeComponent implements OnInit, OnChanges {
 
   public async sendFiles(): Promise<void> {
 
-    const request = new DocsSolutionRequest();
-    request.files = this.files.map(file => {
-      const fileRequest = new DocsSolutionFileRequest();
-      fileRequest.name = file.name;
-      fileRequest.size = file.size;
-      fileRequest.mimeType = file.type;
-      return fileRequest;
-    });
     try {
 
-      const solutionSentResponse = await this.solutionsService.sendDocsSolution(this.exerciseInfo.id, request).toPromise();
-
-      for (let i = 0; i < this.files.length; i++) {
-        const element = this.files[i];
-        const url = solutionSentResponse.uploadUrls[i];
-        this.sendingStatus[i] = "Отправка...";
-        if (!await this.sendFile(element, url)) {
-          this.toastr.error("Ошибка при отправке документов");
-          break;
-        }
-        this.sendingStatus[i] = "Отправлено";
-      }
+      const solutionSentResponse = await this.solutionsService.sendDocsSolution(this.exerciseInfo.id, this.files).toPromise();
       this.exerciseInfo.solutions.unshift(solutionSentResponse.solution);
       this.toastr.success("Решение отправлено");
       this.resetFiles();
@@ -83,22 +62,11 @@ export class DocsModeComponent implements OnInit, OnChanges {
     }
   }
 
-  private async sendFile(file: File, uploadUrl: string): Promise<boolean> {
-    const rawResponse = await fetch(uploadUrl, {
-      method: "PUT",
-      headers: {
-        "Content-Type": file.type,
-        "x-amz-acl": "public-read" // S3 for direct downloading
-      },
-      body: file
-    });
-    return rawResponse.ok;
-  }
-
   private resetFiles() {
     this.files = this.exerciseInfo.restrictions.docs.documents.map(d => null);
     this.sendingStatus = this.files.map(f => null);
   }
+
   prettyTime(time: string): string {
     if (!time) {
       return 'нет данных';
