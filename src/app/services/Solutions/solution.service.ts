@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Api } from 'src/app/api';
 import { CodeSolutionViewModel } from 'src/app/models/Solutions/CodeSolutionViewModel';
-import { DocsSolutionRequest } from 'src/app/models/Solutions/DocsSolutionRequest';
 import { DocsSolutionResponse } from 'src/app/models/Solutions/DocsSolutionResponse';
 import { Solution } from 'src/app/models/Solutions/Solution';
 import { UserStateService } from '../Users/user-state.service';
@@ -32,9 +31,13 @@ export class SolutionService {
       Api.sendCodeSolution(data), formData, this.usersService.authOptions);
   }
 
-  sendDocsSolution(exerciseId: string, data: DocsSolutionRequest): Observable<DocsSolutionResponse> {
+  sendDocsSolution(exerciseId: string, files: File[]): Observable<DocsSolutionResponse> {
+    const formData: FormData = new FormData();
+    for (const file of files) {
+      formData.append('files', file, file.name);
+    }
     return this.http.post<DocsSolutionResponse>(
-      Api.sendDocsSolution(exerciseId), data, this.usersService.authOptions);
+      Api.sendDocsSolution(exerciseId), formData, this.usersService.authOptions);
   }
 
   public getSolutions(exerciseId: string): Promise<Array<Solution>> {

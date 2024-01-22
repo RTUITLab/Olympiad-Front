@@ -5,9 +5,9 @@ import { SolutionStatus } from 'src/app/models/Solutions/SolutionStatus';
 import { CodeSolutionViewModel } from 'src/app/models/Solutions/CodeSolutionViewModel';
 import { DateHelpers } from 'src/app/services/DateHelpers';
 import { SolutionStatusConverter } from 'src/app/services/SolutionStatusConverter';
-import { environment } from 'src/environments/environment';
 import { UserStateService } from 'src/app/services/Users/user-state.service';
-import { LanguageConverter } from 'src/app/models/Language/LanguageConverter';
+import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
+import contentDispositionParser from 'content-disposition-parser';
 
 @Component({
   selector: 'app-code-preview',
@@ -20,27 +20,19 @@ export class CodePreviewComponent implements OnInit, OnChanges {
     private domSanitizer: DomSanitizer,
     private toastr: ToastrService,
     private userService: UserStateService,
+    private exercisesService: ExerciseService,
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.model || !this.model.solution) {
       return;
     }
-    const localModel = this.model;
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', environment.baseUrl + '/api/check/download/' + localModel.solution.id);
-    xhr.setRequestHeader('Authorization', this.userService.bearer.get('Authorization'));
-    xhr.responseType = 'text';
-    xhr.onload = () => {
-      this.model.file = new File([xhr.response], LanguageConverter.fileName(localModel.solution.language));
-
-      const fileReader = new FileReader();
-      fileReader.onload = _ => {
-        this.model.content = fileReader.result;
-      };
-      fileReader.readAsText(localModel.file);
-    };
-    xhr.send();
-
+    this.exercisesService.downloadSolution(this.model.solution.id).subscribe((s) => {
+      const fileName = contentDispositionParser(s.headers.get('content-disposition')).filename as string;
+      this.model.file = new File([new Blob([s.body], { type: "text/plain" })], fileName);
+      this.model.content = s.body;
+    }, fail => {
+      console.log(fail);
+    });
   }
 
   ngOnInit(): void {

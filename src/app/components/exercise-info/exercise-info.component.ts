@@ -1,12 +1,9 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ToastrService } from 'ngx-toastr';
 import { Challenge } from 'src/app/models/Challenges/Challenge';
 import { ChallengeState } from 'src/app/models/Challenges/ChallengeState';
 import { ExerciseInfo } from 'src/app/models/Exercises/ExerciseInfo';
-import { LanguageConverter } from 'src/app/models/Language/LanguageConverter';
 import { CodeSolutionViewModel } from 'src/app/models/Solutions/CodeSolutionViewModel';
 import { ChallengesService } from 'src/app/services/Challenges/challenges.service';
 import { ExerciseStateService } from 'src/app/services/Exercises/exercise-state.service';
@@ -16,10 +13,10 @@ import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { LoadingComponent } from 'src/app/models/LoadingComponent';
 import { UpdateService } from 'src/app/services/Updates/update.service';
 import { SolutionService } from 'src/app/services/Solutions/solution.service';
-import { environment } from 'src/environments/environment';
-import { UserStateService } from 'src/app/services/Users/user-state.service';
 import { ChallengeUtils } from 'src/app/services/Challenges/ChallengeUtils';
 import { ExerciseType } from 'src/app/models/Exercises/ExerciseType';
+import { AboutService } from 'src/app/services/About/about.service';
+import { SupportedRuntime } from 'src/app/models/About/BuildInfo';
 
 @Component({
   selector: 'app-exercise-info',
@@ -30,26 +27,28 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
   challenge: Challenge;
   inOutData: InOutData[];
   exerciseInfo: ExerciseInfo;
-  availableLanguages: string[] = LanguageConverter.languages();
+  availableLanguages: string[] = [];
   model: CodeSolutionViewModel;
   sendMode: boolean;
   exercises: Array<ExerciseCompact>;
-
+  supportedRuntimesResponseCache: SupportedRuntime[] = [];
   constructor(
     private challengesService: ChallengesService,
     private exercisesService: ExerciseService,
     private route: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService,
     private titleService: Title,
     private currentExerciseState: ExerciseStateService,
     private updateService: UpdateService,
     private solutionService: SolutionService,
-    private usersService: UserStateService
+    private aboutService: AboutService
   ) { super(); }
 
   ngOnInit(): void {
     this.startLoading();
+
+    this.aboutService.getSupportedRuntimes()
+      .then(sr => this.supportedRuntimesResponseCache = sr.supportedRuntimes);
 
     this.updateService.solutionStream.subscribe(S => {
       if (this.exerciseInfo && S && S.exerciseId === this.exerciseInfo.id) {
@@ -90,9 +89,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
       .then((exInfo: ExerciseInfo) => {
         this.exerciseInfo = exInfo;
         if (this.exerciseInfo.type === ExerciseType.Code) {
-          this.availableLanguages = exInfo.restrictions.code.allowedRuntimes
-            .map(r => LanguageConverter.normalFromWeb(r))
-            .filter(r => r);
+          this.availableLanguages = exInfo.restrictions.code.allowedRuntimes;
         }
         this.challengesService.getChallenge(this.exerciseInfo.challengeId).then(c => {
           this.startLoading();
@@ -110,7 +107,7 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
             if (solutions.length) {
               this.exerciseInfo.solutions.sort((a, b) => new Date(a.sendingTime) < new Date(b.sendingTime) ? 1 : -1);
               this.model.solution = this.exerciseInfo.solutions[0];
-              this.model.language = LanguageConverter.normalFromWeb(this.exerciseInfo.solutions[0].language);
+              this.model.language = this.exerciseInfo.solutions[0].language;
               this.model.exerciseId = this.exerciseInfo.id;
               this.sendMode = true;
             }
@@ -169,9 +166,11 @@ export class ExerciseInfoComponent extends LoadingComponent implements OnInit, D
     this.sendMode = true;
   }
 
-  get languageLink(): string | undefined {
-    return LanguageConverter.link(this.model.language);
+  get languageDescription(): string | undefined {
+    const runtimeInformation = this.supportedRuntimesResponseCache.find(r => r.webKey === this.model.language);
+    return runtimeInformation?.markdownDescription
   }
+
   public isReady() {
     return !this.isLoading();
   }

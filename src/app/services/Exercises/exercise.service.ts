@@ -1,14 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subscriber } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Api } from 'src/app/api';
 import { ExerciseCompact } from 'src/app/models/Exercises/ExerciseCompact';
 import { ExerciseInfo } from 'src/app/models/Exercises/ExerciseInfo';
 import { InOutData } from 'src/app/models/Exercises/InOutData';
-import { Solution } from 'src/app/models/Solutions/Solution';
-import { CodeSolutionViewModel } from 'src/app/models/Solutions/CodeSolutionViewModel';
 import { UserStateService } from '../Users/user-state.service';
-import { DocsSolutionResponse } from 'src/app/models/Solutions/DocsSolutionResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +27,7 @@ export class ExerciseService {
       Api.getExerciseInOutData(exerciseId), this.usersService.authOptions).toPromise();
   }
 
-  downloadSolution(solutionId: string): Observable<any> {
-    return this.http.get(
-      Api.downloadSolution(solutionId), { headers: this.usersService.bearer, responseType: 'text' });
+  downloadSolution(solutionId: string): Observable<HttpResponse<string>> {
+    return this.http.get(Api.downloadSolution(solutionId), { headers: this.usersService.bearer, responseType: 'text', observe: 'response' });
   }
 }

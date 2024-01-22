@@ -1,5 +1,4 @@
 import { environment } from 'src/environments/environment';
-import { LanguageConverter } from './models/Language/LanguageConverter';
 import { CodeSolutionViewModel as CodeSolutionViewModel } from './models/Solutions/CodeSolutionViewModel';
 
 export class Api {
@@ -60,7 +59,7 @@ export class Api {
   }
 
   public static sendCodeSolution(solutionView: CodeSolutionViewModel): string {
-    return `${this.baseUrl}/api/check/code/${solutionView.exerciseId}/${LanguageConverter.webName(solutionView.language)}`;
+    return `${this.baseUrl}/api/check/code/${solutionView.exerciseId}/${solutionView.language}`;
   }
 
   public static sendDocsSolution(exerciseId: string): string {
@@ -118,5 +117,8 @@ export class Api {
   ////////////
   public static getAbout(): string {
     return `${this.baseUrl}/api/about`;
+  }
+  public static getSupportedRuntimes(): string {
+    return `${this.baseUrl}/api/about/supportedruntimes`;
   }
 }

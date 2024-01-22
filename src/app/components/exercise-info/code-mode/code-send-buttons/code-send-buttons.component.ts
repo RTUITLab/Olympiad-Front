@@ -2,13 +2,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ToastrService } from 'ngx-toastr';
+import { SupportedRuntime } from 'src/app/models/About/BuildInfo';
 import { Challenge } from 'src/app/models/Challenges/Challenge';
 import { ChallengeState } from 'src/app/models/Challenges/ChallengeState';
 import { ExerciseInfo } from 'src/app/models/Exercises/ExerciseInfo';
-import { LanguageConverter } from 'src/app/models/Language/LanguageConverter';
 import { CodeSolutionViewModel } from 'src/app/models/Solutions/CodeSolutionViewModel';
+import { AboutService } from 'src/app/services/About/about.service';
 import { ChallengeUtils } from 'src/app/services/Challenges/ChallengeUtils';
-import { ExerciseService } from 'src/app/services/Exercises/exercise.service';
 import { SolutionService } from 'src/app/services/Solutions/solution.service';
 
 @Component({
@@ -19,17 +19,27 @@ import { SolutionService } from 'src/app/services/Solutions/solution.service';
 export class CodeSendButtonsComponent implements OnInit {
 
   @Input() model: CodeSolutionViewModel;
-  @Input() availableLanguages: string[] = LanguageConverter.languages();
+  @Input() availableLanguages: string[] = [];
   @Input() conditionDrawer: MatDrawer;
   @Input() challenge: Challenge;
   @Input() exerciseInfo: ExerciseInfo;
 
+  supportedRuntimesResponseCache: SupportedRuntime[] = [];
+
+
   constructor(
     private toastr: ToastrService,
     private solutionsService: SolutionService,
+    private aboutService: AboutService,
   ) { }
 
   ngOnInit(): void {
+    this.aboutService.getSupportedRuntimes()
+      .then(sr => this.supportedRuntimesResponseCache = sr.supportedRuntimes);
+  }
+
+  public humanTitleByWebKey(webKey: string): string | undefined {
+    return this.supportedRuntimesResponseCache.find(r => r.webKey === webKey).title;
   }
 
   public selectLanguage(Language: string): void {
@@ -42,9 +52,9 @@ export class CodeSendButtonsComponent implements OnInit {
     document.getElementById('sub').hidden = true;
     setTimeout(() => document.getElementById('sub').hidden = false, 10);
   }
-  get selectedLanguage(): string {
+  get selectedLanguageFileExtension(): string {
     if (this.model.language) {
-      return LanguageConverter.fileExtensionByPrettyName(this.model.language);
+      return this.supportedRuntimesResponseCache.find(r => r.webKey === this.model.language).acceptFileName;
     }
   }
   public isFinished() {
@@ -74,7 +84,7 @@ export class CodeSendButtonsComponent implements OnInit {
         this.toastr.warning('Выберите язык программирования');
         return true;
       } else {
-        if (!this.model.file.name.endsWith(LanguageConverter.fileExtensionByPrettyName(this.model.language))) {
+        if (!this.model.file.name.endsWith(this.selectedLanguageFileExtension)) {
           this.toastr.warning(`Расширение загружаемого вами файла не соответсвует выбранному языку программирования`);
           return true;
         } else {
