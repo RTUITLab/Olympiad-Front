@@ -5,7 +5,7 @@
     </mat-drawer>
     <mat-drawer class="drawer solutionDescription" #conditionDrawer mode="over" position="end">
         <div class="header" style="font-size: 25px;">Условия сдачи</div>
-        <markdown *ngIf="model.language" [src]="languageLink"></markdown>
+        <markdown *ngIf="model.language" [data]="languageDescription"></markdown>
     </mat-drawer>
     <div class="cover" (click)="drawer.close() && conditionDrawer.close()"
         *ngIf="drawer.opened || conditionDrawer.opened"></div>

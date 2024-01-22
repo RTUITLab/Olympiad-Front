@@ -1,7 +1,7 @@
 <div>
   <div class="selectLanguage">
     <div class="select">
-      <span name="Language" *ngIf="model.language; else noLanguage">{{model.language}}</span>
+      <span name="Language" *ngIf="model.language; else noLanguage">{{humanTitleByWebKey(model.language)}}</span>
       <ng-template #noLanguage><span>Язык программирования</span><img src="../../../../../assets/icon/down-arrow.svg">
       </ng-template>
     </div>
@@ -9,7 +9,7 @@
       <div>
         <li *ngFor="let lang of availableLanguages" (click)="selectLanguage(lang)">
           <div>
-            <span>{{lang}}</span>
+            <span>{{humanTitleByWebKey(lang)}}</span>
           </div>
         </li>
       </div>
@@ -25,7 +25,7 @@
     <img src="../../../../../assets/icon/down-arrow.svg">
   </label>
 </div>
-<input id="sol" type="file" style="display: none;" [accept]="selectedLanguage" (input)="setFile($event)">
+<input id="sol" type="file" style="display: none;" [accept]="selectedLanguageFileExtension" (input)="setFile($event)">
 <div class="sendCont">
   <button *ngIf="!challenge.toEnd || !isFinished()" id="send" (click)="onSubmit()">
     Отправить решение
