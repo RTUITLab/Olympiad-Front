@@ -20,7 +20,7 @@
     margin: 10px 0;
 }
 
-::ng-deep markdown img {
+::ng-deep markdown img:not([width]) {
   width: 100%;
 }
 
